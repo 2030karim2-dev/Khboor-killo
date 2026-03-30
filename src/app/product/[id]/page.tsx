@@ -2,23 +2,18 @@
 
 import { use } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import {
-  ChevronLeft,
   Star,
   ShoppingCart,
   Heart,
   Share2,
-  Truck,
-  Shield,
-  RotateCcw,
-  Minus,
-  Plus,
 } from "lucide-react";
-import { getProductById, getProductsByCategory, products } from "@/lib/data";
+import { getProductById, getProductsByCategory, formatPrice } from "@/lib";
 import { useCart } from "@/lib/CartContext";
 import ProductCard from "@/components/ProductCard";
+import { Breadcrumb, QuantityStepper, TrustBar } from "@/components/ui";
 import { useState } from "react";
+import { notFound } from "next/navigation";
 
 export default function ProductPage({
   params,
@@ -39,24 +34,15 @@ export default function ProductPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-slate-500 mb-6 flex-wrap">
-        <Link href="/" className="hover:text-sky-600 transition-colors">
-          الرئيسية
-        </Link>
-        <ChevronLeft size={14} />
-        <Link
-          href={`/category/${product.categorySlug}`}
-          className="hover:text-sky-600 transition-colors"
-        >
-          {product.category}
-        </Link>
-        <ChevronLeft size={14} />
-        <span className="text-slate-800 font-medium">{product.name}</span>
-      </nav>
+      <Breadcrumb
+        items={[
+          { label: "الرئيسية", href: "/" },
+          { label: product.category, href: `/category/${product.categorySlug}` },
+          { label: product.name },
+        ]}
+      />
 
       <div className="grid md:grid-cols-2 gap-8 mb-12">
-        {/* Image */}
         <div className="card overflow-hidden">
           <div className="relative aspect-square">
             <img
@@ -72,7 +58,6 @@ export default function ProductPage({
           </div>
         </div>
 
-        {/* Details */}
         <div className="animate-slide-up">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-sm text-sky-600 bg-sky-50 px-3 py-1 rounded-full font-medium">
@@ -89,7 +74,6 @@ export default function ProductPage({
             {product.name}
           </h1>
 
-          {/* Rating */}
           <div className="flex items-center gap-2 mb-4">
             <div className="flex items-center gap-0.5">
               {[...Array(5)].map((_, i) => (
@@ -108,7 +92,6 @@ export default function ProductPage({
             <span className="text-slate-400">({product.reviews} تقييم)</span>
           </div>
 
-          {/* Price */}
           <div className="bg-slate-50 rounded-xl p-4 mb-6">
             <div className="flex items-baseline gap-3">
               <span className="text-3xl font-extrabold text-slate-900">
@@ -127,32 +110,13 @@ export default function ProductPage({
             </div>
           </div>
 
-          {/* Description */}
-          <p className="text-slate-600 leading-relaxed mb-6">
-            {product.description}
-          </p>
+          <p className="text-slate-600 leading-relaxed mb-6">{product.description}</p>
 
-          {/* Quantity */}
           <div className="flex items-center gap-4 mb-6">
             <span className="font-medium text-slate-700">الكمية:</span>
-            <div className="flex items-center gap-0 border border-slate-200 rounded-xl overflow-hidden">
-              <button
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="p-2.5 hover:bg-slate-100 transition-colors"
-              >
-                <Minus size={18} />
-              </button>
-              <span className="w-12 text-center font-bold">{quantity}</span>
-              <button
-                onClick={() => setQuantity(quantity + 1)}
-                className="p-2.5 hover:bg-slate-100 transition-colors"
-              >
-                <Plus size={18} />
-              </button>
-            </div>
+            <QuantityStepper value={quantity} onChange={setQuantity} />
           </div>
 
-          {/* Actions */}
           <div className="flex gap-3 mb-8">
             <button
               onClick={() => {
@@ -178,25 +142,10 @@ export default function ProductPage({
             </button>
           </div>
 
-          {/* Features */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="text-center p-3 bg-sky-50 rounded-xl">
-              <Truck size={20} className="text-sky-600 mx-auto mb-1" />
-              <p className="text-xs font-medium text-slate-700">شحن سريع</p>
-            </div>
-            <div className="text-center p-3 bg-emerald-50 rounded-xl">
-              <Shield size={20} className="text-emerald-600 mx-auto mb-1" />
-              <p className="text-xs font-medium text-slate-700">ضمان سنة</p>
-            </div>
-            <div className="text-center p-3 bg-purple-50 rounded-xl">
-              <RotateCcw size={20} className="text-purple-600 mx-auto mb-1" />
-              <p className="text-xs font-medium text-slate-700">إرجاع 14 يوم</p>
-            </div>
-          </div>
+          <TrustBar compact />
         </div>
       </div>
 
-      {/* Related Products */}
       {related.length > 0 && (
         <section>
           <h2 className="text-xl font-extrabold text-slate-800 mb-6">

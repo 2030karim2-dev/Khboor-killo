@@ -16,9 +16,7 @@ export default function LoginPage() {
               خ
             </div>
           </Link>
-          <h1 className="text-2xl font-extrabold text-slate-800">
-            تسجيل الدخول
-          </h1>
+          <h1 className="text-2xl font-extrabold text-slate-800">تسجيل الدخول</h1>
           <p className="text-slate-500 mt-1">مرحباً بعودتك إلى خبور</p>
         </div>
 
@@ -77,22 +75,13 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="space-y-3">
-            <button className="w-full py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors font-medium text-sm flex items-center justify-center gap-2">
-              <img
-                src="https://img.icons8.com/color/24/google-logo.png"
-                alt="Google"
-              />
-              تسجيل الدخول عبر Google
-            </button>
-          </div>
+          <button className="w-full py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors font-medium text-sm flex items-center justify-center gap-2">
+            تسجيل الدخول عبر Google
+          </button>
 
           <p className="text-center text-sm text-slate-500 mt-6">
             ليس لديك حساب؟{" "}
-            <Link
-              href="/register"
-              className="text-sky-600 hover:text-sky-700 font-medium"
-            >
+            <Link href="/register" className="text-sky-600 hover:text-sky-700 font-medium">
               أنشئ حساباً جديداً
             </Link>
           </p>

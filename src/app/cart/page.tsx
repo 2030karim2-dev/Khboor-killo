@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeft, Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { Trash2, ShoppingBag } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
-import { formatPrice } from "@/lib/data";
+import { formatPrice } from "@/lib";
+import { Breadcrumb, QuantityStepper, OrderSummary, EmptyState } from "@/components/ui";
 
 export default function CartPage() {
   const { items, removeFromCart, updateQuantity, totalPrice, clearCart } =
@@ -11,18 +12,14 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-16 text-center animate-fade-in">
-        <div className="text-7xl mb-6">🛒</div>
-        <h1 className="text-2xl font-extrabold text-slate-800 mb-2">
-          سلة التسوق فارغة
-        </h1>
-        <p className="text-slate-500 mb-6">
-          لم تقم بإضافة أي منتجات إلى سلة التسوق بعد
-        </p>
-        <Link href="/" className="btn-primary text-base">
-          <ShoppingBag size={18} />
-          تصفح المنتجات
-        </Link>
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <EmptyState
+          icon="🛒"
+          title="سلة التسوق فارغة"
+          description="لم تقم بإضافة أي منتجات إلى سلة التسوق بعد"
+          actionLabel="تصفح المنتجات"
+          actionHref="/"
+        />
       </div>
     );
   }
@@ -31,20 +28,18 @@ export default function CartPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <nav className="flex items-center gap-2 text-sm text-slate-500 mb-6">
-        <Link href="/" className="hover:text-sky-600 transition-colors">
-          الرئيسية
-        </Link>
-        <ChevronLeft size={14} />
-        <span className="text-slate-800 font-medium">سلة التسوق</span>
-      </nav>
+      <Breadcrumb
+        items={[
+          { label: "الرئيسية", href: "/" },
+          { label: "سلة التسوق" },
+        ]}
+      />
 
       <h1 className="text-2xl font-extrabold text-slate-800 mb-8">
         سلة التسوق ({items.length} منتجات)
       </h1>
 
       <div className="grid lg:grid-cols-3 gap-8">
-        {/* Items */}
         <div className="lg:col-span-2 space-y-4">
           {items.map((item) => (
             <div
@@ -67,27 +62,12 @@ export default function CartPage() {
                   {item.product.category}
                 </p>
                 <div className="flex items-center justify-between mt-3">
-                  <div className="flex items-center gap-0 border border-slate-200 rounded-lg overflow-hidden">
-                    <button
-                      onClick={() =>
-                        updateQuantity(item.product.id, item.quantity - 1)
-                      }
-                      className="p-1.5 hover:bg-slate-100 transition-colors"
-                    >
-                      <Minus size={14} />
-                    </button>
-                    <span className="w-8 text-center text-sm font-bold">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() =>
-                        updateQuantity(item.product.id, item.quantity + 1)
-                      }
-                      className="p-1.5 hover:bg-slate-100 transition-colors"
-                    >
-                      <Plus size={14} />
-                    </button>
-                  </div>
+                  <QuantityStepper
+                    value={item.quantity}
+                    onChange={(v) => updateQuantity(item.product.id, v)}
+                    min={0}
+                    size="sm"
+                  />
                   <div className="text-left">
                     <p className="font-bold text-slate-800">
                       {formatPrice(item.product.price * item.quantity)}
@@ -112,50 +92,13 @@ export default function CartPage() {
           </button>
         </div>
 
-        {/* Summary */}
-        <div className="card p-6 h-fit sticky top-32">
-          <h2 className="text-lg font-bold text-slate-800 mb-4">ملخص الطلب</h2>
-          <div className="space-y-3 text-sm">
-            <div className="flex justify-between">
-              <span className="text-slate-600">المجموع الفرعي</span>
-              <span className="font-medium">{formatPrice(totalPrice)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-slate-600">الشحن</span>
-              <span className="font-medium">
-                {shipping === 0 ? (
-                  <span className="text-emerald-600">مجاني</span>
-                ) : (
-                  formatPrice(shipping)
-                )}
-              </span>
-            </div>
-            {shipping > 0 && (
-              <p className="text-xs text-sky-600">
-                أضف {formatPrice(200 - totalPrice)} للحصول على شحن مجاني
-              </p>
-            )}
-            <hr className="my-2" />
-            <div className="flex justify-between text-base">
-              <span className="font-bold text-slate-800">الإجمالي</span>
-              <span className="font-extrabold text-slate-900">
-                {formatPrice(totalPrice + shipping)}
-              </span>
-            </div>
-          </div>
-          <Link
-            href="/checkout"
-            className="btn-primary w-full justify-center mt-6 py-3 text-base"
-          >
-            إتمام الشراء
-          </Link>
-          <Link
-            href="/"
-            className="btn-outline w-full justify-center mt-3 py-2.5 text-sm"
-          >
-            متابعة التسوق
-          </Link>
-        </div>
+        <OrderSummary
+          items={items}
+          totalPrice={totalPrice}
+          shipping={shipping}
+          actionLabel="إتمام الشراء"
+          actionHref="/checkout"
+        />
       </div>
     </div>
   );

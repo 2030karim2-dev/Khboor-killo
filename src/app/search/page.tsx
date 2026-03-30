@@ -2,9 +2,9 @@
 
 import { use } from "react";
 import Link from "next/link";
-import { ChevronLeft, Search } from "lucide-react";
-import { searchProducts, categories } from "@/lib/data";
-import ProductCard from "@/components/ProductCard";
+import { Search } from "lucide-react";
+import { searchProducts, categories } from "@/lib";
+import { Breadcrumb, ProductGrid, EmptyState } from "@/components/ui";
 
 export default function SearchPage({
   searchParams,
@@ -17,15 +17,13 @@ export default function SearchPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <nav className="flex items-center gap-2 text-sm text-slate-500 mb-6">
-        <Link href="/" className="hover:text-sky-600 transition-colors">
-          الرئيسية
-        </Link>
-        <ChevronLeft size={14} />
-        <span className="text-slate-800 font-medium">نتائج البحث</span>
-      </nav>
+      <Breadcrumb
+        items={[
+          { label: "الرئيسية", href: "/" },
+          { label: "نتائج البحث" },
+        ]}
+      />
 
-      {/* Search form */}
       <form action="/search" className="mb-8">
         <div className="relative max-w-2xl">
           <input
@@ -49,28 +47,18 @@ export default function SearchPage({
           <h1 className="text-xl font-bold text-slate-800 mb-2">
             نتائج البحث عن: &ldquo;{query}&rdquo;
           </h1>
-          <p className="text-slate-500 mb-6">
-            تم العثور على {results.length} منتج
-          </p>
+          <p className="text-slate-500 mb-6">تم العثور على {results.length} منتج</p>
 
           {results.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {results.map((product, i) => (
-                <div key={product.id} style={{ animationDelay: `${i * 50}ms` }}>
-                  <ProductCard product={product} />
-                </div>
-              ))}
-            </div>
+            <ProductGrid products={results} />
           ) : (
             <div className="text-center py-16">
-              <p className="text-6xl mb-4">🔍</p>
-              <h3 className="text-xl font-bold text-slate-800 mb-2">
-                لم نجد نتائج
-              </h3>
-              <p className="text-slate-500 mb-6">
-                جرب البحث بكلمات مختلفة أو تصفح الأقسام
-              </p>
-              <div className="flex flex-wrap gap-2 justify-center">
+              <EmptyState
+                icon="🔍"
+                title="لم نجد نتائج"
+                description="جرب البحث بكلمات مختلفة أو تصفح الأقسام"
+              />
+              <div className="flex flex-wrap gap-2 justify-center mt-4">
                 {categories.map((cat) => (
                   <Link
                     key={cat.slug}
@@ -87,12 +75,8 @@ export default function SearchPage({
       ) : (
         <div className="text-center py-16">
           <Search size={48} className="text-slate-300 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-slate-800 mb-2">
-            ابحث عن ما تحتاجه
-          </h2>
-          <p className="text-slate-500 mb-6">
-            اكتب في مربع البحث أعلاه للعثور على المنتجات
-          </p>
+          <h2 className="text-xl font-bold text-slate-800 mb-2">ابحث عن ما تحتاجه</h2>
+          <p className="text-slate-500 mb-6">اكتب في مربع البحث أعلاه للعثور على المنتجات</p>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3 max-w-2xl mx-auto">
             {categories.map((cat) => (
               <Link
@@ -101,9 +85,7 @@ export default function SearchPage({
                 className="card p-4 text-center hover:border-sky-300"
               >
                 <span className="text-3xl block mb-2">{cat.icon}</span>
-                <span className="text-sm font-medium text-slate-700">
-                  {cat.name}
-                </span>
+                <span className="text-sm font-medium text-slate-700">{cat.name}</span>
               </Link>
             ))}
           </div>

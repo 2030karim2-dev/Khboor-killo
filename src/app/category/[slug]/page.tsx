@@ -5,8 +5,9 @@ import {
   getCategoryBySlug,
   getProductsByCategory,
   categories,
-} from "@/lib/data";
+} from "@/lib";
 import ProductCard from "@/components/ProductCard";
+import { Breadcrumb, EmptyState } from "@/components/ui";
 
 export function generateStaticParams() {
   return categories.map((cat) => ({ slug: cat.slug }));
@@ -25,16 +26,13 @@ export default async function CategoryPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-slate-500 mb-6">
-        <Link href="/" className="hover:text-sky-600 transition-colors">
-          الرئيسية
-        </Link>
-        <ChevronLeft size={14} />
-        <span className="text-slate-800 font-medium">{category.name}</span>
-      </nav>
+      <Breadcrumb
+        items={[
+          { label: "الرئيسية", href: "/" },
+          { label: category.name },
+        ]}
+      />
 
-      {/* Header */}
       <div className="relative rounded-2xl overflow-hidden mb-8">
         <img
           src={category.image}
@@ -58,7 +56,6 @@ export default async function CategoryPage({
         </div>
       </div>
 
-      {/* Toolbar */}
       <div className="flex items-center justify-between mb-6 bg-white rounded-xl p-4 border border-slate-200">
         <div className="flex items-center gap-3">
           <button className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 hover:bg-sky-50 transition-colors text-sm">
@@ -82,7 +79,6 @@ export default async function CategoryPage({
         </div>
       </div>
 
-      {/* Products grid */}
       {products.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {products.map((product, i) => (
@@ -92,18 +88,13 @@ export default async function CategoryPage({
           ))}
         </div>
       ) : (
-        <div className="text-center py-16">
-          <p className="text-6xl mb-4">📦</p>
-          <h3 className="text-xl font-bold text-slate-800 mb-2">
-            لا توجد منتجات في هذا القسم
-          </h3>
-          <p className="text-slate-500 mb-4">
-            تحقق من الأقسام الأخرى أو عد لاحقاً
-          </p>
-          <Link href="/" className="btn-primary">
-            العودة للرئيسية
-          </Link>
-        </div>
+        <EmptyState
+          icon="📦"
+          title="لا توجد منتجات في هذا القسم"
+          description="تحقق من الأقسام الأخرى أو عد لاحقاً"
+          actionLabel="العودة للرئيسية"
+          actionHref="/"
+        />
       )}
     </div>
   );

@@ -1,5 +1,3 @@
-// This file is kept for backwards compatibility
-// New imports should use: import { ... } from "@/lib"
 export { categories } from "./categories";
 export { products } from "./products";
 export {
