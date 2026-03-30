@@ -4,6 +4,9 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/lib/CartContext";
+import { AuthProvider } from "@/lib/AuthContext";
+import { ToastProvider } from "@/lib/ToastContext";
+import ToastContainer from "@/components/ui/ToastContainer";
 
 const notoKufi = Noto_Kufi_Arabic({
   variable: "--font-arabic",
@@ -13,19 +16,40 @@ const notoKufi = Noto_Kufi_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "خبور - منصة البيع والشراء",
+  title: {
+    default: "خبور - منصة البيع والشراء",
+    template: "%s | خبور",
+  },
   description:
-    "خبور هو منصة البيع والشراء الإلكترونية الرائدة. سيارات، قطع غيار، ملابس، مواد بناء، إكسسوارات - كل شيء في مكان واحد.",
+    "خبور هو منصة البيع والشراء الإلكترونية الرائدة في المملكة العربية السعودية. سيارات، قطع غيار، ملابس، مواد بناء، إكسسوارات - كل شيء في مكان واحد.",
   keywords: [
-    "تسوق",
-    "买车",
+    "تسوق إلكتروني",
+    "متجر إلكتروني",
+    "السعودية",
     "سيارات",
     "قطع غيار",
     "ملابس",
     "مواد بناء",
     "إكسسوارات",
-    "السعودية",
+    "تسوق",
+    "عروض",
   ],
+  openGraph: {
+    type: "website",
+    locale: "ar_SA",
+    siteName: "خبور",
+    title: "خبور - منصة البيع والشراء",
+    description: "كل ما تحتاجه في مكان واحد. سيارات، قطع غيار، ملابس، مواد بناء، إكسسوارات.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "خبور - منصة البيع والشراء",
+    description: "كل ما تحتاجه في مكان واحد.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -36,11 +60,19 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body className={`${notoKufi.variable} antialiased`}>
-        <CartProvider>
-          <Header />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-        </CartProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <CartProvider>
+              <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:right-2 focus:z-[200] focus:bg-sky-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
+                تخطي إلى المحتوى الرئيسي
+              </a>
+              <Header />
+              <main id="main-content" className="min-h-screen">{children}</main>
+              <Footer />
+              <ToastContainer />
+            </CartProvider>
+          </AuthProvider>
+        </ToastProvider>
       </body>
     </html>
   );

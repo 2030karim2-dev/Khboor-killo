@@ -17,15 +17,3 @@ export function SkeletonCard() {
     </div>
   );
 }
-
-export function SkeletonLine({ width = "full", height = "4" }: { width?: string; height?: string }) {
-  return <div className={`h-${height} w-${width} bg-slate-200 rounded animate-pulse`} />;
-}
-
-export function SkeletonCategoryBanner() {
-  return (
-    <div className="relative rounded-2xl overflow-hidden mb-8 animate-pulse">
-      <div className="w-full h-48 md:h-64 bg-slate-200" />
-    </div>
-  );
-}

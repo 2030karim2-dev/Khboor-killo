@@ -1,50 +1,82 @@
 import Link from "next/link";
-import { User } from "lucide-react";
-import { categories } from "@/lib/categories";
+import { User, LogOut, Heart } from "lucide-react";
+import { categories } from "@/lib";
 
 export default function MobileMenu({
   onClose,
+  isAuthenticated,
+  userName,
+  onLogout,
 }: {
   onClose: () => void;
+  isAuthenticated: boolean;
+  userName?: string;
+  onLogout: () => void;
 }) {
   return (
-    <div className="md:hidden border-t border-slate-100 bg-white animate-slide-up">
-      <div className="p-4 space-y-2">
+    <nav aria-label="القائمة الرئيسية" className="p-4 space-y-2">
+      <Link
+        href="/"
+        onClick={onClose}
+        className="block px-4 py-3 rounded-xl hover:bg-sky-50 transition-colors font-medium"
+      >
+        الرئيسية
+      </Link>
+      {categories.map((cat) => (
         <Link
-          href="/"
+          key={cat.slug}
+          href={`/category/${cat.slug}`}
           onClick={onClose}
-          className="block px-4 py-3 rounded-xl hover:bg-sky-50 transition-colors font-medium"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-sky-50 transition-colors"
         >
-          الرئيسية
+          <span className="text-xl">{cat.icon}</span>
+          <span>{cat.name}</span>
         </Link>
-        {categories.map((cat) => (
+      ))}
+      <hr className="my-2" />
+      {isAuthenticated ? (
+        <>
           <Link
-            key={cat.slug}
-            href={`/category/${cat.slug}`}
+            href="/account"
             onClick={onClose}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-sky-50 transition-colors"
+            className="flex items-center gap-2 px-4 py-3 rounded-xl hover:bg-sky-50 transition-colors"
           >
-            <span className="text-xl">{cat.icon}</span>
-            <span>{cat.name}</span>
+            <User size={18} aria-hidden="true" />
+            <span>{userName}</span>
           </Link>
-        ))}
-        <hr className="my-2" />
+          <Link
+            href="/wishlist"
+            onClick={onClose}
+            className="flex items-center gap-2 px-4 py-3 rounded-xl hover:bg-sky-50 transition-colors"
+          >
+            <Heart size={18} aria-hidden="true" />
+            <span>المفضلة</span>
+          </Link>
+          <button
+            onClick={() => { onLogout(); onClose(); }}
+            className="w-full flex items-center gap-2 px-4 py-3 rounded-xl hover:bg-red-50 text-red-600 transition-colors text-right"
+          >
+            <LogOut size={18} aria-hidden="true" />
+            <span>تسجيل الخروج</span>
+          </button>
+        </>
+      ) : (
         <Link
           href="/login"
           onClick={onClose}
           className="flex items-center gap-2 px-4 py-3 rounded-xl hover:bg-sky-50 transition-colors"
         >
-          <User size={18} />
+          <User size={18} aria-hidden="true" />
           <span>تسجيل الدخول</span>
         </Link>
-        <Link
-          href="/sell"
-          onClick={onClose}
-          className="block px-4 py-3 rounded-xl bg-orange-500 text-white text-center font-medium"
-        >
-          بيع منتج
-        </Link>
-      </div>
-    </div>
+      )}
+      <Link
+        href="/sell"
+        onClick={onClose}
+        className="block px-4 py-3 rounded-xl bg-orange-500 text-white text-center font-medium"
+      >
+        بيع منتج
+      </Link>
+    </nav>
   );
 }

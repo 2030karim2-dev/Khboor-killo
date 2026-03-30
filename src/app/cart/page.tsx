@@ -1,15 +1,33 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
+import { useToast } from "@/lib/ToastContext";
 import { formatPrice, FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_COST } from "@/lib";
 import { Breadcrumb, QuantityStepper, OrderSummary, EmptyState } from "@/components/ui";
 
 export default function CartPage() {
-  const { items, removeFromCart, updateQuantity, totalPrice, clearCart } =
-    useCart();
+  const { items, removeFromCart, updateQuantity, totalPrice, clearCart } = useCart();
+  const { success, warning } = useToast();
+  const [confirmClear, setConfirmClear] = useState(false);
+
+  const handleRemove = (id: string, name: string) => {
+    removeFromCart(id);
+    warning(`تم إزالة "${name}" من السلة`);
+  };
+
+  const handleClear = () => {
+    if (!confirmClear) {
+      setConfirmClear(true);
+      return;
+    }
+    clearCart();
+    setConfirmClear(false);
+    success("تم إفراغ السلة بنجاح");
+  };
 
   if (items.length === 0) {
     return (
@@ -81,8 +99,9 @@ export default function CartPage() {
                 </div>
               </div>
               <button
-                onClick={() => removeFromCart(item.product.id)}
+                onClick={() => handleRemove(item.product.id, item.product.name)}
                 className="text-slate-400 hover:text-red-500 transition-colors self-start p-1"
+                aria-label={`إزالة ${item.product.name} من السلة`}
               >
                 <Trash2 size={18} />
               </button>
@@ -90,10 +109,12 @@ export default function CartPage() {
           ))}
 
           <button
-            onClick={clearCart}
-            className="text-sm text-red-500 hover:text-red-600 font-medium"
+            onClick={handleClear}
+            className={`text-sm font-medium transition-colors ${
+              confirmClear ? "text-red-700 bg-red-50 px-3 py-1 rounded-lg" : "text-red-500 hover:text-red-600"
+            }`}
           >
-            إفراغ السلة
+            {confirmClear ? "تأكيد الإفراغ؟" : "إفراغ السلة"}
           </button>
         </div>
 

@@ -1,15 +1,21 @@
 "use client";
 
-import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useMemo } from "react";
 import { categories, getFeaturedProducts } from "@/lib";
 import CategoryCard from "@/components/CategoryCard";
-import ProductCard from "@/components/ProductCard";
 import { SectionHeader, ProductGrid, TrustBar } from "@/components/ui";
 import { HeroSection, PromoBanner, CategorySection } from "@/components/home";
 
 export default function Home() {
-  const featured = getFeaturedProducts();
+  const featured = useMemo(() => getFeaturedProducts(), []);
+  const categoryProducts = useMemo(
+    () =>
+      categories.map((cat) => ({
+        category: cat,
+        products: featured.filter((p) => p.categorySlug === cat.slug),
+      })),
+    [featured]
+  );
 
   return (
     <div>
@@ -39,34 +45,21 @@ export default function Home() {
 
       <section className="bg-white">
         <div className="max-w-7xl mx-auto px-4 py-12">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-2xl font-extrabold text-slate-800">
-                منتجات مميزة
-              </h2>
-              <p className="text-slate-500 mt-1">أفضل العروض والمنتجات المختارة</p>
-            </div>
-            <div className="flex gap-2">
-              <button className="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-sky-50 hover:border-sky-300 transition-colors">
-                <ChevronRight size={20} className="text-slate-600" />
-              </button>
-              <button className="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-sky-50 hover:border-sky-300 transition-colors">
-                <ChevronLeft size={20} className="text-slate-600" />
-              </button>
-            </div>
-          </div>
+          <SectionHeader
+            title="منتجات مميزة"
+            subtitle="أفضل العروض والمنتجات المختارة"
+          />
           <ProductGrid products={featured} />
         </div>
       </section>
 
       <PromoBanner />
 
-      {categories.map((cat) => {
-        const catProducts = featured.filter((p) => p.categorySlug === cat.slug);
-        if (catProducts.length === 0) return null;
+      {categoryProducts.map(({ category: cat, products }) => {
+        if (products.length === 0) return null;
         return (
-          <div key={cat.slug} className={cat.slug === "accessories" ? "" : "bg-white"}>
-            <CategorySection category={cat} products={catProducts} />
+          <div key={cat.slug} className={cat.slug !== "accessories" ? "bg-white" : ""}>
+            <CategorySection category={cat} products={products} />
           </div>
         );
       })}

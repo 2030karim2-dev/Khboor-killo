@@ -20,4 +20,4 @@ export {
   CITIES,
   SORT_OPTIONS,
 } from "./constants";
-export type { Product, Category, BreadcrumbItem, CartItem, FormFieldProps } from "./types";
+export type { Product, Category, BreadcrumbItem, CartItem } from "./types";

@@ -1,11 +1,39 @@
 "use client";
 
 import Link from "next/link";
-import { Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, type LoginInput } from "@/lib/validations";
+import { useAuth } from "@/lib/AuthContext";
+import { useToast } from "@/lib/ToastContext";
+import FormField from "@/components/ui/FormField";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
+  const { success, error } = useToast();
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = async (data: LoginInput) => {
+    const result = await login(data.email, data.password);
+    if (result) {
+      success("تم تسجيل الدخول بنجاح");
+      router.push("/");
+    } else {
+      error("البريد الإلكتروني أو كلمة المرور غير صحيحة");
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12">
@@ -21,48 +49,71 @@ export default function LoginPage() {
         </div>
 
         <div className="card p-6">
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+            <FormField
+              label="البريد الإلكتروني"
+              type="email"
+              placeholder="example@email.com"
+              dir="ltr"
+              error={errors.email?.message}
+              required
+              {...register("email")}
+            />
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                البريد الإلكتروني
-              </label>
-              <input
-                type="email"
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors text-right"
-                placeholder="example@email.com"
-                dir="ltr"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                كلمة المرور
+              <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1.5">
+                كلمة المرور <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <input
+                  id="password"
                   type={showPassword ? "text" : "password"}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors text-right"
                   placeholder="••••••••"
+                  aria-invalid={!!errors.password}
+                  aria-describedby={errors.password ? "password-error" : undefined}
+                  className={`w-full px-4 py-2.5 rounded-xl border transition-colors text-right focus:outline-none ${
+                    errors.password
+                      ? "border-red-300 focus:border-red-500 bg-red-50/50"
+                      : "border-slate-200 focus:border-sky-500"
+                  }`}
+                  {...register("password")}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  aria-label={showPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
+              {errors.password && (
+                <p id="password-error" className="text-red-500 text-xs mt-1" role="alert">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
-                <input type="checkbox" className="accent-sky-500 rounded" />
+                <input type="checkbox" className="accent-sky-500 rounded" {...register("rememberMe")} />
                 تذكرني
               </label>
-              <a href="#" className="text-sm text-sky-600 hover:text-sky-700">
+              <Link href="/forgot-password" className="text-sm text-sky-600 hover:text-sky-700">
                 نسيت كلمة المرور؟
-              </a>
+              </Link>
             </div>
-            <button type="submit" className="btn-primary w-full justify-center py-3 text-base">
-              تسجيل الدخول
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="btn-primary w-full justify-center py-3 text-base disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  جاري تسجيل الدخول...
+                </>
+              ) : (
+                "تسجيل الدخول"
+              )}
             </button>
           </form>
 

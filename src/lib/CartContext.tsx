@@ -5,6 +5,8 @@ import {
   useContext,
   useState,
   useCallback,
+  useMemo,
+  useEffect,
   ReactNode,
 } from "react";
 import { Product, CartItem } from "./types";
@@ -21,8 +23,37 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const CART_STORAGE_KEY = "khuboor_cart";
+
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(() => {
+    if (typeof window === "undefined") return [];
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (!Array.isArray(parsed)) {
+          localStorage.removeItem(CART_STORAGE_KEY);
+          return [];
+        }
+        return parsed.filter(
+          (item: unknown): item is CartItem =>
+            typeof item === "object" &&
+            item !== null &&
+            "product" in item &&
+            "quantity" in item &&
+            typeof (item as CartItem).quantity === "number"
+        );
+      } catch {
+        localStorage.removeItem(CART_STORAGE_KEY);
+      }
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+  }, [items]);
 
   const addToCart = useCallback((product: Product) => {
     setItems((prev) => {
@@ -61,10 +92,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems([]);
   }, []);
 
-  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = items.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
-    0
+  const totalItems = useMemo(
+    () => items.reduce((sum, item) => sum + item.quantity, 0),
+    [items]
+  );
+
+  const totalPrice = useMemo(
+    () => items.reduce((sum, item) => sum + item.product.price * item.quantity, 0),
+    [items]
   );
 
   return (

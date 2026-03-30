@@ -32,12 +32,3 @@ export interface CartItem {
   product: Product;
   quantity: number;
 }
-
-export interface FormFieldProps {
-  label: string;
-  type?: string;
-  placeholder?: string;
-  defaultValue?: string;
-  dir?: "rtl" | "ltr";
-  className?: string;
-}
