@@ -6,3 +6,7 @@ export { default as MobileSearchOverlay } from "./MobileSearchOverlay";
 export { default as MobileSearchTrigger } from "./MobileSearchTrigger";
 export { default as MobileCartCard } from "./MobileCartCard";
 export { default as MobileProductSticky } from "./MobileProductSticky";
+export { default as PremiumProductCard } from "./PremiumProductCard";
+export { default as PremiumHeroCarousel } from "./PremiumHeroCarousel";
+export { default as PremiumCategoryChips } from "./PremiumCategoryChips";
+export { default as PremiumBottomNav } from "./PremiumBottomNav";

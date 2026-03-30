@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useAdmin, type AdminUser } from "@/lib/AdminContext";
 import { Eye, Pencil, UserPlus } from "lucide-react";
 import ExcelTable, { type Column } from "@/components/admin/ExcelTable";
