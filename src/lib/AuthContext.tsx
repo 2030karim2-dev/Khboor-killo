@@ -76,7 +76,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const mockUser: User = {
-      id: Math.random().toString(36).slice(2),
+      id: crypto.randomUUID().slice(0, 8),
       firstName: "أحمد",
       lastName: "محمد",
       email,
@@ -86,6 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     setUser(mockUser);
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ user: mockUser }));
+    document.cookie = `${STORAGE_KEY}=1; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
     setIsLoading(false);
     return true;
   }, []);
@@ -95,7 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await new Promise((r) => setTimeout(r, 1000));
 
     const newUser: User = {
-      id: Math.random().toString(36).slice(2),
+      id: crypto.randomUUID().slice(0, 8),
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
@@ -105,6 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     setUser(newUser);
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ user: newUser }));
+    document.cookie = `${STORAGE_KEY}=1; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
     setIsLoading(false);
     return true;
   }, []);
@@ -112,6 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(() => {
     setUser(null);
     localStorage.removeItem(STORAGE_KEY);
+    document.cookie = `${STORAGE_KEY}=; path=/; max-age=0`;
   }, []);
 
   const updateProfile = useCallback((data: Partial<User>) => {
