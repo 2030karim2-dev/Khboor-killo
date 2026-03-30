@@ -16,20 +16,20 @@ export default function HeroSection() {
         <div className="absolute top-10 right-10 w-72 h-72 bg-sky-400 rounded-full blur-3xl animate-float" />
         <div className="absolute bottom-10 left-10 w-96 h-96 bg-orange-400 rounded-full blur-3xl animate-float" />
       </div>
-      <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 relative z-10">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
+      <div className="max-w-7xl mx-auto px-4 py-12 md:py-16 relative z-10">
+        <div className="grid md:grid-cols-2 gap-6 items-center">
           <div className="text-center md:text-right animate-slide-up">
-            <span className="inline-block bg-sky-500/20 text-sky-300 px-4 py-1 rounded-full text-sm mb-4 font-medium">
+            <span className="inline-block bg-sky-500/20 text-sky-300 px-3 py-0.5 rounded-full text-xs mb-3 font-medium">
               منصة موثوقة +10 آلاف مستخدم
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-3">
               كل ما تحتاجه
               <br />
               <span className="text-gradient bg-gradient-to-r from-sky-400 to-orange-400 bg-clip-text text-transparent">
                 في مكان واحد
               </span>
             </h1>
-            <p className="text-slate-300 text-lg mb-8 max-w-lg mx-auto md:mx-0">
+            <p className="text-slate-300 text-sm mb-6 max-w-md mx-auto md:mx-0">
               خبور يوفر لك تجربة تسوق فريدة مع آلاف المنتجات من سيارات وقطع
               غيار وملابس ومواد بناء وإكسسوارات.
             </p>

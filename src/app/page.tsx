@@ -37,20 +37,20 @@ export default function Home() {
 
       {/* Desktop Trust Bar */}
       <section className="hidden md:block bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="max-w-7xl mx-auto px-4 py-4">
           <TrustBar />
         </div>
       </section>
 
       {/* Desktop Categories Grid */}
-      <section className="hidden md:block max-w-7xl mx-auto px-4 py-12">
+      <section className="hidden md:block max-w-7xl mx-auto px-4 py-8">
         <SectionHeader
           title="تسوق حسب القسم"
           subtitle="اكتشف مجموعتنا الواسعة من المنتجات"
           viewAllHref="/search"
           viewAllLabel="عرض الكل"
         />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {categories.map((cat, i) => (
             <div key={cat.slug} style={{ animationDelay: `${i * 100}ms` }}>
               <CategoryCard category={cat} />
@@ -60,12 +60,12 @@ export default function Home() {
       </section>
 
       {/* Mobile Featured Products */}
-      <section className="md:hidden px-4 py-4">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-base font-extrabold text-slate-800">منتجات مميزة</h2>
-          <a href="/search" className="text-xs text-sky-600 font-medium">عرض الكل</a>
+      <section className="md:hidden px-4 py-3">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-sm font-extrabold text-slate-800">منتجات مميزة</h2>
+          <a href="/search" className="text-[10px] text-sky-600 font-medium">عرض الكل</a>
         </div>
-        <div className="space-y-2.5">
+        <div className="space-y-2">
           {featured.slice(0, 6).map((product) => (
             <MobileProductCard key={product.id} product={product} />
           ))}
@@ -74,7 +74,7 @@ export default function Home() {
 
       {/* Desktop Featured Products */}
       <section className="hidden md:block bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="max-w-7xl mx-auto px-4 py-8">
           <SectionHeader
             title="منتجات مميزة"
             subtitle="أفضل العروض والمنتجات المختارة"

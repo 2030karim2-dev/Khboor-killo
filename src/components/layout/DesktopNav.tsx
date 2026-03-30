@@ -40,12 +40,12 @@ export default function DesktopNav({
   return (
     <nav className="hidden md:block border-t border-slate-100" aria-label="التنقل الرئيسي">
       <div className="max-w-7xl mx-auto px-4">
-        <ul className="flex items-center gap-1 text-sm list-none p-0 m-0">
+        <ul className="flex items-center gap-0.5 text-xs list-none p-0 m-0">
           <li>
             <Link
               href="/"
               aria-current={pathname === "/" ? "page" : undefined}
-              className={`block px-4 py-2.5 rounded-t-lg transition-colors font-medium ${
+              className={`block px-3 py-1.5 rounded-t-lg transition-colors font-medium ${
                 pathname === "/" ? "bg-sky-50 text-sky-600" : "hover:bg-sky-50 hover:text-sky-600"
               }`}
             >
@@ -57,7 +57,7 @@ export default function DesktopNav({
               onClick={onToggleCategories}
               aria-expanded={categoriesOpen}
               aria-haspopup="true"
-              className="flex items-center gap-1 px-4 py-2.5 hover:bg-sky-50 hover:text-sky-600 rounded-t-lg transition-colors font-medium"
+              className="flex items-center gap-1 px-3 py-1.5 hover:bg-sky-50 hover:text-sky-600 rounded-t-lg transition-colors font-medium"
             >
               الأقسام
               <ChevronDown
@@ -91,7 +91,7 @@ export default function DesktopNav({
               <Link
                 href={`/category/${cat.slug}`}
                 aria-current={isActive(`/category/${cat.slug}`) ? "page" : undefined}
-                className={`block px-4 py-2.5 rounded-t-lg transition-colors ${
+                className={`block px-3 py-1.5 rounded-t-lg transition-colors ${
                   isActive(`/category/${cat.slug}`) ? "bg-sky-50 text-sky-600 font-medium" : "hover:bg-sky-50 hover:text-sky-600"
                 }`}
               >
