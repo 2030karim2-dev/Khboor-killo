@@ -6,6 +6,7 @@ import { ShoppingCart, User, LogOut, Heart } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
 import { useAuth } from "@/lib/AuthContext";
 import { TopBar, SearchBar, DesktopNav, MobileMenu, NotificationBell } from "@/components/layout";
+import { MobileSearchTrigger } from "@/components/mobile";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -139,7 +140,7 @@ export default function Header() {
         </div>
 
         <div className="md:hidden mt-3">
-          <SearchBar />
+          <MobileSearchTrigger />
         </div>
       </div>
 

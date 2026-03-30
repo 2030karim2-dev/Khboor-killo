@@ -12,6 +12,7 @@ import ShareButton from "@/components/product/ShareButton";
 import ReviewList from "@/components/product/ReviewList";
 import ReviewForm from "@/components/product/ReviewForm";
 import { Breadcrumb, QuantityStepper, StarRating, TrustBar } from "@/components/ui";
+import { MobileProductSticky, MobileProductCard } from "@/components/mobile";
 import { useState } from "react";
 import { notFound } from "next/navigation";
 
@@ -40,14 +41,39 @@ export default function ProductPage({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <Breadcrumb
-        items={[
-          { label: "الرئيسية", href: "/" },
-          { label: product.category, href: `/category/${product.categorySlug}` },
-          { label: product.name },
-        ]}
-      />
+    <div>
+      {/* Mobile Version */}
+      <div className="md:hidden">
+        <MobileProductSticky product={product} />
+
+        <div className="px-4 pb-32">
+          <div className="space-y-6 mb-8">
+            <ReviewForm productId={product.id} />
+            <ReviewList productId={product.id} />
+          </div>
+
+          {related.length > 0 && (
+            <section aria-labelledby="related-heading-mobile">
+              <h2 id="related-heading-mobile" className="text-lg font-extrabold text-slate-800 mb-4">منتجات مشابهة</h2>
+              <div className="space-y-2.5">
+                {related.map((p) => (
+                  <MobileProductCard key={p.id} product={p} />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
+
+      {/* Desktop Version */}
+      <div className="hidden md:block max-w-7xl mx-auto px-4 py-8">
+        <Breadcrumb
+          items={[
+            { label: "الرئيسية", href: "/" },
+            { label: product.category, href: `/category/${product.categorySlug}` },
+            { label: product.name },
+          ]}
+        />
 
       <div className="grid md:grid-cols-2 gap-8 mb-12">
         <div className="card overflow-hidden">
@@ -180,6 +206,7 @@ export default function ProductPage({
           </div>
         </section>
       )}
+      </div>
     </div>
   );
 }

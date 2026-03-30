@@ -5,6 +5,7 @@ import { categories, getFeaturedProducts } from "@/lib";
 import CategoryCard from "@/components/CategoryCard";
 import { SectionHeader, ProductGrid, TrustBar } from "@/components/ui";
 import { HeroSection, PromoBanner, CategorySection } from "@/components/home";
+import { MobileHeroSlider, MobileCategoryChips, MobileProductCard } from "@/components/mobile";
 
 export default function Home() {
   const featured = useMemo(() => getFeaturedProducts(), []);
@@ -19,15 +20,30 @@ export default function Home() {
 
   return (
     <div>
-      <HeroSection />
+      {/* Mobile Hero */}
+      <div className="md:hidden px-4 pt-3 pb-2">
+        <MobileHeroSlider />
+      </div>
 
-      <section className="bg-white border-b border-slate-200">
+      {/* Desktop Hero */}
+      <div className="hidden md:block">
+        <HeroSection />
+      </div>
+
+      {/* Mobile Category Chips */}
+      <div className="md:hidden px-4 py-3">
+        <MobileCategoryChips />
+      </div>
+
+      {/* Desktop Trust Bar */}
+      <section className="hidden md:block bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <TrustBar />
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 py-12">
+      {/* Desktop Categories Grid */}
+      <section className="hidden md:block max-w-7xl mx-auto px-4 py-12">
         <SectionHeader
           title="تسوق حسب القسم"
           subtitle="اكتشف مجموعتنا الواسعة من المنتجات"
@@ -43,7 +59,21 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white">
+      {/* Mobile Featured Products */}
+      <section className="md:hidden px-4 py-4">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-base font-extrabold text-slate-800">منتجات مميزة</h2>
+          <a href="/search" className="text-xs text-sky-600 font-medium">عرض الكل</a>
+        </div>
+        <div className="space-y-2.5">
+          {featured.slice(0, 6).map((product) => (
+            <MobileProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </section>
+
+      {/* Desktop Featured Products */}
+      <section className="hidden md:block bg-white">
         <div className="max-w-7xl mx-auto px-4 py-12">
           <SectionHeader
             title="منتجات مميزة"
@@ -53,14 +83,51 @@ export default function Home() {
         </div>
       </section>
 
-      <PromoBanner />
+      {/* Mobile Promo */}
+      <div className="md:hidden px-4 py-4">
+        <div className="gradient-primary rounded-2xl p-5 text-center">
+          <h3 className="text-white text-lg font-extrabold mb-1">عروض حصرية!</h3>
+          <p className="text-sky-100 text-xs mb-3">خصم يصل إلى 50%</p>
+          <a href="/search" className="inline-block px-5 py-2 bg-white text-sky-600 font-bold rounded-xl text-sm">
+            تصفح العروض
+          </a>
+        </div>
+      </div>
 
+      {/* Desktop Promo */}
+      <div className="hidden md:block">
+        <PromoBanner />
+      </div>
+
+      {/* Desktop Category Sections */}
+      <div className="hidden md:block">
+        {categoryProducts.map(({ category: cat, products }) => {
+          if (products.length === 0) return null;
+          return (
+            <div key={cat.slug} className={cat.slug !== "accessories" ? "bg-white" : ""}>
+              <CategorySection category={cat} products={products} />
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Mobile Category Sections */}
       {categoryProducts.map(({ category: cat, products }) => {
         if (products.length === 0) return null;
         return (
-          <div key={cat.slug} className={cat.slug !== "accessories" ? "bg-white" : ""}>
-            <CategorySection category={cat} products={products} />
-          </div>
+          <section key={cat.slug} className="md:hidden px-4 py-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-base font-extrabold text-slate-800 flex items-center gap-2">
+                <span>{cat.icon}</span> {cat.name}
+              </h2>
+              <a href={`/category/${cat.slug}`} className="text-xs text-sky-600 font-medium">عرض الكل</a>
+            </div>
+            <div className="space-y-2.5">
+              {products.slice(0, 3).map((product) => (
+                <MobileProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </section>
         );
       })}
     </div>
