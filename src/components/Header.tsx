@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { ShoppingCart, User, LogOut, Heart } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
 import { useAuth } from "@/lib/AuthContext";
-import { TopBar, SearchBar, DesktopNav, MobileMenu } from "@/components/layout";
+import { TopBar, SearchBar, DesktopNav, MobileMenu, NotificationBell } from "@/components/layout";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -65,6 +65,8 @@ export default function Header() {
                 </span>
               )}
             </Link>
+
+            {isAuthenticated && <NotificationBell />}
 
             {isAuthenticated ? (
               <div className="hidden sm:block relative" ref={userMenuRef}>

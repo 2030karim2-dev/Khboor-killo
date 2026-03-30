@@ -8,7 +8,9 @@ import { AuthProvider } from "@/lib/AuthContext";
 import { ToastProvider } from "@/lib/ToastContext";
 import { WishlistProvider } from "@/lib/WishlistContext";
 import { OrderProvider } from "@/lib/OrderContext";
+import { NotificationsProvider } from "@/lib/NotificationsContext";
 import ToastContainer from "@/components/ui/ToastContainer";
+import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
 
 const notoKufi = Noto_Kufi_Arabic({
   variable: "--font-arabic",
@@ -62,18 +64,22 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body className={`${notoKufi.variable} antialiased`}>
+        <OrganizationJsonLd />
+        <WebsiteJsonLd />
         <ToastProvider>
           <AuthProvider>
             <WishlistProvider>
               <CartProvider>
                 <OrderProvider>
-                  <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:right-2 focus:z-[200] focus:bg-sky-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
-                    تخطي إلى المحتوى الرئيسي
-                  </a>
-                  <Header />
-                  <main id="main-content" className="min-h-screen">{children}</main>
-                  <Footer />
-                  <ToastContainer />
+                  <NotificationsProvider>
+                    <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:right-2 focus:z-[200] focus:bg-sky-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
+                      تخطي إلى المحتوى الرئيسي
+                    </a>
+                    <Header />
+                    <main id="main-content" className="min-h-screen">{children}</main>
+                    <Footer />
+                    <ToastContainer />
+                  </NotificationsProvider>
                 </OrderProvider>
               </CartProvider>
             </WishlistProvider>
