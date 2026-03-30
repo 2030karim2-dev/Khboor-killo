@@ -11,6 +11,7 @@ import { OrderProvider } from "@/lib/OrderContext";
 import { NotificationsProvider } from "@/lib/NotificationsContext";
 import ToastContainer from "@/components/ui/ToastContainer";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
+import BottomNav from "@/components/layout/BottomNav";
 
 const notoKufi = Noto_Kufi_Arabic({
   variable: "--font-arabic",
@@ -76,8 +77,9 @@ export default function RootLayout({
                       تخطي إلى المحتوى الرئيسي
                     </a>
                     <Header />
-                    <main id="main-content" className="min-h-screen">{children}</main>
+                    <main id="main-content" className="min-h-screen pb-20 md:pb-0">{children}</main>
                     <Footer />
+                    <BottomNav />
                     <ToastContainer />
                   </NotificationsProvider>
                 </OrderProvider>

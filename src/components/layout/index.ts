@@ -5,3 +5,4 @@ export { default as MobileMenu } from "./MobileMenu";
 export { default as FooterLinks } from "./FooterLinks";
 export { default as Newsletter } from "./Newsletter";
 export { default as NotificationBell } from "./NotificationBell";
+export { default as BottomNav } from "./BottomNav";
