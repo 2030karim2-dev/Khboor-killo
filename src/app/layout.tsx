@@ -10,6 +10,7 @@ import { WishlistProvider } from "@/lib/WishlistContext";
 import { OrderProvider } from "@/lib/OrderContext";
 import { NotificationsProvider } from "@/lib/NotificationsContext";
 import { ThemeProvider } from "@/lib/ThemeContext";
+import { AdminProvider } from "@/lib/AdminContext";
 import { LanguageProvider } from "@/lib/i18n";
 import { CurrencyProvider } from "@/lib/CurrencyContext";
 import ToastContainer from "@/components/ui/ToastContainer";
@@ -74,7 +75,8 @@ export default function RootLayout({
         <ThemeProvider>
           <LanguageProvider>
             <CurrencyProvider>
-              <ToastProvider>
+              <AdminProvider>
+                <ToastProvider>
                 <AuthProvider>
                   <WishlistProvider>
                     <CartProvider>
@@ -95,9 +97,10 @@ export default function RootLayout({
                   </WishlistProvider>
                 </AuthProvider>
               </ToastProvider>
-            </CurrencyProvider>
-          </LanguageProvider>
-        </ThemeProvider>
+            </AdminProvider>
+          </CurrencyProvider>
+        </LanguageProvider>
+      </ThemeProvider>
       </body>
     </html>
   );
