@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CheckCircle, Loader2 } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
 import { useToast } from "@/lib/ToastContext";
+import { useOrders } from "@/lib/OrderContext";
 import { FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_COST } from "@/lib";
 import { Breadcrumb, OrderSummary, EmptyState } from "@/components/ui";
 import ShippingForm, { type ShippingData } from "@/components/checkout/ShippingForm";
@@ -14,9 +15,10 @@ import { checkoutSchema } from "@/lib/validations";
 export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCart();
   const { success, error } = useToast();
+  const { addOrder } = useOrders();
   const [submitted, setSubmitted] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [orderId] = useState(() => crypto.randomUUID().slice(0, 8).toUpperCase());
+  const [orderId, setOrderId] = useState("");
   const [shippingErrors, setShippingErrors] = useState<Partial<Record<keyof ShippingData, string>>>({});
 
   const [shipping, setShipping] = useState<ShippingData>({
@@ -61,11 +63,21 @@ export default function CheckoutPage() {
     setShippingErrors({});
     setIsProcessing(true);
     await new Promise((r) => setTimeout(r, 1500));
+
+    const newOrderId = addOrder({
+      items,
+      totalPrice,
+      shippingCost,
+      shipping,
+      paymentMethod: payment.method,
+    });
+
     clearCart();
+    setOrderId(newOrderId);
     setIsProcessing(false);
     setSubmitted(true);
     success("تم تأكيد طلبك بنجاح!");
-  }, [shipping, payment, clearCart, success, error]);
+  }, [shipping, payment, items, totalPrice, shippingCost, clearCart, addOrder, success, error]);
 
   if (submitted) {
     return (

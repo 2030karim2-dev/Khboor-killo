@@ -1,51 +1,26 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Heart, ShoppingCart, Trash2 } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
+import { useWishlist } from "@/lib/WishlistContext";
 import { useToast } from "@/lib/ToastContext";
-import { Product, formatPrice, products } from "@/lib";
+import { formatPrice } from "@/lib";
 import { Breadcrumb, EmptyState } from "@/components/ui";
-import Image from "next/image";
-
-const WISHLIST_KEY = "khuboor_wishlist";
-
-function loadWishlist(): Product[] {
-  if (typeof window === "undefined") return [];
-  const stored = localStorage.getItem(WISHLIST_KEY);
-  if (stored) {
-    try {
-      const ids: string[] = JSON.parse(stored);
-      return ids.map((id) => products.find((p) => p.id === id)).filter(Boolean) as Product[];
-    } catch {
-      localStorage.removeItem(WISHLIST_KEY);
-    }
-  }
-  return [];
-}
 
 export default function WishlistPage() {
-  const [wishlist, setWishlist] = useState<Product[]>(loadWishlist);
+  const { products, removeFromWishlist, clearWishlist } = useWishlist();
   const { addToCart } = useCart();
-  const { success, warning } = useToast();
+  const { success } = useToast();
 
-  const removeItem = (id: string) => {
-    setWishlist((prev) => {
-      const updated = prev.filter((p) => p.id !== id);
-      localStorage.setItem(WISHLIST_KEY, JSON.stringify(updated.map((p) => p.id)));
-      return updated;
-    });
-    warning("تم إزالة المنتج من المفضلة");
-  };
-
-  const moveToCart = (product: Product) => {
+  const moveToCart = (product: typeof products[0]) => {
     addToCart(product);
-    removeItem(product.id);
+    removeFromWishlist(product.id);
     success(`تم نقل "${product.name}" إلى السلة`);
   };
 
-  if (wishlist.length === 0) {
+  if (products.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16">
         <Breadcrumb items={[{ label: "الرئيسية", href: "/" }, { label: "المفضلة" }]} />
@@ -66,12 +41,15 @@ export default function WishlistPage() {
 
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-extrabold text-slate-800">
-          المفضلة ({wishlist.length} منتجات)
+          المفضلة ({products.length} منتجات)
         </h1>
+        <button onClick={clearWishlist} className="text-sm text-red-500 hover:text-red-600 font-medium">
+          إفراغ القائمة
+        </button>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {wishlist.map((product) => (
+        {products.map((product) => (
           <div key={product.id} className="card group animate-fade-in">
             <div className="relative overflow-hidden aspect-[4/3]">
               <Image
@@ -82,9 +60,12 @@ export default function WishlistPage() {
                 className="object-cover"
               />
               <button
-                onClick={() => removeItem(product.id)}
+                onClick={() => {
+                  removeFromWishlist(product.id);
+                  success("تم إزالة المنتج من المفضلة");
+                }}
                 className="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur flex items-center justify-center hover:bg-red-50 transition-colors z-10"
-                aria-label="إزالة من المفضلة"
+                aria-label={`إزالة ${product.name} من المفضلة`}
               >
                 <Trash2 size={16} className="text-red-500" />
               </button>
@@ -95,9 +76,7 @@ export default function WishlistPage() {
                   {product.name}
                 </h3>
               </Link>
-              <p className="text-lg font-bold text-slate-900 mb-3">
-                {formatPrice(product.price)}
-              </p>
+              <p className="text-lg font-bold text-slate-900 mb-3">{formatPrice(product.price)}</p>
               <button
                 onClick={() => moveToCart(product)}
                 disabled={!product.inStock}

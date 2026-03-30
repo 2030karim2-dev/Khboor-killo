@@ -5,17 +5,23 @@ import Image from "next/image";
 import { Star, ShoppingCart, Heart } from "lucide-react";
 import { Product, formatPrice } from "@/lib";
 import { useCart } from "@/lib/CartContext";
+import { useWishlist } from "@/lib/WishlistContext";
 import { useToast } from "@/lib/ToastContext";
-import { useState } from "react";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
-  const { success } = useToast();
-  const [liked, setLiked] = useState(false);
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const { success, info } = useToast();
+  const liked = isInWishlist(product.id);
 
   const handleAddToCart = () => {
     addToCart(product);
     success(`تمت إضافة "${product.name}" للسلة`);
+  };
+
+  const handleToggleWishlist = () => {
+    toggleWishlist(product);
+    info(liked ? "تم إزالة المنتج من المفضلة" : "تمت إضافة المنتج للمفضلة");
   };
 
   return (
@@ -46,9 +52,10 @@ export default function ProductCard({ product }: { product: Product }) {
           </span>
         )}
         <button
-          onClick={() => setLiked(!liked)}
+          onClick={handleToggleWishlist}
           className="absolute bottom-3 left-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur flex items-center justify-center hover:bg-red-50 transition-colors z-10"
           aria-label={liked ? "إزالة من المفضلة" : "إضافة للمفضلة"}
+          aria-pressed={liked}
         >
           <Heart
             size={18}

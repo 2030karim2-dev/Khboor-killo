@@ -5,10 +5,13 @@ import Image from "next/image";
 import { ShoppingCart, Heart } from "lucide-react";
 import { getProductById, getProductsByCategory, formatPrice } from "@/lib";
 import { useCart } from "@/lib/CartContext";
+import { useWishlist } from "@/lib/WishlistContext";
 import { useToast } from "@/lib/ToastContext";
 import ProductCard from "@/components/ProductCard";
-import { Breadcrumb, QuantityStepper, StarRating, TrustBar } from "@/components/ui";
 import ShareButton from "@/components/product/ShareButton";
+import ReviewList from "@/components/product/ReviewList";
+import ReviewForm from "@/components/product/ReviewForm";
+import { Breadcrumb, QuantityStepper, StarRating, TrustBar } from "@/components/ui";
 import { useState } from "react";
 import { notFound } from "next/navigation";
 
@@ -20,11 +23,12 @@ export default function ProductPage({
   const { id } = use(params);
   const product = getProductById(id);
   const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const { success } = useToast();
   const [quantity, setQuantity] = useState(1);
-  const [liked, setLiked] = useState(false);
 
   if (!product) notFound();
+  const liked = isInWishlist(product.id);
 
   const related = getProductsByCategory(product.categorySlug)
     .filter((p) => p.id !== product.id)
@@ -139,7 +143,7 @@ export default function ProductPage({
             </button>
             <button
               onClick={() => {
-                setLiked(!liked);
+                toggleWishlist(product);
                 success(liked ? "تم إزالة المنتج من المفضلة" : "تمت إضافة المنتج للمفضلة");
               }}
               className={`p-3 rounded-xl border-2 transition-colors ${
@@ -157,6 +161,11 @@ export default function ProductPage({
 
           <TrustBar compact />
         </div>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-8 mb-12">
+        <ReviewForm productId={product.id} />
+        <ReviewList productId={product.id} />
       </div>
 
       {related.length > 0 && (
