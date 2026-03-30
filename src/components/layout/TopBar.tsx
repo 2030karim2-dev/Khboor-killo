@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import { Sun, Moon, Globe, DollarSign } from "lucide-react";
 import { useTheme } from "@/lib/ThemeContext";
 import { useLanguage, languages } from "@/lib/i18n";
@@ -9,6 +10,7 @@ export default function TopBar() {
   const { theme, toggleTheme } = useTheme();
   const { lang, setLang, config } = useLanguage();
   const { currency, setCurrency } = useCurrency();
+  const id = useId();
 
   const nextLang = () => {
     const codes = languages.map((l) => l.code);
@@ -27,44 +29,39 @@ export default function TopBar() {
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
         <span className="hidden sm:inline">شحن مجاني للطلبات فوق 200 ر.س</span>
 
-        <div className="flex items-center gap-1 sm:gap-3">
-          {/* Theme Toggle */}
+        <div className="flex items-center gap-1 sm:gap-3" key={id}>
           <button
             onClick={toggleTheme}
-            className="flex items-center gap-1 px-2 py-0.5 rounded-md hover:bg-white/15 transition-colors"
+            className="flex items-center gap-1 px-2 py-0.5 rounded-md hover:bg-white/15 transition-colors cursor-pointer"
             aria-label={theme === "dark" ? "الوضع الفاتح" : "الوضع الداكن"}
           >
-            {theme === "dark" ? <Sun size={13} /> : <Moon size={13} />}
+            {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
             <span className="hidden sm:inline">{theme === "dark" ? "فاتح" : "داكن"}</span>
           </button>
 
           <span className="text-white/30 hidden sm:inline">|</span>
 
-          {/* Language Toggle */}
           <button
             onClick={nextLang}
-            className="flex items-center gap-1 px-2 py-0.5 rounded-md hover:bg-white/15 transition-colors"
+            className="flex items-center gap-1 px-2 py-0.5 rounded-md hover:bg-white/15 transition-colors cursor-pointer"
             aria-label="تغيير اللغة"
           >
-            <Globe size={13} />
-            <span className="font-medium">{config.nativeName}</span>
+            <Globe size={14} />
+            <span className="font-medium">{config?.nativeName || "العربية"}</span>
           </button>
 
           <span className="text-white/30 hidden sm:inline">|</span>
 
-          {/* Currency Toggle */}
           <button
             onClick={nextCurrency}
-            className="flex items-center gap-1 px-2 py-0.5 rounded-md hover:bg-white/15 transition-colors"
+            className="flex items-center gap-1 px-2 py-0.5 rounded-md hover:bg-white/15 transition-colors cursor-pointer"
             aria-label="تغيير العملة"
           >
-            <DollarSign size={13} />
-            <span className="font-medium">{currency.symbol}</span>
+            <DollarSign size={14} />
+            <span className="font-medium">{currency?.symbol || "ر.س"}</span>
           </button>
 
-          <span className="text-white/30 hidden sm:inline">|</span>
-
-          {/* Contact */}
+          <span className="text-white/30 hidden md:inline">|</span>
           <span className="hidden md:inline">📞 920001234</span>
         </div>
       </div>
