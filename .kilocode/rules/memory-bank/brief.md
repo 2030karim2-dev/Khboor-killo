@@ -1,48 +1,50 @@
-# Project Brief: Next.js Starter Template
+# Project Brief: خبور (Khuboor) E-commerce Platform
 
 ## Purpose
 
-This is a minimal Next.js starter template designed for AI-assisted development. It provides a clean foundation that can be extended to build any type of web application through interaction with an AI assistant.
+خبور is a modern Arabic e-commerce platform for diversified sales including:
+- Cars (سيارات)
+- Auto Parts (قطع غيار السيارات)
+- Clothing (ملابس)
+- Building Materials (مواد بناء)
+- Accessories (إكسسوارات)
 
 ## Target Users
 
-- Developers wanting a clean Next.js starting point
-- Users building applications through AI-assisted coding
-- Teams needing a standardized, modern Next.js setup
+- Buyers looking for a variety of products in one marketplace
+- Sellers wanting to list products across multiple categories
+- Arabic-speaking users in Saudi Arabia and the region
 
 ## Core Use Case
 
-Users describe what they want to build to an AI assistant, which then expands this template by:
-
-1. Adding components and pages as needed
-2. Installing additional dependencies
-3. Setting up databases, authentication, etc. using recipes
-4. Customizing styling and branding
+A full-featured e-commerce marketplace where users can:
+1. Browse products across 5 categories
+2. Search for specific products
+3. Add items to cart and checkout
+4. Create accounts and manage orders
+5. Sell their own products via seller dashboard
 
 ## Key Requirements
 
 ### Must Have
-
-- Modern Next.js 16 setup with App Router
-- TypeScript for type safety
-- Tailwind CSS 4 for styling
-- ESLint for code quality
-- Clean, minimal starting structure
-- Bun as package manager
+- Arabic RTL layout
+- Modern, responsive design
+- Product browsing by category
+- Shopping cart and checkout
+- User authentication (login/register)
+- Search functionality
+- Seller dashboard for listing products
 
 ### Nice to Have
+- Real-time notifications
+- Product reviews and ratings
+- Order tracking
+- Multiple payment methods
+- Admin dashboard
 
-- Recipe system for common additions (database, auth)
-- Memory bank for AI context persistence
-- Clear development guidelines
+## Design Direction
 
-## Success Metrics
-
-- Clean, zero-error TypeScript setup
-- Passing lint and type checks
-
-## Constraints
-
-- Minimal dependencies by default
-- Framework: Next.js 16 + React 19 + Tailwind CSS 4
-- Package manager: Bun
+- Color scheme: Sky blue primary, orange secondary, emerald accent
+- Font: Noto Kufi Arabic
+- Style: Modern with glass morphism, gradients, and smooth animations
+- Mobile-first responsive design

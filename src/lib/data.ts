@@ -1,0 +1,380 @@
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  originalPrice?: number;
+  image: string;
+  category: string;
+  categorySlug: string;
+  rating: number;
+  reviews: number;
+  inStock: boolean;
+  featured?: boolean;
+  discount?: number;
+}
+
+export interface Category {
+  slug: string;
+  name: string;
+  description: string;
+  icon: string;
+  image: string;
+  productCount: number;
+}
+
+export const categories: Category[] = [
+  {
+    slug: "cars",
+    name: "سيارات",
+    description: "سيارات جديدة ومستعملة بجميع الفئات",
+    icon: "🚗",
+    image: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=400&fit=crop",
+    productCount: 156,
+  },
+  {
+    slug: "auto-parts",
+    name: "قطع غيار السيارات",
+    description: "قطع غيار أصلية ومتقنة لجميع أنواع السيارات",
+    icon: "🔧",
+    image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop",
+    productCount: 423,
+  },
+  {
+    slug: "clothing",
+    name: "ملابس",
+    description: "ملابس رجالية ونسائية وأطفال عصرية",
+    icon: "👕",
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop",
+    productCount: 892,
+  },
+  {
+    slug: "building-materials",
+    name: "مواد بناء",
+    description: "كل ما تحتاجه لأعمال البناء والتشطيب",
+    icon: "🧱",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop",
+    productCount: 267,
+  },
+  {
+    slug: "accessories",
+    name: "إكسسوارات",
+    description: "إكسسوارات عصرية للمنزل والسيارة والمزيد",
+    icon: "💎",
+    image: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=600&h=400&fit=crop",
+    productCount: 534,
+  },
+];
+
+export const products: Product[] = [
+  // Cars
+  {
+    id: "car-1",
+    name: "تويوتا كامري 2024",
+    description: "سيارة تويوتا كامري موديل 2024 فول أوبشن، محرك 2.5 لتر، نظام دفع رباعي، شاشة لمس 9 إنش، كاميرا خلفية، فرامل ABS",
+    price: 125000,
+    originalPrice: 135000,
+    image: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=600&h=400&fit=crop",
+    category: "سيارات",
+    categorySlug: "cars",
+    rating: 4.8,
+    reviews: 124,
+    inStock: true,
+    featured: true,
+    discount: 7,
+  },
+  {
+    id: "car-2",
+    name: "هونداي توسان 2024",
+    description: "هونداي توسان موديل 2024، محرك 1.6 تيربو، نظام ملاحة، سقف بانورامي، مقاعد جلد",
+    price: 118000,
+    image: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=600&h=400&fit=crop",
+    category: "سيارات",
+    categorySlug: "cars",
+    rating: 4.6,
+    reviews: 89,
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "car-3",
+    name: "نيسان باترول 2024",
+    description: "نيسان باترول بلاتينيوم، محرك 5.6 لتر V8، 7 مقاعد، نظام تعليق هيدروليكي",
+    price: 285000,
+    originalPrice: 300000,
+    image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=600&h=400&fit=crop",
+    category: "سيارات",
+    categorySlug: "cars",
+    rating: 4.9,
+    reviews: 67,
+    inStock: true,
+    featured: true,
+    discount: 5,
+  },
+  {
+    id: "car-4",
+    name: "لكزس ES 350",
+    description: "لكزس ES 350 موديل 2024، محرك 3.5 لتر V6، نظام صوت مارك ليفنسون، مساج في المقاعد",
+    price: 195000,
+    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop",
+    category: "سيارات",
+    categorySlug: "cars",
+    rating: 4.7,
+    reviews: 45,
+    inStock: true,
+  },
+
+  // Auto Parts
+  {
+    id: "part-1",
+    name: "طقم فرامل أصلي تويوتا",
+    description: "طقم فرامل أمامي أصلي من تويوتا، متوافق مع كامري 2018-2024، ضمان سنة كاملة",
+    price: 450,
+    originalPrice: 520,
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=400&fit=crop",
+    category: "قطع غيار السيارات",
+    categorySlug: "auto-parts",
+    rating: 4.5,
+    reviews: 234,
+    inStock: true,
+    featured: true,
+    discount: 13,
+  },
+  {
+    id: "part-2",
+    name: "فلتر زيت بوش",
+    description: "فلتر زيت عالي الجودة من بوش، مناسب لمعظم السيارات اليابانية والأوروبية",
+    price: 35,
+    image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop",
+    category: "قطع غيار السيارات",
+    categorySlug: "auto-parts",
+    rating: 4.3,
+    reviews: 567,
+    inStock: true,
+  },
+  {
+    id: "part-3",
+    name: "بطارية سيارة 100 أمبير",
+    description: "بطارية سيارة عالية الأداء 100 أمبير، ضمان سنتين، مناسبة للسيارات الكبيرة",
+    price: 380,
+    originalPrice: 420,
+    image: "https://images.unsplash.com/photo-1620288627223-53302f4e8c74?w=600&h=400&fit=crop",
+    category: "قطع غيار السيارات",
+    categorySlug: "auto-parts",
+    rating: 4.6,
+    reviews: 189,
+    inStock: true,
+    discount: 10,
+  },
+  {
+    id: "part-4",
+    name: "إطار ميشلان 225/45R17",
+    description: "إطار ميشلان بريمير 225/45R17، مقاوم للانزلاق، عمر افتراضي طويل",
+    price: 290,
+    image: "https://images.unsplash.com/photo-1578844251758-2f71da64c96f?w=600&h=400&fit=crop",
+    category: "قطع غيار السيارات",
+    categorySlug: "auto-parts",
+    rating: 4.7,
+    reviews: 312,
+    inStock: true,
+    featured: true,
+  },
+
+  // Clothing
+  {
+    id: "cloth-1",
+    name: "ثوب رجالي فاخر",
+    description: "ثوب رجالي من القطن المصري الفاخر، تصميم عصري، متوفر بألوان متعددة",
+    price: 180,
+    originalPrice: 220,
+    image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&h=400&fit=crop",
+    category: "ملابس",
+    categorySlug: "clothing",
+    rating: 4.8,
+    reviews: 445,
+    inStock: true,
+    featured: true,
+    discount: 18,
+  },
+  {
+    id: "cloth-2",
+    name: "فستان سهرة نسائي",
+    description: "فستان سهرة أنيق من الحرير الطبيعي، تصميم حصري، متوفر بعدة مقاسات",
+    price: 350,
+    image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=400&fit=crop",
+    category: "ملابس",
+    categorySlug: "clothing",
+    rating: 4.9,
+    reviews: 78,
+    inStock: true,
+  },
+  {
+    id: "cloth-3",
+    name: "بدلة رسمية رجالي",
+    description: "بدلة رسمية من الصوف الإيطالي الفاخر، جاكيت وبنطلون، تصميم كلاسيكي",
+    price: 890,
+    originalPrice: 1100,
+    image: "https://images.unsplash.com/photo-1592878904946-b3cd8ae243d0?w=600&h=400&fit=crop",
+    category: "ملابس",
+    categorySlug: "clothing",
+    rating: 4.6,
+    reviews: 156,
+    inStock: true,
+    featured: true,
+    discount: 19,
+  },
+  {
+    id: "cloth-4",
+    name: "طقم أطفال صيفي",
+    description: "طقم ملابس أطفال صيفي من القطن الناعم، قطعتين (تي شيرت + شورت)",
+    price: 75,
+    image: "https://images.unsplash.com/photo-1522771930-78848d9293e8?w=600&h=400&fit=crop",
+    category: "ملابس",
+    categorySlug: "clothing",
+    rating: 4.4,
+    reviews: 289,
+    inStock: true,
+  },
+
+  // Building Materials
+  {
+    id: "build-1",
+    name: "أسمنت بورتلاند 50 كجم",
+    description: "أسمنت بورتلاند عالي الجودة، مناسب للخرسانة والبناء العام، كيس 50 كجم",
+    price: 18,
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop",
+    category: "مواد بناء",
+    categorySlug: "building-materials",
+    rating: 4.5,
+    reviews: 1245,
+    inStock: true,
+    featured: true,
+  },
+  {
+    id: "build-2",
+    name: "بلاط سيراميك 60x60",
+    description: "بلاط سيراميك فاخر 60x60 سم، تصميم رخام أبيض، مناسب للأرضيات والجدران",
+    price: 45,
+    originalPrice: 55,
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=400&fit=crop",
+    category: "مواد بناء",
+    categorySlug: "building-materials",
+    rating: 4.7,
+    reviews: 567,
+    inStock: true,
+    discount: 18,
+  },
+  {
+    id: "build-3",
+    name: "حديد تسليح 16 مم",
+    description: "حديد تسليح عالي المقاومة، قطر 16 مم، طول 12 متر، مطابق للمواصفات السعودية",
+    price: 85,
+    image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&h=400&fit=crop",
+    category: "مواد بناء",
+    categorySlug: "building-materials",
+    rating: 4.8,
+    reviews: 890,
+    inStock: true,
+  },
+  {
+    id: "build-4",
+    name: "دهان داخلي أبيض",
+    description: "دهان داخلي أبيض ناصع، 20 لتر، قابل للغسل، سريع الجفاف",
+    price: 120,
+    originalPrice: 150,
+    image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&h=400&fit=crop",
+    category: "مواد بناء",
+    categorySlug: "building-materials",
+    rating: 4.4,
+    reviews: 345,
+    inStock: true,
+    featured: true,
+    discount: 20,
+  },
+
+  // Accessories
+  {
+    id: "acc-1",
+    name: "ساعة ذكية احترافية",
+    description: "ساعة ذكية متعددة الوظائف، مراقبة نبض القلب، GPS، مقاومة للماء",
+    price: 599,
+    originalPrice: 750,
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop",
+    category: "إكسسوارات",
+    categorySlug: "accessories",
+    rating: 4.6,
+    reviews: 678,
+    inStock: true,
+    featured: true,
+    discount: 20,
+  },
+  {
+    id: "acc-2",
+    name: "نظارة شمسية راي بان",
+    description: "نظارة شمسية راي بان أصلية، عدسات مقطورة، إطار معدني، حماية UV400",
+    price: 420,
+    image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=400&fit=crop",
+    category: "إكسسوارات",
+    categorySlug: "accessories",
+    rating: 4.8,
+    reviews: 234,
+    inStock: true,
+  },
+  {
+    id: "acc-3",
+    name: "محفظة جلد طبيعي",
+    description: "محفظة رجالية من الجلد الإيطالي الفاخر، متعدد الجيوب، تصميم أنيق",
+    price: 165,
+    originalPrice: 200,
+    image: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&h=400&fit=crop",
+    category: "إكسسوارات",
+    categorySlug: "accessories",
+    rating: 4.5,
+    reviews: 189,
+    inStock: true,
+    discount: 18,
+  },
+  {
+    id: "acc-4",
+    name: "حقيبة ظهر لابتوب",
+    description: "حقيبة ظهر مقاومة للماء، مبطنة لحماية اللابتوب حتى 15.6 إنش",
+    price: 189,
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=400&fit=crop",
+    category: "إكسسوارات",
+    categorySlug: "accessories",
+    rating: 4.7,
+    reviews: 456,
+    inStock: true,
+    featured: true,
+  },
+];
+
+export function getProductById(id: string): Product | undefined {
+  return products.find((p) => p.id === id);
+}
+
+export function getProductsByCategory(slug: string): Product[] {
+  return products.filter((p) => p.categorySlug === slug);
+}
+
+export function getFeaturedProducts(): Product[] {
+  return products.filter((p) => p.featured);
+}
+
+export function getCategoryBySlug(slug: string): Category | undefined {
+  return categories.find((c) => c.slug === slug);
+}
+
+export function searchProducts(query: string): Product[] {
+  const q = query.toLowerCase();
+  return products.filter(
+    (p) =>
+      p.name.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q)
+  );
+}
+
+export function formatPrice(price: number): string {
+  return price.toLocaleString("ar-SA") + " ر.س";
+}
