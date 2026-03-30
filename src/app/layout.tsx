@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Noto_Kufi_Arabic } from "next/font/google";
+import { Noto_Kufi_Arabic, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,6 +9,9 @@ import { ToastProvider } from "@/lib/ToastContext";
 import { WishlistProvider } from "@/lib/WishlistContext";
 import { OrderProvider } from "@/lib/OrderContext";
 import { NotificationsProvider } from "@/lib/NotificationsContext";
+import { ThemeProvider } from "@/lib/ThemeContext";
+import { LanguageProvider } from "@/lib/i18n";
+import { CurrencyProvider } from "@/lib/CurrencyContext";
 import ToastContainer from "@/components/ui/ToastContainer";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
 import BottomNav from "@/components/layout/BottomNav";
@@ -67,26 +70,32 @@ export default function RootLayout({
       <body className={`${notoKufi.variable} antialiased`}>
         <OrganizationJsonLd />
         <WebsiteJsonLd />
-        <ToastProvider>
-          <AuthProvider>
-            <WishlistProvider>
-              <CartProvider>
-                <OrderProvider>
-                  <NotificationsProvider>
-                    <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:right-2 focus:z-[200] focus:bg-sky-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
-                      تخطي إلى المحتوى الرئيسي
-                    </a>
-                    <Header />
-                    <main id="main-content" className="min-h-screen pb-20 md:pb-0">{children}</main>
-                    <Footer />
-                    <BottomNav />
-                    <ToastContainer />
-                  </NotificationsProvider>
-                </OrderProvider>
-              </CartProvider>
-            </WishlistProvider>
-          </AuthProvider>
-        </ToastProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <CurrencyProvider>
+              <ToastProvider>
+                <AuthProvider>
+                  <WishlistProvider>
+                    <CartProvider>
+                      <OrderProvider>
+                        <NotificationsProvider>
+                          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:right-2 focus:z-[200] focus:bg-sky-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
+                            تخطي إلى المحتوى الرئيسي
+                          </a>
+                          <Header />
+                          <main id="main-content" className="min-h-screen pb-20 md:pb-0">{children}</main>
+                          <Footer />
+                          <BottomNav />
+                          <ToastContainer />
+                        </NotificationsProvider>
+                      </OrderProvider>
+                    </CartProvider>
+                  </WishlistProvider>
+                </AuthProvider>
+              </ToastProvider>
+            </CurrencyProvider>
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
