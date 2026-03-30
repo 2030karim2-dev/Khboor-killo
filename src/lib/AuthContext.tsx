@@ -7,15 +7,16 @@ import {
   useCallback,
   ReactNode,
 } from "react";
+import { User } from "./types";
 
-export interface User {
-  id: string;
+export type { User } from "./types";
+
+interface RegisterData {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
-  city: string;
-  avatar?: string;
+  password: string;
 }
 
 interface AuthContextType {
@@ -26,14 +27,6 @@ interface AuthContextType {
   register: (data: RegisterData) => Promise<boolean>;
   logout: () => void;
   updateProfile: (data: Partial<User>) => void;
-}
-
-interface RegisterData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  password: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

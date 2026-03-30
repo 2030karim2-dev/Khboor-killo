@@ -8,26 +8,10 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { CartItem } from "./types";
+import { Order, OrderStatus } from "./orderTypes";
 
-export type OrderStatus = "pending" | "confirmed" | "processing" | "shipped" | "delivered" | "cancelled";
-
-export interface Order {
-  id: string;
-  items: CartItem[];
-  totalPrice: number;
-  shippingCost: number;
-  status: OrderStatus;
-  shipping: {
-    firstName: string;
-    lastName: string;
-    phone: string;
-    city: string;
-    address: string;
-  };
-  paymentMethod: "card" | "cash";
-  createdAt: string;
-}
+export type { Order, OrderStatus } from "./orderTypes";
+export { statusLabels } from "./orderTypes";
 
 interface OrderContextType {
   orders: Order[];
@@ -39,17 +23,6 @@ interface OrderContextType {
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
 const STORAGE_KEY = "khuboor_orders";
-
-const statusLabels: Record<OrderStatus, string> = {
-  pending: "في الانتظار",
-  confirmed: "تم التأكيد",
-  processing: "قيد التجهيز",
-  shipped: "قيد الشحن",
-  delivered: "تم التوصيل",
-  cancelled: "ملغي",
-};
-
-export { statusLabels };
 
 export function OrderProvider({ children }: { children: ReactNode }) {
   const [orders, setOrders] = useState<Order[]>(() => {
