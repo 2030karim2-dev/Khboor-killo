@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { User, Heart, LogOut } from "lucide-react";
+import { User, Heart, LogOut, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 
 export default function UserMenuDropdown() {
@@ -37,6 +37,9 @@ export default function UserMenuDropdown() {
           </Link>
           <Link href="/wishlist" onClick={() => setOpen(false)} className="flex items-center gap-2 px-4 py-2.5 hover:bg-sky-50 text-sm">
             <Heart size={16} aria-hidden="true" /> المفضلة
+          </Link>
+          <Link href="/admin" onClick={() => setOpen(false)} className="flex items-center gap-2 px-4 py-2.5 hover:bg-sky-50 text-sm">
+            <LayoutDashboard size={16} aria-hidden="true" /> لوحة التحكم
           </Link>
           <hr className="my-1" />
           <button onClick={() => { logout(); setOpen(false); }} className="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-red-50 text-sm text-red-600 text-right">

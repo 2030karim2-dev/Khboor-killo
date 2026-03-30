@@ -15,6 +15,7 @@ import { CurrencyProvider } from "@/lib/CurrencyContext";
 import ToastContainer from "@/components/ui/ToastContainer";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
 import BottomNav from "@/components/layout/BottomNav";
+import AdminFloatingButton from "@/components/AdminFloatingButton";
 
 const notoKufi = Noto_Kufi_Arabic({
   variable: "--font-arabic",
@@ -86,6 +87,7 @@ export default function RootLayout({
                           <main id="main-content" className="min-h-screen pb-20 md:pb-0">{children}</main>
                           <Footer />
                           <BottomNav />
+                          <AdminFloatingButton />
                           <ToastContainer />
                         </NotificationsProvider>
                       </OrderProvider>
