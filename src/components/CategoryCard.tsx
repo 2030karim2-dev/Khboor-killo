@@ -1,15 +1,18 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
-import { Category } from "@/lib/data";
+import { Category } from "@/lib";
 
 export default function CategoryCard({ category }: { category: Category }) {
   return (
     <Link href={`/category/${category.slug}`} className="card group block">
       <div className="relative overflow-hidden aspect-[3/2]">
-        <img
+        <Image
           src={category.image}
           alt={category.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          fill
+          sizes="(max-width: 768px) 50vw, 20vw"
+          className="object-cover group-hover:scale-110 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute bottom-0 right-0 left-0 p-4">

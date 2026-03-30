@@ -2,6 +2,7 @@
 
 import { use } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Star,
   ShoppingCart,
@@ -45,10 +46,13 @@ export default function ProductPage({
       <div className="grid md:grid-cols-2 gap-8 mb-12">
         <div className="card overflow-hidden">
           <div className="relative aspect-square">
-            <img
+            <Image
               src={product.image}
               alt={product.name}
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+              priority
             />
             {product.discount && (
               <span className="absolute top-4 right-4 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-lg">

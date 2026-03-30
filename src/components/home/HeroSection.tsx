@@ -1,5 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
+
+const heroImages = [
+  { src: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&h=400&fit=crop", alt: "سيارات", className: "aspect-square" },
+  { src: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop", alt: "ملابس", className: "aspect-[4/3]" },
+  { src: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop", alt: "قطع غيار", className: "aspect-[4/3]" },
+  { src: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop", alt: "إكسسوارات", className: "aspect-square" },
+];
 
 export default function HeroSection() {
   return (
@@ -43,36 +51,30 @@ export default function HeroSection() {
           </div>
           <div className="hidden md:grid grid-cols-2 gap-3 animate-slide-in-right">
             <div className="space-y-3">
-              <div className="rounded-2xl overflow-hidden aspect-square">
-                <img
-                  src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&h=400&fit=crop"
-                  alt="سيارات"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="rounded-2xl overflow-hidden aspect-[4/3]">
-                <img
-                  src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop"
-                  alt="ملابس"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </div>
+              {[heroImages[0], heroImages[1]].map((img) => (
+                <div key={img.alt} className={`rounded-2xl overflow-hidden ${img.className}`}>
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+              ))}
             </div>
             <div className="space-y-3 pt-6">
-              <div className="rounded-2xl overflow-hidden aspect-[4/3]">
-                <img
-                  src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop"
-                  alt="قطع غيار"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="rounded-2xl overflow-hidden aspect-square">
-                <img
-                  src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop"
-                  alt="إكسسوارات"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </div>
+              {[heroImages[2], heroImages[3]].map((img) => (
+                <div key={img.alt} className={`rounded-2xl overflow-hidden ${img.className}`}>
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>

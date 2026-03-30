@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, SlidersHorizontal, Grid3X3, List } from "lucide-react";
 import {
   getCategoryBySlug,
   getProductsByCategory,
   categories,
+  SORT_OPTIONS,
 } from "@/lib";
 import ProductCard from "@/components/ProductCard";
 import { Breadcrumb, EmptyState } from "@/components/ui";
@@ -34,10 +36,13 @@ export default async function CategoryPage({
       />
 
       <div className="relative rounded-2xl overflow-hidden mb-8">
-        <img
+        <Image
           src={category.image}
           alt={category.name}
+          width={1200}
+          height={400}
           className="w-full h-48 md:h-64 object-cover"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-l from-black/70 to-black/30" />
         <div className="absolute inset-0 flex items-center justify-end p-8">
@@ -63,10 +68,9 @@ export default async function CategoryPage({
             <span>فلترة</span>
           </button>
           <select className="px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-sky-500 bg-white">
-            <option>الأحدث</option>
-            <option>السعر: من الأقل للأعلى</option>
-            <option>السعر: من الأعلى للأقل</option>
-            <option>الأعلى تقييماً</option>
+            {SORT_OPTIONS.map((opt) => (
+              <option key={opt.value}>{opt.label}</option>
+            ))}
           </select>
         </div>
         <div className="flex items-center gap-2">

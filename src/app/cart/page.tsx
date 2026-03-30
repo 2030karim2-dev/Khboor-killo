@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Trash2, ShoppingBag } from "lucide-react";
+import Image from "next/image";
+import { Trash2 } from "lucide-react";
 import { useCart } from "@/lib/CartContext";
-import { formatPrice } from "@/lib";
+import { formatPrice, FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_COST } from "@/lib";
 import { Breadcrumb, QuantityStepper, OrderSummary, EmptyState } from "@/components/ui";
 
 export default function CartPage() {
@@ -24,7 +25,7 @@ export default function CartPage() {
     );
   }
 
-  const shipping = totalPrice >= 200 ? 0 : 25;
+  const shipping = totalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : DEFAULT_SHIPPING_COST;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -46,11 +47,15 @@ export default function CartPage() {
               key={item.product.id}
               className="card p-4 flex gap-4 animate-slide-up"
             >
-              <img
-                src={item.product.image}
-                alt={item.product.name}
-                className="w-24 h-24 rounded-xl object-cover shrink-0"
-              />
+              <div className="w-24 h-24 relative rounded-xl overflow-hidden shrink-0">
+                <Image
+                  src={item.product.image}
+                  alt={item.product.name}
+                  fill
+                  sizes="96px"
+                  className="object-cover"
+                />
+              </div>
               <div className="flex-1 min-w-0">
                 <Link
                   href={`/product/${item.product.id}`}

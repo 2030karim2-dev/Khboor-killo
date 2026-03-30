@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { CartItem } from "@/lib/types";
 import { formatPrice } from "@/lib/helpers";
+import { FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
 
 export default function OrderSummary({
   items,
@@ -25,11 +27,15 @@ export default function OrderSummary({
       <div className="space-y-3 mb-4">
         {items.map((item) => (
           <div key={item.product.id} className="flex gap-3 items-center">
-            <img
-              src={item.product.image}
-              alt={item.product.name}
-              className="w-12 h-12 rounded-lg object-cover"
-            />
+            <div className="w-12 h-12 relative rounded-lg overflow-hidden shrink-0">
+              <Image
+                src={item.product.image}
+                alt={item.product.name}
+                fill
+                sizes="48px"
+                className="object-cover"
+              />
+            </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-slate-800 truncate">
                 {item.product.name}
@@ -62,7 +68,7 @@ export default function OrderSummary({
         </div>
         {shipping > 0 && (
           <p className="text-xs text-sky-600">
-            أضف {formatPrice(200 - totalPrice)} للحصول على شحن مجاني
+            أضف {formatPrice(FREE_SHIPPING_THRESHOLD - totalPrice)} للحصول على شحن مجاني
           </p>
         )}
         <hr className="my-2" />
