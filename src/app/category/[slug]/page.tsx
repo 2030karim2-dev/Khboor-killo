@@ -1,28 +1,60 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Image from "next/image";
-import { SlidersHorizontal, Grid3X3, List } from "lucide-react";
 import {
   getCategoryBySlug,
   getProductsByCategory,
   categories,
-  SORT_OPTIONS,
 } from "@/lib";
 import { Breadcrumb, EmptyState, ProductGrid } from "@/components/ui";
+import CategoryToolbar from "@/components/category/CategoryToolbar";
 
 export function generateStaticParams() {
   return categories.map((cat) => ({ slug: cat.slug }));
 }
 
-export default async function CategoryPage({
+export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const category = getCategoryBySlug(slug);
+  if (!category) return { title: "القسم غير موجود" };
+
+  return {
+    title: `${category.name} - تسوّق الآن`,
+    description: category.description,
+    openGraph: {
+      title: `${category.name} | خبور`,
+      description: category.description,
+      images: [category.image],
+    },
+  };
+}
+
+export default async function CategoryPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ sort?: string; min?: string; max?: string }>;
 }) {
   const { slug } = await params;
+  const sp = await searchParams;
   const category = getCategoryBySlug(slug);
   if (!category) notFound();
 
-  const products = getProductsByCategory(slug);
+  let products = getProductsByCategory(slug);
+
+  const minPrice = sp.min ? Number(sp.min) : undefined;
+  const maxPrice = sp.max ? Number(sp.max) : undefined;
+  if (minPrice !== undefined) products = products.filter((p) => p.price >= minPrice);
+  if (maxPrice !== undefined) products = products.filter((p) => p.price <= maxPrice);
+
+  if (sp.sort === "price-asc") products = [...products].sort((a, b) => a.price - b.price);
+  else if (sp.sort === "price-desc") products = [...products].sort((a, b) => b.price - a.price);
+  else if (sp.sort === "rating") products = [...products].sort((a, b) => b.rating - a.rating);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -55,33 +87,7 @@ export default async function CategoryPage({
         </div>
       </div>
 
-      <div className="flex items-center justify-between mb-6 bg-white rounded-xl p-4 border border-slate-200">
-        <div className="flex items-center gap-3">
-          <button
-            className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 hover:bg-sky-50 transition-colors text-sm"
-            aria-label="فلترة المنتجات"
-          >
-            <SlidersHorizontal size={16} aria-hidden="true" />
-            <span>فلترة</span>
-          </button>
-          <select
-            aria-label="ترتيب المنتجات"
-            className="px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-sky-500 bg-white"
-          >
-            {SORT_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
-        </div>
-        <div className="flex items-center gap-2">
-          <button className="p-2 rounded-lg bg-sky-50 text-sky-600" aria-label="عرض شبكي">
-            <Grid3X3 size={18} aria-hidden="true" />
-          </button>
-          <button className="p-2 rounded-lg hover:bg-slate-100 text-slate-400" aria-label="عرض قائمة">
-            <List size={18} aria-hidden="true" />
-          </button>
-        </div>
-      </div>
+      <CategoryToolbar categorySlug={slug} currentSort={sp.sort} />
 
       {products.length > 0 ? (
         <ProductGrid products={products} />

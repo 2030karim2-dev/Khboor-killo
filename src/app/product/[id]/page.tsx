@@ -1,18 +1,14 @@
 "use client";
 
 import { use } from "react";
-import Link from "next/link";
 import Image from "next/image";
-import {
-  Star,
-  ShoppingCart,
-  Heart,
-  Share2,
-} from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 import { getProductById, getProductsByCategory, formatPrice } from "@/lib";
 import { useCart } from "@/lib/CartContext";
+import { useToast } from "@/lib/ToastContext";
 import ProductCard from "@/components/ProductCard";
-import { Breadcrumb, QuantityStepper, TrustBar } from "@/components/ui";
+import { Breadcrumb, QuantityStepper, StarRating, TrustBar } from "@/components/ui";
+import ShareButton from "@/components/product/ShareButton";
 import { useState } from "react";
 import { notFound } from "next/navigation";
 
@@ -24,6 +20,7 @@ export default function ProductPage({
   const { id } = use(params);
   const product = getProductById(id);
   const { addToCart } = useCart();
+  const { success } = useToast();
   const [quantity, setQuantity] = useState(1);
   const [liked, setLiked] = useState(false);
 
@@ -32,6 +29,11 @@ export default function ProductPage({
   const related = getProductsByCategory(product.categorySlug)
     .filter((p) => p.id !== product.id)
     .slice(0, 4);
+
+  const handleAddToCart = () => {
+    for (let i = 0; i < quantity; i++) addToCart(product);
+    success(`تمت إضافة ${quantity} من "${product.name}" للسلة`);
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -54,8 +56,15 @@ export default function ProductPage({
               className="object-cover"
               priority
             />
+            {!product.inStock && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
+                <span className="bg-white text-slate-800 font-bold px-4 py-2 rounded-lg text-lg">
+                  نفد المخزون
+                </span>
+              </div>
+            )}
             {product.discount && (
-              <span className="absolute top-4 right-4 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-lg">
+              <span className="absolute top-4 right-4 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-lg z-10">
                 خصم {product.discount}%
               </span>
             )}
@@ -72,31 +81,28 @@ export default function ProductPage({
                 مميز
               </span>
             )}
+            {product.inStock ? (
+              <span className="text-sm text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full font-medium">
+                متوفر
+              </span>
+            ) : (
+              <span className="text-sm text-red-600 bg-red-50 px-3 py-1 rounded-full font-medium">
+                نفد المخزون
+              </span>
+            )}
           </div>
 
           <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">
             {product.name}
           </h1>
 
-          <div className="flex items-center gap-2 mb-4">
-            <div className="flex items-center gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={16}
-                  className={
-                    i < Math.floor(product.rating)
-                      ? "fill-amber-400 text-amber-400"
-                      : "fill-slate-200 text-slate-200"
-                  }
-                />
-              ))}
-            </div>
-            <span className="font-bold text-slate-700">{product.rating}</span>
-            <span className="text-slate-400">({product.reviews} تقييم)</span>
-          </div>
+          <StarRating
+            rating={product.rating}
+            reviews={product.reviews}
+            size={16}
+          />
 
-          <div className="bg-slate-50 rounded-xl p-4 mb-6">
+          <div className="bg-slate-50 rounded-xl p-4 my-4">
             <div className="flex items-baseline gap-3">
               <span className="text-3xl font-extrabold text-slate-900">
                 {product.price.toLocaleString("ar-SA")} ر.س
@@ -123,27 +129,30 @@ export default function ProductPage({
 
           <div className="flex gap-3 mb-8">
             <button
-              onClick={() => {
-                for (let i = 0; i < quantity; i++) addToCart(product);
-              }}
-              className="flex-1 btn-primary py-3 text-base justify-center"
+              onClick={handleAddToCart}
+              disabled={!product.inStock}
+              className="flex-1 btn-primary py-3 text-base justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label={`إضافة ${product.name} للسلة`}
             >
-              <ShoppingCart size={20} />
-              أضف للسلة
+              <ShoppingCart size={20} aria-hidden="true" />
+              {product.inStock ? "أضف للسلة" : "غير متوفر"}
             </button>
             <button
-              onClick={() => setLiked(!liked)}
+              onClick={() => {
+                setLiked(!liked);
+                success(liked ? "تم إزالة المنتج من المفضلة" : "تمت إضافة المنتج للمفضلة");
+              }}
               className={`p-3 rounded-xl border-2 transition-colors ${
                 liked
                   ? "border-red-500 bg-red-50 text-red-500"
                   : "border-slate-200 hover:border-red-300"
               }`}
+              aria-label={liked ? "إزالة من المفضلة" : "إضافة للمفضلة"}
+              aria-pressed={liked}
             >
-              <Heart size={20} className={liked ? "fill-red-500" : ""} />
+              <Heart size={20} className={liked ? "fill-red-500" : ""} aria-hidden="true" />
             </button>
-            <button className="p-3 rounded-xl border-2 border-slate-200 hover:border-sky-300 transition-colors">
-              <Share2 size={20} />
-            </button>
+            <ShareButton title={product.name} text={product.description} />
           </div>
 
           <TrustBar compact />
@@ -151,8 +160,8 @@ export default function ProductPage({
       </div>
 
       {related.length > 0 && (
-        <section>
-          <h2 className="text-xl font-extrabold text-slate-800 mb-6">
+        <section aria-labelledby="related-heading">
+          <h2 id="related-heading" className="text-xl font-extrabold text-slate-800 mb-6">
             منتجات مشابهة
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
