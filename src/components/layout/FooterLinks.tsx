@@ -1,5 +1,15 @@
 import Link from "next/link";
-import { categories } from "@/lib/categories";
+import { categories } from "@/lib";
+
+const quickLinks = [
+  { label: "بيع معنا", href: "/sell" },
+  { label: "حسابي", href: "/account" },
+  { label: "سياسة الخصوصية", href: "/privacy" },
+  { label: "الشروط والأحكام", href: "/terms" },
+  { label: "الأسئلة الشائعة", href: "/faq" },
+  { label: "اتصل بنا", href: "/contact" },
+  { label: "من نحن", href: "/about" },
+];
 
 export default function FooterLinks() {
   return (
@@ -43,19 +53,9 @@ export default function FooterLinks() {
       <div>
         <h3 className="text-white font-bold mb-4">روابط سريعة</h3>
         <ul className="space-y-2.5 text-sm">
-          {[
-            { label: "بيع معنا", href: "/sell" },
-            { label: "حسابي", href: "/account" },
-            { label: "سياسة الخصوصية", href: "#" },
-            { label: "الشروط والأحكام", href: "#" },
-            { label: "الأسئلة الشائعة", href: "#" },
-            { label: "اتصل بنا", href: "#" },
-          ].map((link) => (
+          {quickLinks.map((link) => (
             <li key={link.label}>
-              <Link
-                href={link.href}
-                className="hover:text-sky-400 transition-colors"
-              >
+              <Link href={link.href} className="hover:text-sky-400 transition-colors">
                 {link.label}
               </Link>
             </li>
