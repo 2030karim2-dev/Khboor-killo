@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Star, ShoppingCart, Heart, Eye, Zap } from "lucide-react";
+import { Star, ShoppingCart, Heart } from "lucide-react";
 import { Product, formatPrice } from "@/lib";
 import { useCart } from "@/lib/CartContext";
 import { useWishlist } from "@/lib/WishlistContext";
@@ -36,19 +36,19 @@ export default function PremiumProductCard({ product, index = 0 }: { product: Pr
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-          {/* Badges */}
-          <div className="absolute top-2.5 right-2.5 flex flex-col gap-1.5">
-            {product.discount && (
-              <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-lg shadow-lg flex items-center gap-0.5">
-                <Zap size={10} /> -{product.discount}%
-              </span>
-            )}
-            {product.featured && (
-              <span className="bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-lg shadow-lg">
-                ⭐ مميز
-              </span>
-            )}
-          </div>
+          {/* Discount badge - top right */}
+          {product.discount && (
+            <span className="absolute top-1.5 right-1.5 bg-red-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-md shadow-sm">
+              -{product.discount}%
+            </span>
+          )}
+
+          {/* Featured badge - top left */}
+          {product.featured && (
+            <span className="absolute top-1.5 left-1.5 bg-amber-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-md shadow-sm">
+              مميز
+            </span>
+          )}
 
           {/* Out of stock overlay */}
           {!product.inStock && (

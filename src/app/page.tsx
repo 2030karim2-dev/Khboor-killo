@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <div>
       {/* Mobile Hero */}
-      <div className="md:hidden px-4 pt-3 pb-2">
+      <div className="md:hidden px-2 pt-2 pb-1">
         <MobileHeroSlider />
       </div>
 
@@ -31,7 +31,7 @@ export default function Home() {
       </div>
 
       {/* Mobile Category Chips */}
-      <div className="md:hidden px-4 py-3">
+      <div className="md:hidden px-2 py-2">
         <MobileCategoryChips />
       </div>
 
@@ -60,12 +60,12 @@ export default function Home() {
       </section>
 
       {/* Mobile Featured Products */}
-      <section className="md:hidden px-3 py-3">
+      <section className="md:hidden px-2 py-3">
         <div className="flex items-center justify-between mb-2 px-1">
           <h2 className="text-sm font-extrabold text-slate-800">منتجات مميزة</h2>
           <a href="/search" className="text-[10px] text-sky-600 font-medium">عرض الكل</a>
         </div>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-1.5">
           {featured.slice(0, 6).map((product, i) => (
             <PremiumProductCard key={product.id} product={product} index={i} />
           ))}
@@ -84,7 +84,7 @@ export default function Home() {
       </section>
 
       {/* Mobile Promo */}
-      <div className="md:hidden px-4 py-4">
+      <div className="md:hidden px-2 py-3">
         <div className="gradient-primary rounded-2xl p-5 text-center">
           <h3 className="text-white text-lg font-extrabold mb-1">عروض حصرية!</h3>
           <p className="text-sky-100 text-xs mb-3">خصم يصل إلى 50%</p>
@@ -115,14 +115,14 @@ export default function Home() {
       {categoryProducts.map(({ category: cat, products }) => {
         if (products.length === 0) return null;
         return (
-          <section key={cat.slug} className="md:hidden px-3 py-4">
+          <section key={cat.slug} className="md:hidden px-2 py-3">
             <div className="flex items-center justify-between mb-2 px-1">
               <h2 className="text-sm font-extrabold text-slate-800 flex items-center gap-1.5">
                 <span>{cat.icon}</span> {cat.name}
               </h2>
               <a href={`/category/${cat.slug}`} className="text-[10px] text-sky-600 font-medium">عرض الكل</a>
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-1.5">
               {products.slice(0, 3).map((product, i) => (
                 <PremiumProductCard key={product.id} product={product} index={i} />
               ))}
