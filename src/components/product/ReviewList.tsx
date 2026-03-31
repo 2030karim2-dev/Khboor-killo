@@ -20,7 +20,7 @@ export default function ReviewList({ productId }: { productId: string }) {
                 </div>
                 <div>
                   <p className="font-bold text-slate-800">{review.author}</p>
-                  <p className="text-xs text-slate-500">{new Date(review.date).toLocaleDateString("ar-SA")}</p>
+                  <p className="text-xs text-slate-500">{new Date(review.date).toLocaleDateString("ar-YE")}</p>
                 </div>
               </div>
               <div className="flex items-center gap-0.5">

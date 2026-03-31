@@ -2,7 +2,7 @@ import { Package, DollarSign, TrendingUp } from "lucide-react";
 
 const stats = [
   { icon: Package, iconColor: "text-sky-600", bgColor: "bg-sky-50", value: "12", label: "منتج نشط" },
-  { icon: DollarSign, iconColor: "text-emerald-600", bgColor: "bg-emerald-50", value: "4,520 ر.س", label: "إجمالي المبيعات" },
+  { icon: DollarSign, iconColor: "text-emerald-600", bgColor: "bg-emerald-50", value: "4,520 ر.ي", label: "إجمالي المبيعات" },
   { icon: TrendingUp, iconColor: "text-orange-600", bgColor: "bg-orange-50", value: "28", label: "طلب هذا الشهر" },
 ];
 

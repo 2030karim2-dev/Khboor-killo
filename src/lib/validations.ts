@@ -13,7 +13,7 @@ export const registerSchema = z
     email: z.string().email("البريد الإلكتروني غير صحيح"),
     phone: z
       .string()
-      .regex(/^05\d{8}$/, "رقم الجوال يجب أن يبدأ بـ 05 ويتكون من 10 أرقام"),
+      .regex(/^7[0137]\d{7}$/, "رقم الجوال يجب أن يبدأ بـ 7 ويتكون من 9 أرقام"),
     password: z.string().min(8, "كلمة المرور يجب أن تكون 8 أحرف على الأقل"),
     confirmPassword: z.string(),
     terms: z.literal(true, {
@@ -30,7 +30,7 @@ export const checkoutSchema = z.object({
   lastName: z.string().min(2, "الاسم الأخير مطلوب"),
   phone: z
     .string()
-    .regex(/^05\d{8}$/, "رقم الجوال غير صحيح"),
+    .regex(/^7[0137]\d{7}$/, "رقم الجوال غير صحيح"),
   city: z.string().min(1, "المدينة مطلوبة"),
   address: z.string().min(10, "العنوان يجب أن يكون 10 أحرف على الأقل"),
   paymentMethod: z.enum(["card", "cash"]),
@@ -56,7 +56,7 @@ export const profileSchema = z.object({
   firstName: z.string().min(2, "الاسم الأول مطلوب"),
   lastName: z.string().min(2, "الاسم الأخير مطلوب"),
   email: z.string().email("البريد الإلكتروني غير صحيح"),
-  phone: z.string().regex(/^05\d{8}$/, "رقم الجوال غير صحيح"),
+  phone: z.string().regex(/^7[0137]\d{7}$/, "رقم الجوال غير صحيح"),
   city: z.string().min(1, "المدينة مطلوبة"),
 });
 

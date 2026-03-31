@@ -1,6 +1,7 @@
 import { Product, Category } from "./types";
 import { products } from "./products";
 import { categories } from "./categories";
+import { CURRENCY } from "./constants";
 
 export function getProductById(id: string): Product | undefined {
   return products.find((p) => p.id === id);
@@ -33,7 +34,7 @@ export function formatNumber(num: number): string {
 }
 
 export function formatPrice(price: number): string {
-  return formatNumber(price) + " ر.س";
+  return formatNumber(price) + " " + CURRENCY;
 }
 
 export function calculateDiscount(original: number, current: number): number {

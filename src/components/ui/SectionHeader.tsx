@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 export default function SectionHeader({
   title,
@@ -26,7 +26,7 @@ export default function SectionHeader({
           className="flex items-center gap-1 text-sky-600 hover:text-sky-700 font-medium text-xs transition-colors"
         >
           {viewAllLabel}
-          <ChevronLeft size={14} />
+          <ChevronRight size={14} />
         </Link>
       )}
     </div>

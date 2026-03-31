@@ -45,6 +45,22 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(itemIds));
   }, [itemIds]);
 
+  useEffect(() => {
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key !== STORAGE_KEY || !e.newValue) return;
+      try {
+        const parsed = JSON.parse(e.newValue);
+        if (Array.isArray(parsed)) {
+          setItemIds(parsed.filter((x: unknown) => typeof x === "string"));
+        }
+      } catch {
+        // ignore
+      }
+    };
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
+
   const products = useMemo(
     () => itemIds.map((id) => allProducts.find((p) => p.id === id)).filter(Boolean) as Product[],
     [itemIds]

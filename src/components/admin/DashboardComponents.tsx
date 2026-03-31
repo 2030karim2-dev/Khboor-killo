@@ -18,7 +18,7 @@ export function DashboardStats() {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {[
-        { title: "إجمالي المبيعات", value: `${stats.totalSales.toLocaleString("en")} ر.س`, icon: DollarSign, color: "bg-emerald-50 text-emerald-600" },
+        { title: "إجمالي المبيعات", value: `${stats.totalSales.toLocaleString("en")} ر.ي`, icon: DollarSign, color: "bg-emerald-50 text-emerald-600" },
         { title: "الطلبات", value: stats.totalOrders.toString(), icon: ShoppingCart, color: "bg-sky-50 text-sky-600" },
         { title: "المنتجات", value: stats.totalProducts.toString(), icon: Package, color: "bg-purple-50 text-purple-600" },
         { title: "المستخدمين", value: stats.totalUsers.toString(), icon: Users, color: "bg-orange-50 text-orange-600" },
@@ -65,7 +65,7 @@ export function DashboardRecentOrders() {
                 <td className="px-4 py-3 text-xs text-slate-400 font-mono">{i + 1}</td>
                 <td className="px-4 py-3 text-sm font-medium text-sky-600">{order.id}</td>
                 <td className="px-4 py-3 text-sm text-slate-700 dark:text-slate-300">{order.customer}</td>
-                <td className="px-4 py-3 text-sm font-bold text-slate-800 dark:text-white">{order.total.toLocaleString("en")} ر.س</td>
+                <td className="px-4 py-3 text-sm font-bold text-slate-800 dark:text-white">{order.total.toLocaleString("en")} ر.ي</td>
                 <td className="px-4 py-3"><span className={`text-xs font-medium px-2 py-0.5 rounded-full ${statusColors[order.status]}`}>{statusLabels[order.status]}</span></td>
               </tr>
             ))}
@@ -78,7 +78,7 @@ export function DashboardRecentOrders() {
 
 export function DashboardTopProducts() {
   const { products } = useAdmin();
-  const top = products.filter((p) => p.featured).slice(0, 5).map((p) => ({ name: p.name, sales: p.reviews, revenue: `${(p.price * p.reviews).toLocaleString("en")} ر.س` }));
+  const top = products.filter((p) => p.featured).slice(0, 5).map((p) => ({ name: p.name, sales: p.reviews, revenue: `${(p.price * p.reviews).toLocaleString("en")} ر.ي` }));
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
       <div className="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between"><h2 className="font-bold text-slate-800 dark:text-white">الأكثر مبيعاً</h2><TrendingUp size={16} className="text-emerald-500" /></div>

@@ -8,31 +8,31 @@ export default function Footer() {
           {/* Logo + brand */}
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg gradient-primary flex items-center justify-center text-white font-bold text-xs">خ</div>
-            <span className="text-white text-xs font-bold">خبور - أول متجر شامل في اليمن 🇾🇪</span>
+            <span className="text-white text-xs font-bold">خبور - أول متجر شامل في اليمن <span aria-hidden="true">🇾🇪</span></span>
           </div>
 
           {/* Links */}
           <div className="flex items-center gap-3 text-[10px]">
             <Link href="/sell" className="hover:text-sky-400 transition-colors">بيع معنا</Link>
-            <span className="text-slate-600">|</span>
+            <span className="text-slate-600" aria-hidden="true">|</span>
             <Link href="/privacy" className="hover:text-sky-400 transition-colors">الخصوصية</Link>
-            <span className="text-slate-600">|</span>
+            <span className="text-slate-600" aria-hidden="true">|</span>
             <Link href="/terms" className="hover:text-sky-400 transition-colors">الشروط</Link>
-            <span className="text-slate-600">|</span>
+            <span className="text-slate-600" aria-hidden="true">|</span>
             <Link href="/contact" className="hover:text-sky-400 transition-colors">اتصل بنا</Link>
           </div>
 
           {/* Contact */}
           <div className="flex items-center gap-3 text-[10px]">
-            <a href="https://wa.me/967779816860" target="_blank" rel="noopener noreferrer" className="hover:text-green-400 transition-colors" dir="ltr">📱 +967 779 816 860</a>
-            <span className="text-slate-600">|</span>
-            <a href="mailto:alkarime0@gmail.com" className="hover:text-sky-400 transition-colors" dir="ltr">✉️ alkarime0@gmail.com</a>
+            <a href="https://wa.me/967779816860" target="_blank" rel="noopener noreferrer" className="hover:text-green-400 transition-colors" dir="ltr"><span aria-hidden="true">📱</span> +967 779 816 860</a>
+            <span className="text-slate-600" aria-hidden="true">|</span>
+            <a href="mailto:alkarime0@gmail.com" className="hover:text-sky-400 transition-colors" dir="ltr"><span aria-hidden="true">✉️</span> alkarime0@gmail.com</a>
           </div>
         </div>
       </div>
 
       <div className="border-t border-slate-800">
-        <p className="text-center text-[9px] text-slate-600 py-2">
+        <p className="text-center text-xs text-slate-500 py-2">
           © {new Date().getFullYear()} خبور - جميع الحقوق محفوظة
         </p>
       </div>

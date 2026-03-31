@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Package, ChevronLeft, Truck, CheckCircle, Clock, XCircle } from "lucide-react";
+import { Package, ChevronRight, Truck, CheckCircle, Clock, XCircle } from "lucide-react";
 import { useOrders, statusLabels, type OrderStatus } from "@/lib/OrderContext";
 import { Breadcrumb, EmptyState } from "@/components/ui";
 import { formatPrice } from "@/lib";
@@ -68,7 +68,7 @@ export default function OrdersPage() {
                   </span>
                 </div>
                 <p className="text-sm text-slate-500">
-                  {new Date(order.createdAt).toLocaleDateString("ar-SA", {
+                  {new Date(order.createdAt).toLocaleDateString("ar-YE", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
@@ -78,7 +78,7 @@ export default function OrdersPage() {
                   {order.items.length} منتجات - {formatPrice(order.totalPrice + order.shippingCost)}
                 </p>
               </div>
-              <ChevronLeft size={20} className="text-slate-400 shrink-0" />
+              <ChevronRight size={20} className="text-slate-400 shrink-0" />
             </Link>
           );
         })}

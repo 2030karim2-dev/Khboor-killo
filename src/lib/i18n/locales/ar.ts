@@ -94,7 +94,7 @@ const ar: Record<string, string> = {
   "trust.returns": "إرجاع سهل",
 
   // Free shipping banner
-  "banner.freeShipping": "شحن مجاني للطلبات فوق 200 ر.س",
+  "banner.freeShipping": "شحن مجاني للطلبات فوق 200 ر.ي",
   "banner.app": "تطبيق خبور متاح الآن",
 
   // Hero

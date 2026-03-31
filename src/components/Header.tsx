@@ -9,6 +9,7 @@ import { TopBar, SearchBar, DesktopNav, MobileMenu, NotificationBell } from "@/c
 import UserMenuDropdown from "@/components/layout/UserMenuDropdown";
 import SettingsDropdown from "@/components/layout/SettingsDropdown";
 import { MobileSearchTrigger } from "@/components/mobile";
+import FocusTrap from "@/components/ui/FocusTrap";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -67,9 +68,11 @@ export default function Header() {
       {mobileMenuOpen && (
         <>
           <div className="fixed inset-0 bg-black/30 z-40 md:hidden" onClick={() => setMobileMenuOpen(false)} aria-hidden="true" />
-          <div className="fixed inset-y-0 right-0 w-72 bg-white z-50 md:hidden overflow-y-auto animate-slide-in-right shadow-2xl">
-            <MobileMenu onClose={() => setMobileMenuOpen(false)} isAuthenticated={isAuthenticated} onLogout={() => setMobileMenuOpen(false)} />
-          </div>
+          <FocusTrap active={mobileMenuOpen} onEscape={() => setMobileMenuOpen(false)}>
+            <div className="fixed inset-y-0 right-0 w-72 bg-white z-50 md:hidden overflow-y-auto animate-slide-in-right shadow-2xl" aria-modal="true" role="dialog" aria-label="القائمة">
+              <MobileMenu onClose={() => setMobileMenuOpen(false)} isAuthenticated={isAuthenticated} onLogout={() => setMobileMenuOpen(false)} />
+            </div>
+          </FocusTrap>
         </>
       )}
     </header>

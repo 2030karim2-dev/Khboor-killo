@@ -18,7 +18,7 @@ export default function ProductJsonLd({ product }: ProductJsonLdProps) {
     offers: {
       "@type": "Offer",
       price: product.price,
-      priceCurrency: "SAR",
+      priceCurrency: "YER",
       availability: product.inStock
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
@@ -72,7 +72,7 @@ export function OrganizationJsonLd() {
     logo: "https://khuboor.com/logo.png",
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+966-920001234",
+      telephone: "+967-779-816-860",
       contactType: "customer service",
       availableLanguage: "Arabic",
     },

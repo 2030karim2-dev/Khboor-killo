@@ -55,6 +55,31 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
   }, [items]);
 
+  useEffect(() => {
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key !== CART_STORAGE_KEY || !e.newValue) return;
+      try {
+        const parsed = JSON.parse(e.newValue);
+        if (Array.isArray(parsed)) {
+          setItems(
+            parsed.filter(
+              (item: unknown): item is CartItem =>
+                typeof item === "object" &&
+                item !== null &&
+                "product" in item &&
+                "quantity" in item &&
+                typeof (item as CartItem).quantity === "number"
+            )
+          );
+        }
+      } catch {
+        // ignore
+      }
+    };
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
+
   const addToCart = useCallback((product: Product) => {
     setItems((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);

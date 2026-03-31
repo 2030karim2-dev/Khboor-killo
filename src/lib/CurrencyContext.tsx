@@ -10,15 +10,15 @@ export interface Currency {
   name: string;
   nameAr: string;
   nameZh: string;
-  rate: number; // relative to SAR (1 SAR = rate * other)
+  rate: number; // relative to YER (1 YER = rate * other)
 }
 
 export const currencies: Currency[] = [
-  { code: "SAR", symbol: "ر.س", name: "Saudi Riyal", nameAr: "الريال السعودي", nameZh: "沙特里亚尔", rate: 1 },
-  { code: "YER", symbol: "﷼", name: "Yemeni Riyal", nameAr: "الريال اليمني", nameZh: "也门里亚尔", rate: 148.5 },
-  { code: "OMR", symbol: "ر.ع", name: "Omani Riyal", nameAr: "الريال العماني", nameZh: "阿曼里亚尔", rate: 0.103 },
-  { code: "USD", symbol: "$", name: "US Dollar", nameAr: "الدولار الأمريكي", nameZh: "美元", rate: 0.267 },
-  { code: "CNY", symbol: "¥", name: "Chinese Yuan", nameAr: "الين الصيني", nameZh: "人民币", rate: 1.93 },
+  { code: "YER", symbol: "ر.ي", name: "Yemeni Riyal", nameAr: "الريال اليمني", nameZh: "也门里亚尔", rate: 1 },
+  { code: "SAR", symbol: "ر.س", name: "Saudi Riyal", nameAr: "الريال السعودي", nameZh: "沙特里亚尔", rate: 0.00673 },
+  { code: "OMR", symbol: "ر.ع", name: "Omani Riyal", nameAr: "الريال العماني", nameZh: "阿曼里亚尔", rate: 0.000694 },
+  { code: "USD", symbol: "$", name: "US Dollar", nameAr: "الدولار الأمريكي", nameZh: "美元", rate: 0.00405 },
+  { code: "CNY", symbol: "¥", name: "Chinese Yuan", nameAr: "الين الصيني", nameZh: "人民币", rate: 0.013 },
 ];
 
 interface CurrencyContextType {

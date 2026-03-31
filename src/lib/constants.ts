@@ -3,16 +3,19 @@ export const DEFAULT_SHIPPING_COST = 25;
 export const RETURN_DAYS = 14;
 export const SITE_NAME = "خبور";
 export const SITE_TAGLINE = "كل شيء في مكان واحد";
-export const CONTACT_PHONE = "920001234";
-export const CONTACT_EMAIL = "info@khuboor.com";
+export const CONTACT_PHONE = "+967 779 816 860";
+export const CONTACT_EMAIL = "alkarime0@gmail.com";
+export const CURRENCY = "ر.ي";
+export const CURRENCY_CODE = "YER";
 export const CITIES = [
-  "الرياض",
-  "جدة",
-  "الدمام",
-  "مكة المكرمة",
-  "المدينة المنورة",
-  "أبها",
-  "تبوك",
+  "صنعاء",
+  "عدن",
+  "تعز",
+  "الحديدة",
+  "إب",
+  "المكلا",
+  "ذمار",
+  "عمران",
 ] as const;
 
 export const SORT_OPTIONS = [

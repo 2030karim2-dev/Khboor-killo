@@ -5,6 +5,7 @@ import { Sun, Moon, Globe, DollarSign } from "lucide-react";
 import { useTheme } from "@/lib/ThemeContext";
 import { useLanguage, languages } from "@/lib/i18n";
 import { useCurrency, currencies } from "@/lib/CurrencyContext";
+import { CONTACT_PHONE } from "@/lib/constants";
 
 export default function TopBar() {
   const { theme, toggleTheme } = useTheme();
@@ -27,7 +28,7 @@ export default function TopBar() {
   return (
     <div className="gradient-primary text-white text-[11px] py-1">
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-        <span className="hidden sm:inline">شحن مجاني للطلبات فوق 200 ر.س</span>
+        <span className="hidden sm:inline">شحن مجاني للطلبات فوق 200 ر.ي</span>
 
         <div className="flex items-center gap-1 sm:gap-3" key={id}>
           <button
@@ -58,11 +59,11 @@ export default function TopBar() {
             aria-label="تغيير العملة"
           >
             <DollarSign size={14} />
-            <span className="font-medium">{currency?.symbol || "ر.س"}</span>
+            <span className="font-medium">{currency?.symbol || "ر.ي"}</span>
           </button>
 
           <span className="text-white/30 hidden md:inline">|</span>
-          <span className="hidden md:inline">📞 920001234</span>
+          <span className="hidden md:inline" dir="ltr">📞 {CONTACT_PHONE}</span>
         </div>
       </div>
     </div>

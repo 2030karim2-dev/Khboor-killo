@@ -87,7 +87,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           <h2 className="font-bold text-slate-800 dark:text-white mb-4">الأسعار</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-1.5">السعر (ر.س)</label>
+              <label className="block text-sm font-medium mb-1.5">السعر (ر.ي)</label>
               <input name="price" type="number" defaultValue={product.price} required className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" />
             </div>
             <div>

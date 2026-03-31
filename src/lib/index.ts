@@ -7,6 +7,7 @@ export {
   getCategoryBySlug,
   searchProducts,
   formatPrice,
+  formatNumber,
   calculateDiscount,
 } from "./helpers";
 export {
@@ -17,6 +18,8 @@ export {
   SITE_TAGLINE,
   CONTACT_PHONE,
   CONTACT_EMAIL,
+  CURRENCY,
+  CURRENCY_CODE,
   CITIES,
   SORT_OPTIONS,
 } from "./constants";

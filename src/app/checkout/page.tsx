@@ -10,7 +10,9 @@ import { FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_COST } from "@/lib";
 import { Breadcrumb, OrderSummary, EmptyState } from "@/components/ui";
 import ShippingForm, { type ShippingData } from "@/components/checkout/ShippingForm";
 import PaymentForm, { type PaymentData } from "@/components/checkout/PaymentForm";
+import CouponInput from "@/components/checkout/CouponInput";
 import { checkoutSchema } from "@/lib/validations";
+import type { Coupon } from "@/lib/coupons";
 
 export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCart();
@@ -20,6 +22,8 @@ export default function CheckoutPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderId, setOrderId] = useState("");
   const [shippingErrors, setShippingErrors] = useState<Partial<Record<keyof ShippingData, string>>>({});
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
 
   const [shipping, setShipping] = useState<ShippingData>({
     firstName: "",
@@ -37,6 +41,12 @@ export default function CheckoutPage() {
   });
 
   const shippingCost = totalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : DEFAULT_SHIPPING_COST;
+  const finalTotal = totalPrice - couponDiscount + shippingCost;
+
+  const handleCouponApply = useCallback((coupon: Coupon | null, discount: number) => {
+    setAppliedCoupon(coupon);
+    setCouponDiscount(discount);
+  }, []);
 
   const handleCheckout = useCallback(async () => {
     const result = checkoutSchema.safeParse({
@@ -124,16 +134,20 @@ export default function CheckoutPage() {
           <PaymentForm data={payment} onChange={setPayment} />
         </div>
 
-        <div className="card p-6 h-fit sticky top-32">
+        <div className="h-fit sticky top-32 space-y-4">
           <OrderSummary
             items={items}
             totalPrice={totalPrice}
             shipping={shippingCost}
+            discount={couponDiscount}
           />
+          <div className="card p-6">
+            <CouponInput totalPrice={totalPrice} onApply={handleCouponApply} />
+          </div>
           <button
             onClick={handleCheckout}
             disabled={isProcessing}
-            className="btn-secondary w-full justify-center mt-6 py-3 text-base disabled:opacity-60 disabled:cursor-not-allowed"
+            className="btn-secondary w-full justify-center py-3 text-base disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isProcessing ? (
               <>

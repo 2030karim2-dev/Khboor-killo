@@ -17,7 +17,7 @@ export default function SellerListings() {
           </div>
           <div className="flex-1">
             <h3 className="font-bold text-slate-800">{item.name}</h3>
-            <p className="text-sm text-slate-500">{item.price} ر.س</p>
+            <p className="text-sm text-slate-500">{item.price} ر.ي</p>
           </div>
           <div className="text-left">
             <span

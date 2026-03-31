@@ -1,7 +1,7 @@
 const orders = [
-  { id: "KH12345678", date: "2024-01-15", total: "1,450 ر.س", status: "تم التوصيل" },
-  { id: "KH12345677", date: "2024-01-10", total: "380 ر.س", status: "قيد الشحن" },
-  { id: "KH12345676", date: "2024-01-05", total: "599 ر.س", status: "جاري التجهيز" },
+  { id: "KH12345678", date: "2024-01-15", total: "1,450 ر.ي", status: "تم التوصيل" },
+  { id: "KH12345677", date: "2024-01-10", total: "380 ر.ي", status: "قيد الشحن" },
+  { id: "KH12345676", date: "2024-01-05", total: "599 ر.ي", status: "جاري التجهيز" },
 ];
 
 const statusStyles: Record<string, string> = {

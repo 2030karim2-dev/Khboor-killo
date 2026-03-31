@@ -1,22 +1,17 @@
-"use client";
-
-import { useMemo } from "react";
 import { categories, getFeaturedProducts } from "@/lib";
 import CategoryCard from "@/components/CategoryCard";
 import { SectionHeader, ProductGrid, TrustBar } from "@/components/ui";
 import { HeroSection, PromoBanner, CategorySection } from "@/components/home";
-import { MobileHeroSlider, MobileCategoryChips, PremiumProductCard } from "@/components/mobile";
+import { MobileHeroSlider, MobileCategoryChips } from "@/components/mobile";
+import ProductCard from "@/components/ProductCard";
+import RecentlyViewed from "@/components/product/RecentlyViewed";
 
 export default function Home() {
-  const featured = useMemo(() => getFeaturedProducts(), []);
-  const categoryProducts = useMemo(
-    () =>
-      categories.map((cat) => ({
-        category: cat,
-        products: featured.filter((p) => p.categorySlug === cat.slug),
-      })),
-    [featured]
-  );
+  const featured = getFeaturedProducts();
+  const categoryProducts = categories.map((cat) => ({
+    category: cat,
+    products: featured.filter((p) => p.categorySlug === cat.slug),
+  }));
 
   return (
     <div>
@@ -66,8 +61,8 @@ export default function Home() {
           <a href="/search" className="text-[10px] text-sky-600 font-medium">عرض الكل</a>
         </div>
         <div className="grid grid-cols-3 gap-1.5">
-          {featured.slice(0, 6).map((product, i) => (
-            <PremiumProductCard key={product.id} product={product} index={i} />
+          {featured.slice(0, 6).map((product) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </section>
@@ -118,18 +113,21 @@ export default function Home() {
           <section key={cat.slug} className="md:hidden px-2 py-3">
             <div className="flex items-center justify-between mb-2 px-1">
               <h2 className="text-sm font-extrabold text-slate-800 flex items-center gap-1.5">
-                <span>{cat.icon}</span> {cat.name}
+                <span aria-hidden="true">{cat.icon}</span> {cat.name}
               </h2>
               <a href={`/category/${cat.slug}`} className="text-[10px] text-sky-600 font-medium">عرض الكل</a>
             </div>
             <div className="grid grid-cols-3 gap-1.5">
-              {products.slice(0, 3).map((product, i) => (
-                <PremiumProductCard key={product.id} product={product} index={i} />
+              {products.slice(0, 3).map((product) => (
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
           </section>
         );
       })}
+
+      {/* Recently Viewed Products */}
+      <RecentlyViewed />
     </div>
   );
 }

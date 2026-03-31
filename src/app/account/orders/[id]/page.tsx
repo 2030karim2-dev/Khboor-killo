@@ -48,7 +48,7 @@ export default function OrderDetailPage({
           <div>
             <h1 className="text-xl font-extrabold text-slate-800">طلب #{order.id}</h1>
             <p className="text-sm text-slate-500">
-              {new Date(order.createdAt).toLocaleDateString("ar-SA", {
+              {new Date(order.createdAt).toLocaleDateString("ar-YE", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",

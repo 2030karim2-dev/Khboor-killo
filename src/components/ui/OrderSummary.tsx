@@ -10,6 +10,7 @@ export default function OrderSummary({
   items,
   totalPrice,
   shipping,
+  discount = 0,
   actionLabel,
   actionHref,
   onAction,
@@ -17,6 +18,7 @@ export default function OrderSummary({
   items: CartItem[];
   totalPrice: number;
   shipping: number;
+  discount?: number;
   actionLabel?: string;
   actionHref?: string;
   onAction?: () => void;
@@ -56,6 +58,12 @@ export default function OrderSummary({
           <span className="text-slate-600">المجموع الفرعي</span>
           <span className="font-medium">{formatPrice(totalPrice)}</span>
         </div>
+        {discount > 0 && (
+          <div className="flex justify-between text-emerald-600">
+            <span>الخصم</span>
+            <span className="font-medium">-{formatPrice(discount)}</span>
+          </div>
+        )}
         <div className="flex justify-between">
           <span className="text-slate-600">الشحن</span>
           <span className="font-medium">
@@ -75,7 +83,7 @@ export default function OrderSummary({
         <div className="flex justify-between text-base">
           <span className="font-bold text-slate-800">الإجمالي</span>
           <span className="font-extrabold text-slate-900">
-            {formatPrice(totalPrice + shipping)}
+            {formatPrice(totalPrice - discount + shipping)}
           </span>
         </div>
       </div>

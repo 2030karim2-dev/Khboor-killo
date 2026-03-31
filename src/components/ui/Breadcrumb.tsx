@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { BreadcrumbItem } from "@/lib/types";
 
 export default function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
@@ -9,7 +9,7 @@ export default function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
         {items.map((item, index) => (
           <li key={index} className="flex items-center gap-2">
             {index > 0 && (
-              <ChevronRight size={14} className="text-slate-400" aria-hidden="true" />
+              <ChevronLeft size={14} className="text-slate-400" aria-hidden="true" />
             )}
             {item.href ? (
               <Link href={item.href} className="hover:text-sky-600 transition-colors">

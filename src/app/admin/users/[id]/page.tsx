@@ -73,7 +73,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
                       <p className="text-sm font-medium text-sky-600">{order.id}</p>
                       <p className="text-xs text-slate-500">{order.date}</p>
                     </div>
-                    <p className="text-sm font-bold">{order.total.toLocaleString("en")} ر.س</p>
+                    <p className="text-sm font-bold">{order.total.toLocaleString("en")} ر.ي</p>
                   </div>
                 ))}
               </div>
@@ -93,7 +93,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
             </div>
             <div className="flex items-center gap-3 p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl">
               <DollarSign size={18} className="text-emerald-600" />
-              <div><p className="text-xs text-slate-500">إجمالي المشتريات</p><p className="text-lg font-extrabold">{user.totalSpent.toLocaleString("en")} ر.س</p></div>
+              <div><p className="text-xs text-slate-500">إجمالي المشتريات</p><p className="text-lg font-extrabold">{user.totalSpent.toLocaleString("en")} ر.ي</p></div>
             </div>
           </div>
 

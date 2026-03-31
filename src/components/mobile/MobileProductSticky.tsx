@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Heart, Minus, Plus, ShoppingCart } from "lucide-react";
-import { Product, formatPrice } from "@/lib";
+import { Product, formatPrice, formatNumber } from "@/lib";
 import { useCart } from "@/lib/CartContext";
 import { useWishlist } from "@/lib/WishlistContext";
 import { useToast } from "@/lib/ToastContext";
@@ -75,15 +75,15 @@ export default function MobileProductSticky({
           <div className="bg-slate-50 rounded-xl p-3 mb-4">
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-extrabold text-slate-900">
-                {product.price.toLocaleString("en")} ر.س
+                {formatPrice(product.price)}
               </span>
               {product.originalPrice && (
                 <>
                   <span className="text-sm text-slate-400 line-through">
-                    {product.originalPrice.toLocaleString("en")} ر.س
+                    {formatPrice(product.originalPrice)}
                   </span>
                   <span className="text-xs font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded-full">
-                    وفر {(product.originalPrice - product.price).toLocaleString("en")}
+                    وفر {formatNumber(product.originalPrice - product.price)}
                   </span>
                 </>
               )}

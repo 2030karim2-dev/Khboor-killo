@@ -1,18 +1,9 @@
 import type { Metadata } from "next";
-import { Noto_Kufi_Arabic, Inter } from "next/font/google";
+import { Noto_Kufi_Arabic } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { CartProvider } from "@/lib/CartContext";
-import { AuthProvider } from "@/lib/AuthContext";
-import { ToastProvider } from "@/lib/ToastContext";
-import { WishlistProvider } from "@/lib/WishlistContext";
-import { OrderProvider } from "@/lib/OrderContext";
-import { NotificationsProvider } from "@/lib/NotificationsContext";
-import { ThemeProvider } from "@/lib/ThemeContext";
-import { AdminProvider } from "@/lib/AdminContext";
-import { LanguageProvider } from "@/lib/i18n";
-import { CurrencyProvider } from "@/lib/CurrencyContext";
+import AppProviders from "@/lib/AppProviders";
 import ToastContainer from "@/components/ui/ToastContainer";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
 import BottomNav from "@/components/layout/BottomNav";
@@ -31,11 +22,11 @@ export const metadata: Metadata = {
     template: "%s | خبور",
   },
   description:
-    "خبور هو منصة البيع والشراء الإلكترونية الرائدة في المملكة العربية السعودية. سيارات، قطع غيار، ملابس، مواد بناء، إكسسوارات - كل شيء في مكان واحد.",
+    "خبور هو منصة البيع والشراء الإلكترونية الرائدة في اليمن. سيارات، قطع غيار، ملابس، مواد بناء، إكسسوارات - كل شيء في مكان واحد.",
   keywords: [
     "تسوق إلكتروني",
     "متجر إلكتروني",
-    "السعودية",
+    "اليمن",
     "سيارات",
     "قطع غيار",
     "ملابس",
@@ -46,7 +37,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: "website",
-    locale: "ar_SA",
+    locale: "ar_YE",
     siteName: "خبور",
     title: "خبور - منصة البيع والشراء",
     description: "كل ما تحتاجه في مكان واحد. سيارات، قطع غيار، ملابس، مواد بناء، إكسسوارات.",
@@ -72,35 +63,17 @@ export default function RootLayout({
       <body className={`${notoKufi.variable} antialiased`}>
         <OrganizationJsonLd />
         <WebsiteJsonLd />
-        <ThemeProvider>
-          <LanguageProvider>
-            <CurrencyProvider>
-              <AdminProvider>
-                <ToastProvider>
-                <AuthProvider>
-                  <WishlistProvider>
-                    <CartProvider>
-                      <OrderProvider>
-                        <NotificationsProvider>
-                          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:right-2 focus:z-[200] focus:bg-sky-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
-                            تخطي إلى المحتوى الرئيسي
-                          </a>
-                          <Header />
-                          <main id="main-content" className="min-h-screen pb-20 md:pb-0">{children}</main>
-                          <Footer />
-                          <BottomNav />
-                          <AdminFloatingButton />
-                          <ToastContainer />
-                        </NotificationsProvider>
-                      </OrderProvider>
-                    </CartProvider>
-                  </WishlistProvider>
-                </AuthProvider>
-              </ToastProvider>
-            </AdminProvider>
-          </CurrencyProvider>
-        </LanguageProvider>
-      </ThemeProvider>
+        <AppProviders>
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:right-2 focus:z-[200] focus:bg-sky-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
+            تخطي إلى المحتوى الرئيسي
+          </a>
+          <Header />
+          <main id="main-content" className="min-h-screen pb-20 md:pb-0">{children}</main>
+          <Footer />
+          <BottomNav />
+          <AdminFloatingButton />
+          <ToastContainer />
+        </AppProviders>
       </body>
     </html>
   );
