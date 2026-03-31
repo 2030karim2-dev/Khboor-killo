@@ -67,9 +67,9 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     addLog("user", "تغيير حالة", `تم تغيير حالة ${id} إلى ${status}`);
   }, [addLog]);
 
-  const addCategory = useCallback((cat: Omit<Category, "slug" | "productCount">) => {
+  const addCategory = useCallback((cat: Omit<Category, "slug" | "productCount" | "subcategories">) => {
     const slug = cat.name.toLowerCase().replace(/\s+/g, "-");
-    setCats((prev) => [...prev, { ...cat, slug, productCount: 0 }]);
+    setCats((prev) => [...prev, { ...cat, slug, productCount: 0, subcategories: [] }]);
     addLog("category", "إضافة قسم", `تم إضافة "${cat.name}"`);
   }, [addLog]);
 

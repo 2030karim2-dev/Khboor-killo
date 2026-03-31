@@ -72,7 +72,7 @@ export interface AdminContextType {
   updateUserRole: (id: string, role: AdminUser["role"]) => void;
   updateUserStatus: (id: string, status: AdminUser["status"]) => void;
   categories: Category[];
-  addCategory: (cat: Omit<Category, "slug" | "productCount">) => void;
+  addCategory: (cat: Omit<Category, "slug" | "productCount" | "subcategories">) => void;
   updateCategory: (slug: string, data: Partial<Category>) => void;
   deleteCategory: (slug: string) => void;
   settings: AdminSettings;

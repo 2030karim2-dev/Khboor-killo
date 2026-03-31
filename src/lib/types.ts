@@ -14,6 +14,13 @@ export interface Product {
   discount?: number;
 }
 
+export interface SubCategory {
+  slug: string;
+  name: string;
+  icon: string;
+  productCount: number;
+}
+
 export interface Category {
   slug: string;
   name: string;
@@ -21,6 +28,7 @@ export interface Category {
   icon: string;
   image: string;
   productCount: number;
+  subcategories: SubCategory[];
 }
 
 export interface BreadcrumbItem {
