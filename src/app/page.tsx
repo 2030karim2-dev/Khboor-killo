@@ -5,7 +5,7 @@ import { categories, getFeaturedProducts } from "@/lib";
 import CategoryCard from "@/components/CategoryCard";
 import { SectionHeader, ProductGrid, TrustBar } from "@/components/ui";
 import { HeroSection, PromoBanner, CategorySection } from "@/components/home";
-import { MobileHeroSlider, MobileCategoryChips, MobileProductCard } from "@/components/mobile";
+import { MobileHeroSlider, MobileCategoryChips, PremiumProductCard } from "@/components/mobile";
 
 export default function Home() {
   const featured = useMemo(() => getFeaturedProducts(), []);
@@ -60,14 +60,14 @@ export default function Home() {
       </section>
 
       {/* Mobile Featured Products */}
-      <section className="md:hidden px-4 py-3">
-        <div className="flex items-center justify-between mb-2">
+      <section className="md:hidden px-3 py-3">
+        <div className="flex items-center justify-between mb-2 px-1">
           <h2 className="text-sm font-extrabold text-slate-800">منتجات مميزة</h2>
           <a href="/search" className="text-[10px] text-sky-600 font-medium">عرض الكل</a>
         </div>
-        <div className="space-y-2">
-          {featured.slice(0, 6).map((product) => (
-            <MobileProductCard key={product.id} product={product} />
+        <div className="grid grid-cols-3 gap-2">
+          {featured.slice(0, 6).map((product, i) => (
+            <PremiumProductCard key={product.id} product={product} index={i} />
           ))}
         </div>
       </section>
@@ -115,16 +115,16 @@ export default function Home() {
       {categoryProducts.map(({ category: cat, products }) => {
         if (products.length === 0) return null;
         return (
-          <section key={cat.slug} className="md:hidden px-4 py-4">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-base font-extrabold text-slate-800 flex items-center gap-2">
+          <section key={cat.slug} className="md:hidden px-3 py-4">
+            <div className="flex items-center justify-between mb-2 px-1">
+              <h2 className="text-sm font-extrabold text-slate-800 flex items-center gap-1.5">
                 <span>{cat.icon}</span> {cat.name}
               </h2>
-              <a href={`/category/${cat.slug}`} className="text-xs text-sky-600 font-medium">عرض الكل</a>
+              <a href={`/category/${cat.slug}`} className="text-[10px] text-sky-600 font-medium">عرض الكل</a>
             </div>
-            <div className="space-y-2.5">
-              {products.slice(0, 3).map((product) => (
-                <MobileProductCard key={product.id} product={product} />
+            <div className="grid grid-cols-3 gap-2">
+              {products.slice(0, 3).map((product, i) => (
+                <PremiumProductCard key={product.id} product={product} index={i} />
               ))}
             </div>
           </section>

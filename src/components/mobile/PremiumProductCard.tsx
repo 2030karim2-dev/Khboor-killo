@@ -89,22 +89,16 @@ export default function PremiumProductCard({ product, index = 0 }: { product: Pr
       </Link>
 
       {/* Content */}
-      <div className="p-3">
-        {/* Category + Rating */}
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-[10px] text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-900/30 px-1.5 py-0.5 rounded-md font-medium">
-            {product.category}
-          </span>
-          <div className="flex items-center gap-0.5">
-            <Star size={11} className="fill-amber-400 text-amber-400" />
-            <span className="text-[10px] text-slate-600 dark:text-slate-400 font-medium">{product.rating}</span>
-            <span className="text-[10px] text-slate-400">({product.reviews})</span>
-          </div>
+      <div className="p-2">
+        {/* Rating only */}
+        <div className="flex items-center gap-0.5 mb-1">
+          <Star size={10} className="fill-amber-400 text-amber-400" />
+          <span className="text-[9px] text-slate-500 font-medium">{product.rating}</span>
         </div>
 
         {/* Name */}
         <Link href={`/product/${product.id}`}>
-          <h3 className="text-[13px] font-bold text-slate-800 dark:text-white line-clamp-2 leading-snug mb-2 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors min-h-[2.5rem]">
+          <h3 className="text-[11px] font-bold text-slate-800 dark:text-white line-clamp-2 leading-tight mb-1.5 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors min-h-[2.2rem]">
             {product.name}
           </h3>
         </Link>
@@ -112,18 +106,13 @@ export default function PremiumProductCard({ product, index = 0 }: { product: Pr
         {/* Price + Cart */}
         <div className="flex items-end justify-between">
           <div>
-            <p className="text-[15px] font-extrabold text-slate-900 dark:text-white leading-none">
+            <p className="text-[13px] font-extrabold text-slate-900 dark:text-white leading-none">
               {formatPrice(product.price)}
             </p>
             {product.originalPrice && (
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <p className="text-[11px] text-slate-400 line-through">
-                  {formatPrice(product.originalPrice)}
-                </p>
-                <span className="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-900/30 px-1 py-0.5 rounded">
-                  وفر {(product.originalPrice - product.price).toLocaleString()}
-                </span>
-              </div>
+              <p className="text-[9px] text-slate-400 line-through mt-0.5">
+                {formatPrice(product.originalPrice)}
+              </p>
             )}
           </div>
           <button
@@ -132,10 +121,10 @@ export default function PremiumProductCard({ product, index = 0 }: { product: Pr
               success("تمت الإضافة");
             }}
             disabled={!product.inStock}
-            className="w-9 h-9 rounded-xl bg-sky-500 text-white flex items-center justify-center hover:bg-sky-600 active:scale-90 transition-all disabled:opacity-40 disabled:active:scale-100 shadow-md shadow-sky-500/20"
+            className="w-7 h-7 rounded-lg bg-sky-500 text-white flex items-center justify-center hover:bg-sky-600 active:scale-90 transition-all disabled:opacity-40 shadow-md shadow-sky-500/20"
             aria-label={`إضافة ${product.name} للسلة`}
           >
-            <ShoppingCart size={16} />
+            <ShoppingCart size={13} />
           </button>
         </div>
       </div>
