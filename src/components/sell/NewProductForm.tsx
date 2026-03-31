@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Upload, Loader2 } from "lucide-react";
+import { Loader2, Upload } from "lucide-react";
 import { categories } from "@/lib";
 import { useToast } from "@/lib/ToastContext";
+import { FormTextarea, FormSelect, FormActions } from "@/components/ui/FormElements";
+import FormField from "@/components/ui/FormField";
 
 export default function NewProductForm() {
   const { success, error } = useToast();
@@ -33,93 +35,20 @@ export default function NewProductForm() {
     <div className="card p-6 md:p-8 animate-fade-in">
       <h2 className="text-xl font-bold text-slate-800 mb-6">إضافة منتج جديد</h2>
       <form onSubmit={handleSubmit} className="space-y-5">
-        <div>
-          <label htmlFor="product-name" className="block text-sm font-medium text-slate-700 mb-1.5">
-            اسم المنتج <span className="text-red-500">*</span>
-          </label>
-          <input
-            id="product-name"
-            name="name"
-            type="text"
-            required
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors text-right"
-            placeholder="أدخل اسم المنتج"
-          />
-        </div>
+        <FormField label="اسم المنتج" name="name" required placeholder="أدخل اسم المنتج" />
 
-        <div>
-          <label htmlFor="product-category" className="block text-sm font-medium text-slate-700 mb-1.5">
-            القسم <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="product-category"
-            name="category"
-            required
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors bg-white"
-          >
-            <option value="">اختر القسم</option>
-            {categories.map((cat) => (
-              <option key={cat.slug} value={cat.slug}>{cat.icon} {cat.name}</option>
-            ))}
-          </select>
-        </div>
+        <FormSelect
+          label="القسم"
+          name="category"
+          required
+          options={categories.map((c) => ({ value: c.slug, label: `${c.icon} ${c.name}` }))}
+        />
 
-        <div>
-          <label htmlFor="product-description" className="block text-sm font-medium text-slate-700 mb-1.5">
-            الوصف <span className="text-red-500">*</span>
-          </label>
-          <textarea
-            id="product-description"
-            name="description"
-            rows={4}
-            required
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors text-right resize-none"
-            placeholder="اكتب وصفاً تفصيلياً للمنتج..."
-          />
-        </div>
+        <FormTextarea label="الوصف" name="description" rows={4} required placeholder="اكتب وصفاً تفصيلياً للمنتج..." />
 
         <div className="grid md:grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="product-price" className="block text-sm font-medium text-slate-700 mb-1.5">
-              السعر (ر.س) <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="product-price"
-              name="price"
-              type="number"
-              required
-              min="1"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors"
-              placeholder="0.00"
-            />
-          </div>
-          <div>
-            <label htmlFor="product-original-price" className="block text-sm font-medium text-slate-700 mb-1.5">
-              السعر قبل الخصم (اختياري)
-            </label>
-            <input
-              id="product-original-price"
-              name="originalPrice"
-              type="number"
-              min="1"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors"
-              placeholder="0.00"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="product-quantity" className="block text-sm font-medium text-slate-700 mb-1.5">
-            الكمية المتوفرة
-          </label>
-          <input
-            id="product-quantity"
-            name="quantity"
-            type="number"
-            min="1"
-            defaultValue="1"
-            className="w-full md:w-1/2 px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors"
-          />
+          <FormField label="السعر (ر.ي)" name="price" type="number" required placeholder="0.00" />
+          <FormField label="السعر قبل الخصم (اختياري)" name="originalPrice" type="number" placeholder="0.00" />
         </div>
 
         <div>
@@ -130,26 +59,18 @@ export default function NewProductForm() {
             tabIndex={0}
             aria-label="تحميل صور المنتج"
           >
-            <Upload size={32} className="text-slate-400 mx-auto mb-3" aria-hidden="true" />
+            <Upload size={32} className="text-slate-400 mx-auto mb-3" />
             <p className="text-slate-600 font-medium">اسحب الصور هنا أو انقر للتحميل</p>
             <p className="text-sm text-slate-400 mt-1">PNG, JPG حتى 5MB</p>
           </div>
         </div>
 
-        <div className="flex gap-3 pt-2">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="btn-primary py-3 text-base disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? (
-              <><Loader2 size={18} className="animate-spin" /> جاري النشر...</>
-            ) : (
-              "نشر المنتج"
-            )}
-          </button>
-          <button type="button" className="btn-outline py-3 text-base">حفظ كمسودة</button>
-        </div>
+        <FormActions
+          submitLabel="نشر المنتج"
+          cancelLabel="حفظ كمسودة"
+          isSubmitting={isSubmitting}
+          loadingLabel="جاري النشر..."
+        />
       </form>
     </div>
   );

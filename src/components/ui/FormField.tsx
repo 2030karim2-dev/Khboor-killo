@@ -4,6 +4,7 @@ import { forwardRef } from "react";
 
 interface FormFieldProps {
   label: string;
+  name?: string;
   type?: string;
   placeholder?: string;
   dir?: "rtl" | "ltr";
@@ -14,8 +15,8 @@ interface FormFieldProps {
 }
 
 const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
-  ({ label, type = "text", placeholder, dir, error, required, id, className = "", ...props }, ref) => {
-    const inputId = id || label.replace(/\s+/g, "-").toLowerCase();
+  ({ label, name, type = "text", placeholder, dir, error, required, id, className = "", ...props }, ref) => {
+    const inputId = id || (name || label).replace(/\s+/g, "-").toLowerCase();
     return (
       <div className={className}>
         <label htmlFor={inputId} className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -25,6 +26,7 @@ const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
         <input
           ref={ref}
           id={inputId}
+          name={name}
           type={type}
           placeholder={placeholder}
           dir={dir}
