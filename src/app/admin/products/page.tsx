@@ -28,7 +28,7 @@ export default function AdminProducts() {
       ),
     },
     { key: "category", header: "القسم", width: 130 },
-    { key: "price", header: "السعر", width: 110, render: (v) => <span className="font-bold">{(v as number).toLocaleString()} ر.س</span> },
+    { key: "price", header: "السعر", width: 110, render: (v) => <span className="font-bold">{(v as number).toLocaleString("en")} ر.س</span> },
     { key: "rating", header: "التقييم", width: 100, render: (v, row) => `⭐ ${v} (${row.reviews})` },
     {
       key: "inStock", header: "الحالة", width: 100,

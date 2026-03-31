@@ -62,7 +62,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
   const format = useCallback(
     (priceInSAR: number): string => {
       const converted = convert(priceInSAR);
-      return `${converted.toLocaleString()} ${currency.symbol}`;
+      return `${converted.toLocaleString("en")} ${currency.symbol}`;
     },
     [convert, currency.symbol]
   );

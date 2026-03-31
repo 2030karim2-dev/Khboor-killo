@@ -79,9 +79,9 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                 <div className="w-14 h-14 bg-slate-200 dark:bg-slate-600 rounded-lg flex items-center justify-center text-2xl">📦</div>
                 <div className="flex-1">
                   <p className="font-medium text-slate-800 dark:text-white">{item.name}</p>
-                  <p className="text-sm text-slate-500">الكمية: {item.quantity} × {item.price.toLocaleString()} ر.س</p>
+                  <p className="text-sm text-slate-500">الكمية: {item.quantity} × {item.price.toLocaleString("en")} ر.س</p>
                 </div>
-                <p className="font-bold text-slate-800 dark:text-white">{(item.price * item.quantity).toLocaleString()} ر.س</p>
+                <p className="font-bold text-slate-800 dark:text-white">{(item.price * item.quantity).toLocaleString("en")} ر.س</p>
               </div>
             ))}
           </div>
@@ -89,9 +89,9 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
           <hr className="my-4 border-slate-200 dark:border-slate-700" />
 
           <div className="space-y-2 text-sm">
-            <div className="flex justify-between"><span className="text-slate-600">المجموع الفرعي</span><span>{order.total.toLocaleString()} ر.س</span></div>
+            <div className="flex justify-between"><span className="text-slate-600">المجموع الفرعي</span><span>{order.total.toLocaleString("en")} ر.س</span></div>
             <div className="flex justify-between"><span className="text-slate-600">الشحن</span><span>{order.shippingCost === 0 ? "مجاني" : `${order.shippingCost} ر.س`}</span></div>
-            <div className="flex justify-between font-bold text-base pt-2 border-t border-slate-200 dark:border-slate-700"><span>الإجمالي</span><span>{(order.total + order.shippingCost).toLocaleString()} ر.س</span></div>
+            <div className="flex justify-between font-bold text-base pt-2 border-t border-slate-200 dark:border-slate-700"><span>الإجمالي</span><span>{(order.total + order.shippingCost).toLocaleString("en")} ر.س</span></div>
           </div>
         </div>
 

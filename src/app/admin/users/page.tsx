@@ -33,7 +33,7 @@ export default function AdminUsers() {
       ),
     },
     { key: "orders", header: "الطلبات", width: 80 },
-    { key: "totalSpent", header: "المشتريات", width: 120, render: (v) => <span className="font-bold">{(v as number).toLocaleString()} ر.س</span> },
+    { key: "totalSpent", header: "المشتريات", width: 120, render: (v) => <span className="font-bold">{(v as number).toLocaleString("en")} ر.س</span> },
     {
       key: "status", header: "الحالة", width: 110,
       render: (v, row) => (

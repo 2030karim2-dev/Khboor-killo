@@ -75,15 +75,15 @@ export default function MobileProductSticky({
           <div className="bg-slate-50 rounded-xl p-3 mb-4">
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-extrabold text-slate-900">
-                {product.price.toLocaleString("ar-SA")} ر.س
+                {product.price.toLocaleString("en")} ر.س
               </span>
               {product.originalPrice && (
                 <>
                   <span className="text-sm text-slate-400 line-through">
-                    {product.originalPrice.toLocaleString("ar-SA")} ر.س
+                    {product.originalPrice.toLocaleString("en")} ر.س
                   </span>
                   <span className="text-xs font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded-full">
-                    وفر {(product.originalPrice - product.price).toLocaleString("ar-SA")}
+                    وفر {(product.originalPrice - product.price).toLocaleString("en")}
                   </span>
                 </>
               )}

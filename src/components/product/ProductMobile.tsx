@@ -48,8 +48,8 @@ export function ProductMobile({ product, quantity, setQuantity, related }: Props
         <StarRating rating={product.rating} reviews={product.reviews} size={14} />
         <div className="bg-slate-50 rounded-xl p-3 my-4">
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-extrabold text-slate-900">{product.price.toLocaleString("ar-SA")} ر.س</span>
-            {product.originalPrice && <><span className="text-sm text-slate-400 line-through">{product.originalPrice.toLocaleString("ar-SA")}</span><span className="text-xs font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded-full">وفر {(product.originalPrice - product.price).toLocaleString("ar-SA")}</span></>}
+            <span className="text-2xl font-extrabold text-slate-900">{product.price.toLocaleString("en")} ر.س</span>
+            {product.originalPrice && <><span className="text-sm text-slate-400 line-through">{product.originalPrice.toLocaleString("en")}</span><span className="text-xs font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded-full">وفر {(product.originalPrice - product.price).toLocaleString("en")}</span></>}
           </div>
         </div>
         <p className="text-sm text-slate-600 leading-relaxed mb-4">{product.description}</p>

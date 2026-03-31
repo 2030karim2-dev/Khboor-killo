@@ -52,8 +52,8 @@ export function ProductDesktop({ product, quantity, setQuantity, related }: Prop
           <StarRating rating={product.rating} reviews={product.reviews} size={16} />
           <div className="bg-slate-50 rounded-xl p-4 my-4">
             <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-extrabold text-slate-900">{product.price.toLocaleString("ar-SA")} ر.س</span>
-              {product.originalPrice && <><span className="text-lg text-slate-400 line-through">{product.originalPrice.toLocaleString("ar-SA")} ر.س</span><span className="text-sm font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">وفر {(product.originalPrice - product.price).toLocaleString("ar-SA")}</span></>}
+              <span className="text-3xl font-extrabold text-slate-900">{product.price.toLocaleString("en")} ر.س</span>
+              {product.originalPrice && <><span className="text-lg text-slate-400 line-through">{product.originalPrice.toLocaleString("en")} ر.س</span><span className="text-sm font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">وفر {(product.originalPrice - product.price).toLocaleString("en")}</span></>}
             </div>
           </div>
           <p className="text-slate-600 leading-relaxed mb-6">{product.description}</p>

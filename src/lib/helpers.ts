@@ -28,8 +28,12 @@ export function searchProducts(query: string): Product[] {
   );
 }
 
+export function formatNumber(num: number): string {
+  return num.toLocaleString("en");
+}
+
 export function formatPrice(price: number): string {
-  return price.toLocaleString("ar-SA") + " ر.س";
+  return formatNumber(price) + " ر.س";
 }
 
 export function calculateDiscount(original: number, current: number): number {

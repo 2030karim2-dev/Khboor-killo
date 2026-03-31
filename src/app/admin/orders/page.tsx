@@ -31,7 +31,7 @@ export default function AdminOrders() {
     { key: "phone", header: "الهاتف", width: 120, align: "left" as const, render: (v) => <span dir="ltr">{String(v)}</span> },
     { key: "city", header: "المدينة", width: 100 },
     { key: "items", header: "المنتجات", width: 80, render: (v) => `${(v as unknown[]).length} منتج` },
-    { key: "total", header: "المبلغ", width: 120, render: (v) => <span className="font-bold">{(v as number).toLocaleString()} ر.س</span> },
+    { key: "total", header: "المبلغ", width: 120, render: (v) => <span className="font-bold">{(v as number).toLocaleString("en")} ر.س</span> },
     {
       key: "status", header: "الحالة", width: 140,
       render: (v, row) => {
