@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { categories } from "@/lib";
 import { useToast } from "@/lib/ToastContext";
 import { FormTextarea, FormSelect, FormActions } from "@/components/ui/FormElements";
+import ImageUpload from "@/components/ui/ImageUpload";
 import { productSchema } from "@/lib/validations";
 import type { ProductInput } from "@/lib/validations";
 
@@ -131,16 +132,7 @@ export default function NewProductForm() {
 
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1.5">صور المنتج</label>
-          <div
-            className="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-sky-400 transition-colors cursor-pointer"
-            role="button"
-            tabIndex={0}
-            aria-label="تحميل صور المنتج"
-          >
-            <Upload size={32} className="text-slate-400 mx-auto mb-3" />
-            <p className="text-slate-600 font-medium">اسحب الصور هنا أو انقر للتحميل</p>
-            <p className="text-sm text-slate-400 mt-1">PNG, JPG حتى 5MB</p>
-          </div>
+          <ImageUpload maxImages={5} maxSizeMB={5} />
         </div>
 
         <FormActions

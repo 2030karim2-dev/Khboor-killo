@@ -1,318 +1,329 @@
-# خطة التطوير الشاملة والنهائية - منصة خبور
+# خطة التطوير الشاملة - منصة خبور
 
-## حالة المشروع الحالية
+## 📊 حالة المشروع الحالية
 
-| المقياس | القيمة |
-|---------|--------|
-| TypeScript Errors | 0 ✅ |
-| ESLint Warnings | 0 ✅ |
-| صفحات مكتملة | 12/17 |
-| مكونات UI | 18 |
-| نقاط API | 4 |
-| سياقات (Contexts) | 3 (Auth, Cart, Toast) |
-| مخططات Zod | 6 |
-
----
-
-## المرحلة 1: الإصلاحات الحرجة 🔴 (URLException 1-2 يوم)
-
-### 1.1 روابط مكسورة - تصلح فوراً
-- [ ] إنشاء صفحة `/wishlist` (الروابط موجودة في Header, MobileMenu, AccountSidebar)
-- [ ] إنشاء صفحة `/forgot-password` (الرابط موجود في Login)
-- [ ] تحديث `package.json` الاسم من `nextjs-template` إلى `khuboor`
-
-### 1.2 حماية الصفحات المحمية
-- [ ] إنشاء `src/middleware.ts` لحماية المسارات
-- [ ] إعادة توجيه غير المُسجلين من `/account/*` إلى `/login`
-- [ ] إعادة توجيه غير المُسجلين من `/sell` إلى `/login`
-- [ ] إعادة توجيه غير المُسجلين من `/checkout` إلى `/login`
-- [ ] حفظ المسار المطلوب للعودة بعد تسجيل الدخول
-
-### 1.3 Error Boundaries المتبقية
-- [ ] `src/app/global-error.tsx` - حدود أخطاء الجذر
-- [ ] `src/app/category/[slug]/error.tsx`
-- [ ] `src/app/product/[id]/error.tsx`
-- [ ] `src/app/cart/error.tsx`
-- [ ] `src/app/checkout/error.tsx`
-- [ ] `src/app/account/error.tsx`
-- [ ] `src/app/sell/error.tsx`
-- [ ] `src/app/search/error.tsx`
-- [ ] `src/app/login/error.tsx`
-
-### 1.4 Loading States المتبقية
-- [ ] `src/app/loading.tsx` - الصفحة الرئيسية
-- [ ] `src/app/account/loading.tsx`
-- [ ] `src/app/sell/loading.tsx`
-- [ ] `src/app/login/loading.tsx`
-- [ ] `src/app/register/loading.tsx`
+| المقياس | القيمة | الحالة |
+|---------|--------|--------|
+| صفحات عامة | 17+ | ✅ مكتملة |
+| صفحات المستخدم | 5 | ✅ مكتملة |
+| صفحات لوحة التحكم | 8 | ✅ مكتملة |
+| مكونات UI | 50+ | ✅ مكتملة |
+| نقاط API | 4 (GET فقط) | ⚠️ تحتاج توسيع |
+| سياقات React | 10 | ✅ مكتملة |
+| الترجمة | 3 لغات | ✅ مكتملة |
+| PWA | مدعوم | ✅ مكتمل |
+| نوع البيانات | محاكاة (localStorage) | ⚠️ تحتاج قاعدة بيانات |
 
 ---
 
-## المرحلة 2: تحسين تجربة المستخدم 🟡 (2-3 أيام)
+## المرحلة 1: توسيع نقاط API 🔴 (أولوية قصوى)
 
-### 2.1 Dynamic Metadata لجميع الصفحات
-- [ ] `category/[slug]` - `generateMetadata()` مع اسم القسم
-- [ ] `product/[id]` - `generateMetadata()` مع اسم المنتج والسعر
-- [ ] `search` - metadata ديناميكي مع كلمة البحث
-- [ ] OpenGraph images ديناميكية
-- [ ] Twitter Card metadata
+### 1.1 نقاط API للمنتجات (POST/PUT/DELETE)
+- [ ] `POST /api/products` - إنشاء منتج جديد
+- [ ] `PUT /api/products/[id]` - تحديث منتج
+- [ ] `DELETE /api/products/[id]` - حذف منتج
+- [ ] `GET /api/products?sellerId=` - منتجات بائع معين
+- [ ] `GET /api/products?status=` - فلترة بالحالة
+- [ ] التحقق من المصادقة (JWT/Session)
+- [ ] التحقق من الصلاحيات (admin/seller)
+- [ ] رفع وتخزين الصور (multipart/form-data)
 
-### 2.2 تحسينات إمكانية الوصول (Accessibility)
-- [ ] `aria-current="page"` على عناصر التنقل النشطة
-- [ ] `role="dialog"` و `aria-modal="true"` على القائمة المحمولة
-- [ ] Focus trap في القائمة المحمولة
-- [ ] إغلاق القائمة المحمولة بزر Escape
-- [ ] تحسين ترتيب Tab في النماذج
-- [ ] إضافة رسائل ARIA للحالات (تمت الإضافة، تم الحذف)
+### 1.2 نقاط API للطلبات
+- [ ] `POST /api/orders` - إنشاء طلب جديد
+- [ ] `GET /api/orders` - قائمة الطلبات (مع فلترة)
+- [ ] `GET /api/orders/[id]` - تفاصيل طلب
+- [ ] `PUT /api/orders/[id]/status` - تحديث حالة الطلب
+- [ ] `GET /api/orders?userId=` - طلبات مستخدم معين
+- [ ] إشعارات تلقائية عند تغيير الحالة
 
-### 2.3 توحيد التحقق من النماذج
-- [ ] تحويل Checkout إلى `react-hook-form` + `zodResolver`
-- [ ] تحويل Sell Form إلى `react-hook-form` + `zodResolver`
-- [ ] تحويل Account Profile إلى `react-hook-form` + `zodResolver`
-- [ ] إنشاء مكون `SelectField` مشابه لـ `FormField`
-- [ ] إنشاء مكون `TextareaField` مشابه لـ `FormField`
+### 1.3 نقاط API للمستخدمين
+- [ ] `POST /api/auth/register` - تسجيل حساب جديد
+- [ ] `POST /api/auth/login` - تسجيل الدخول
+- [ ] `POST /api/auth/logout` - تسجيل الخروج
+- [ ] `POST /api/auth/forgot-password` - استعادة كلمة المرور
+- [ ] `POST /api/auth/reset-password` - إعادة تعيين كلمة المرور
+- [ ] `GET /api/users/me` - بيانات المستخدم الحالي
+- [ ] `PUT /api/users/me` - تحديث البيانات
+- [ ] `PUT /api/users/me/password` - تغيير كلمة المرور
+- [ ] `GET /api/users` (admin فقط) - قائمة المستخدمين
+- [ ] `PUT /api/users/[id]/role` (admin فقط) - تغيير الدور
 
-### 2.4 تحسين صفحة المنتج
-- [ ] استخدام مكون `StarRating` بدلاً من الكود المكرر
-- [ ] عرض حالة التوفر بوضوح (متوفر/نفد المخزون)
-- [ ] زر مشاركة فعال (Web Share API)
-- [ ] معلومات البائع الأساسية
-- [ ] عداد "تم الإضافة حديثاً" للسلة
+### 1.4 نقاط API للمراجعات
+- [ ] `POST /api/reviews` - إضافة مراجعة
+- [ ] `GET /api/reviews?productId=` - مراجعات منتج
+- [ ] `PUT /api/reviews/[id]` - تعديل مراجعة
+- [ ] `DELETE /api/reviews/[id]` - حذف مراجعة
+- [ ] `POST /api/reviews/[id]/helpful` - تصويت "مفيد"
+- [ ] منع التكرار (مراجعة واحدة لكل مستخدم/منتج)
 
-### 2.5 تحسين صفحة القسم
-- [ ] ربط فلتر السعر (min/max)
-- [ ] ربط فلتر التقييم
-- [ ] ربط الترتيب (الأحدث، الأقل سعراً، الأعلى تقييماً)
-- [ ] ترقيم الصفحات (Pagination) - 12 منتج في الصفحة
-- [ ] حفظ حالة الفلتر في URL query params
+### 1.5 نقاط API للمفضلة
+- [ ] `POST /api/wishlist` - إضافة للمفضلة
+- [ ] `GET /api/wishlist` - قائمة المفضلة
+- [ ] `DELETE /api/wishlist/[productId]` - إزالة من المفضلة
 
----
+### 1.6 نقاط API للإشعارات
+- [ ] `GET /api/notifications` - قائمة الإشعارات
+- [ ] `PUT /api/notifications/[id]/read` - تحديد كمقروء
+- [ ] `PUT /api/notifications/read-all` - تعيين الكل كمقروء
+- [ ] `GET /api/notifications/unread-count` - عدد غير المقروءة
 
-## المرحلة 3: نظام المفضلة والطلبات 🟡 (2-3 أيام)
-
-### 3.1 نظام المفضلة الكامل
-- [ ] إنشاء `src/lib/WishlistContext.tsx`
-- [ ] تخزين محلي في localStorage
-- [ ] ربط زر القلب في `ProductCard` بالسياق
-- [ ] إنشاء صفحة `/wishlist`
-- [ ] عداد المفضلة في Header
-- [ ] زر "نقل الكل للسلة"
-
-### 3.2 نظام الطلبات
-- [ ] إنشاء `src/lib/OrderContext.tsx` أو API routes
-- [ ] حفظ الطلبات في localStorage (كـ mock)
-- [ ] صفحة `/account/orders` - قائمة الطلبات
-- [ ] صفحة `/account/orders/[id]` - تفاصيل الطلب
-- [ ] شريط تقدم حالة الطلب (تم الطلب ← قيد التجهيز ← قيد الشحن ← تم التوصيل)
-- [ ] ربط Checkout بإنشاء طلب حقيقي
-
-### 3.3 نظام التقييمات
-- [ ] إنشاء `src/components/product/ReviewList.tsx`
-- [ ] إنشاء `src/components/product/ReviewForm.tsx`
-- [ ] عرض توزيع النجوم (5 نجوم: 45%, 4 نجوم: 30%, ...)
-- [ ] نموذج إضافة تقييم (مع Zod)
-- [ ] أزرار "هل كانت هذه المراجعة مفيدة؟"
-- [ ] عرض التقييمات في صفحة المنتج
+### 1.7 نقاط API للوحة التحكم
+- [ ] `GET /api/admin/stats` - إحصائيات شاملة
+- [ ] `GET /api/admin/revenue` - بيانات الإيرادات (رسم بياني)
+- [ ] `POST /api/admin/coupons` - إنشاء كوبون
+- [ ] `PUT /api/admin/coupons/[id]` - تحديث كوبون
+- [ ] `DELETE /api/admin/coupons/[id]` - حذف كوبون
+- [ ] `GET /api/admin/activity-log` - سجل النشاطات
 
 ---
 
-## المرحلة 4: الصفحات المفقودة 🟢 (2-3 أيام)
+## المرحلة 2: تحسين لوحة التحكم 🟡
 
-### 4.1 صفحات الحساب الفرعية
-- [ ] `/account/addresses` - دفتر العناوين (إضافة/تعديل/حذف)
-- [ ] `/account/settings` - الإعدادات (كلمة المرور، الإشعارات، حذف الحساب)
+### 2.1 لوحة الإحصائيات المتقدمة
+- [ ] رسم بياني للإيرادات (شهري/أسبوعي/يومي)
+- [ ] رسم بياني للطلبات الجديدة
+- [ ] رسم بياني لأفضل المنتجات مبيعاً
+- [ ] رسم بياني لتوزيع المستخدمين
+- [ ] مؤشرات أداء رئيسية (KPIs)
+- [ ] مقارنة مع الفترة السابقة (نسبة النمو)
+- [ ] تصدير التقارير كـ Excel/PDF
 
-### 4.2 صفحة نسيت كلمة المرور
-- [ ] `/forgot-password` - إدخال البريد الإلكتروني
-- [ ] `/reset-password` - إعادة تعيين كلمة المرور (مع token)
+### 2.2 إدارة المنتجات المتقدمة
+- [ ] رفع صور متعددة مع معاينة
+- [ ] إدارة المخزون (تنبيهات النفاد)
+- [ ] جدولة المنتجات (نشر مستقبلي)
+- [ ] إدارة الخصومات والعروض
+- [ ] تصنيف المنتجات (الأكثر مبيعاً، جديد، مميز)
+- [ ] استيراد/تصدير المنتجات (CSV/Excel)
+- [ ] مراجعة المنتجات قبل النشر
 
-### 4.3 الصفحات القانونية والمعلوماتية
-- [ ] `/privacy` - سياسة الخصوصية
-- [ ] `/terms` - الشروط والأحكام
-- [ ] `/about` - من نحن
-- [ ] `/contact` - اتصل بنا (نموذج + معلومات التواصل)
-- [ ] `/faq` - الأسئلة الشائعة (_accordion UI_)
+### 2.3 إدارة الطلبات المتقدمة
+- [ ] فلترة حسب الحالة، التاريخ، المبلغ
+- [ ] طباعة فاتورة الطلب
+- [ ] تحديث حالة الشحن (رقم التتبع)
+- [ ] إدارة المرتجعات والاسترجاعات
+- [ ] إشعارات تلقائية للعملاء
+- [ ] تصدير الطلبات كـ Excel
 
-### 4.4 صفحة البائع الكاملة
-- [ ] عرض المنتجات الخاصة بالبائع
-- [ ] تعديل المنتج (نموذج معبأ مسبقاً)
-- [ ] حذف المنتج (مع تأكيد)
-- [ ] إحصائيات حقيقية (من بيانات الطلبات)
+### 2.4 إدارة المستخدمين المتقدمة
+- [ ] عرض تفصيلي لكل مستخدم
+- [ ] سجل نشاطات المستخدم
+- [ ] إدارة صلاحيات الأدوار (RBAC)
+- [ ] حظر/إلغاء حظر المستخدمين
+- [ ] إرسال رسائل جماعية
+- [ ] تصدير قائمة المستخدمين
+
+### 2.5 إدارة المحتوى
+- [ ] إدارة البانرات والإعلانات
+- [ ] إدارة الأقسام والفئات
+- [ ] إدارة صفحات المحتوى (عن، سياسة الخصوصية)
+- [ ] إدارة الأسئلة الشائعة
+- [ ] إدارة النشرة البريدية
+- [ ] إدارة الكوبونات والخصومات
+
+### 2.6 إعدادات الموقع المتقدمة
+- [ ] إعدادات عامة (اسم الموقع، الشعار، الوصف)
+- [ ] إعدادات الشحن (التكلفة، المناطق)
+- [ ] إعدادات الدفع (البوابات المتاحة)
+- [ ] إعدادات الإشعارات (Email, Push, SMS)
+- [ ] إعدادات SEO (meta tags, sitemap)
+- [ ] إعدادات النسخ الاحتياطي
+- [ ] سجل التغييرات (Audit Log)
+
+### 2.7 نظام التقارير
+- [ ] تقرير المبيعات (يومي/أسبوعي/شهري)
+- [ ] تقرير المنتجات الأكثر مبيعاً
+- [ ] تقرير سلوك المستخدمين
+- [ ] تقرير التحويلات
+- [ ] تقرير المخزون
+- [ ] تصدير التقارير
 
 ---
 
-## المرحلة 5: ميزات متقدمة 🔵 (3-4 أيام)
+## المرحلة 3: ميزات متقدمة 🔵
 
-### 5.1 نظام الإشعارات
-- [ ] إنشاء `src/lib/NotificationsContext.tsx`
-- [ ] قائمة إشعارات منسدلة في Header (أيقونة 🔔)
-- [ ] أنواع: تحديث الطلب، عروض، رسائل
-- [ ] عداد إشعارات غير مقروءة
-- [ ] زر "تعيين الكل كمقروء"
+### 3.1 نظام الإشعارات المتكامل
+- [ ] إشعارات داخل التطبيق
+- [ ] إشعارات البريد الإلكتروني
+- [ ] إشعارات Push (PWA)
+- [ ] إشعارات SMS (اختياري)
+- [ ] تفضيلات الإشعارات لكل مستخدم
+- [ ] قوالب الإشعارات
 
-### 5.2 بحث متقدم
-- [ ] إكمال تلقائي أثناء الكتابة (debounced)
-- [ ] اقتراحات أقسام ومنتجات
-- [ ] تاريخ البحث (محلي)
-- [ ] بحث في الوصف وليس الاسم فقط
+### 3.2 نظام الكوبونات والخصومات
+- [ ] كوبونات نسبة مئوية
+- [ ] كوبونات مبلغ ثابت
+- [ ] كوبونات شحن مجاني
+- [ ] شروط الاستخدام (حد أدنى، فئات محددة)
+- [ ] تاريخ انتهاء الصلاحية
+- [ ] حد الاستخدام لكل مستخدم
+- [ ] إحصائيات استخدام الكوبونات
 
-### 5.3 رفع الصور
-- [ ] منطقة سحب وإفلات حقيقية
-- [ ] معاينة الصور قبل الرفع
-- [ ] رفع متعدد (حتى 5 صور)
-- [ ] ضغط الصور تلقائياً (client-side)
+### 3.3 نظام الشحن والتوصيل
+- [ ] تكامل مع شركات الشحن
+- [ ] حساب تكلفة الشحن تلقائياً
+- [ ] تتبع الشحنات
+- [ ] مناطق التوصيل
+- [ ] خيارات شحن متعددة (عادي، سريع)
+- [ ] طباعة بوليصات الشحن
 
-### 5.4 SEO و Structured Data
-- [ ] JSON-LD للمنتج (اسم، سعر، تقييم، مخزون)
-- [ ] JSON-LD لل breadcrumbs
-- [ ] JSON-LD للمنظمة
-- [ ] `sitemap.xml` ديناميكي
-- [ ] `robots.txt`
-- [ ] Canonical URLs
+### 3.4 نظام الدفع
+- [ ] تكامل بوابات الدفع
+- [ ] دعم العملات المتعددة
+- [ ] إدارة طرق الدفع
+- [ ] سجل المعاملات
+- [ ] إشعارات الدفع
+- [ ] إدارة الاسترجاعات المالية
+
+### 3.5 نظام التقارير والتحليلات
+- [ ] لوحة تحليلات متقدمة
+- [ ] تقارير مخصصة
+- [ ] تصدير البيانات
+- [ ] رسوم بيانية تفاعلية
+- [ ] مؤشرات الأداء
+- [ ] تنبيهات ذكية
+
+### 3.6 نظام الأذونات المتقدم (RBAC)
+- [ ] أدوار مخصصة
+- [ ] صلاحيات دقيقة لكل دور
+- [ ] إدارة فرق العمل
+- [ ] سجل الصلاحيات
+- [ ] صلاحيات مؤقتة
 
 ---
 
-## المرحلة 6: تحسينات و打磨 🔵 (2-3 أيام)
+## المرحلة 4: تحسينات الأداء والجودة 🟢
 
-### 6.1 أنيميشن وانتقالات
-- [ ] انتقالات بين الصفحات (View Transitions API)
-- [ ] تأثير fly-to-cart عند إضافة منتج
-- [ ] أنيميشن عداد السلة
-- [ ] أنيميشن فتح/إغلاق القوائم
-- [ ] skeleton loading محسّن مع shimmer
-
-### 6.2 تحسينات الموبايل
-- [ ] شريط تنقل سفلي (Bottom Navigation Bar)
-- [ ] أهداف لمس أكبر (min 44px)
-- [ ] تحسين النماذج للمس
-- [ ] تحسين Checkout كخطوات متتالية
-
-### 6.3 PWA
-- [ ] `manifest.json` مع أيقونة التطبيق
-- [ ] Service Worker للعمل بدون إنترنت
-- [ ] تثبيت كتطبيق
-- [ ] شاشة Splash
-
-### 6.4 أداء
-- [ ] تحويل المزيد من الصفحات إلى Server Components
+### 4.1 تحسين الأداء
 - [ ] ISR لصفحات المنتجات والأقسام
-- [ ] Code splitting للمكونات الثقيلة
-- [ ] Prefetch للروابط المرئية
-- [ ] API caching headers
+- [ ] Cache strategies للـ API
+- [ ] Image optimization متقدم
+- [ ] Lazy loading للمكونات الثقيلة
+- [ ] Code splitting متقدم
+- [ ] Prefetching ذكي
 
-### 6.5 أخرى
-- [ ] إضافة اختبارات Vitest للمكونات الأساسية
-- [ ] إضافة اختبارات E2E (Playwright)
-- [ ] إعداد CI/CD
-- [ ] Error logging (Sentry أو مماثل)
-- [ ] Analytics (Vercel Analytics)
+### 4.2 تحسين SEO
+- [ ] Canonical URLs
+- [ ] Hreflang tags للغات
+- [ ] Schema markup متقدم
+- [ ] Open Graph images
+- [ ] XML sitemap ديناميكي
+- [ ] Breadcrumbs schema
 
----
+### 4.3 الاختبارات
+- [ ] اختبارات Unit للمكونات
+- [ ] اختبارات Integration للـ API
+- [ ] اختبارات E2E (Playwright)
+- [ ] اختبارات الأداء
+- [ ] CI/CD pipeline
 
-## هيكل الملفات النهائي المستهدف
-
-```
-src/
-├── middleware.ts                    # حماية المسارات
-├── app/
-│   ├── layout.tsx
-│   ├── page.tsx
-│   ├── loading.tsx                  # ✨ جديد
-│   ├── error.tsx
-│   ├── global-error.tsx             # ✨ جديد
-│   ├── not-found.tsx
-│   ├── globals.css
-│   ├── wishlist/page.tsx            # ✨ جديد
-│   ├── forgot-password/page.tsx     # ✨ جديد
-│   ├── reset-password/page.tsx      # ✨ جديد
-│   ├── privacy/page.tsx             # ✨ جديد
-│   ├── terms/page.tsx               # ✨ جديد
-│   ├── about/page.tsx               # ✨ جديد
-│   ├── contact/page.tsx             # ✨ جديد
-│   ├── faq/page.tsx                 # ✨ جديد
-│   ├── account/
-│   │   ├── orders/page.tsx          # ✨ جديد
-│   │   ├── orders/[id]/page.tsx     # ✨ جديد
-│   │   ├── addresses/page.tsx       # ✨ جديد
-│   │   ├── settings/page.tsx        # ✨ جديد
-│   │   ├── loading.tsx              # ✨ جديد
-│   │   └── error.tsx                # ✨ جديد
-│   ├── cart/
-│   │   └── error.tsx                # ✨ جديد
-│   ├── checkout/
-│   │   └── error.tsx                # ✨ جديد
-│   ├── category/[slug]/
-│   │   └── error.tsx                # ✨ جديد
-│   ├── product/[id]/
-│   │   └── error.tsx                # ✨ جديد
-│   ├── search/
-│   │   └── error.tsx                # ✨ جديد
-│   ├── sell/
-│   │   ├── error.tsx                # ✨ جديد
-│   │   └── loading.tsx              # ✨ جديد
-│   ├── login/
-│   │   ├── error.tsx                # ✨ جديد
-│   │   └── loading.tsx              # ✨ جديد
-│   ├── register/
-│   │   └── loading.tsx              # ✨ جديد
-│   └── api/
-│       ├── auth/                    # ✨ جديد
-│       ├── orders/                  # ✨ جديد
-│       ├── wishlist/                # ✨ جديد
-│       └── reviews/                 # ✨ جديد
-├── components/
-│   ├── ui/
-│   │   ├── SelectField.tsx          # ✨ جديد
-│   │   ├── TextareaField.tsx        # ✨ جديد
-│   │   ├── Pagination.tsx           # ✨ جديد
-│   │   ├── PriceRange.tsx           # ✨ جديد
-│   │   ├── Accordion.tsx            # ✨ جديد
-│   │   ├── Modal.tsx                # ✨ جديد
-│   │   ├── NotificationBell.tsx     # ✨ جديد
-│   │   ├── ImageUpload.tsx          # ✨ جديد
-│   │   └── RatingBar.tsx            # ✨ جديد
-│   ├── product/
-│   │   ├── ReviewList.tsx           # ✨ جديد
-│   │   ├── ReviewForm.tsx           # ✨ جديد
-│   │   ├── ImageGallery.tsx         # ✨ جديد
-│   │   ├── ProductTabs.tsx          # ✨ جديد
-│   │   └── ShareButton.tsx          # ✨ جديد
-│   ├── wishlist/
-│   │   └── WishlistItem.tsx         # ✨ جديد
-│   ├── orders/
-│   │   ├── OrderCard.tsx            # ✨ جديد
-│   │   └── OrderStatusTracker.tsx   # ✨ جديد
-│   ├── account/
-│   │   ├── AddressCard.tsx          # ✨ جديد
-│   │   └── AddressForm.tsx          # ✨ جديد
-│   ├── checkout/
-│   │   └── CheckoutSteps.tsx        # ✨ جديد
-│   ├── faq/
-│   │   └── FaqAccordion.tsx         # ✨ جديد
-│   └── layout/
-│       ├── BottomNav.tsx            # ✨ جديد
-│       └── NotificationDropdown.tsx # ✨ جديد
-├── lib/
-│   ├── WishlistContext.tsx           # ✨ جديد
-│   ├── OrderContext.tsx              # ✨ جديد
-│   ├── NotificationsContext.tsx      # ✨ جديد
-│   └── search.ts                    # ✨ جديد (fuzzy search)
-└── public/
-    ├── manifest.json                # ✨ جديد
-    ├── robots.txt                    # ✨ جديد
-    └── icons/                        # ✨ جديد (PWA icons)
-```
+### 4.4 الأمان
+- [ ] Rate limiting للـ API
+- [ ] CSRF protection
+- [ ] Input sanitization
+- [ ] SQL injection prevention
+- [ ] XSS protection
+- [ ] Security headers
 
 ---
 
-## ملخص المهام
+## المرحلة 5: قاعدة البيانات 🟣
 
-| المرحلة | المهام | الأيام المقدرة |
-|---------|--------|---------------|
-| 1 - إصلاحات حرجة | 20 مهمة | 1-2 يوم |
-| 2 - تجربة مستخدم | 22 مهمة | 2-3 أيام |
-| 3 - مفضلة وطلبات | 15 مهمة | 2-3 أيام |
-| 4 - صفحات مفقودة | 16 مهمة | 2-3 أيام |
-| 5 - ميزات متقدمة | 18 مهمة | 3-4 أيام |
-| 6 - تحسينات | 20 مهمة | 2-3 أيام |
-| **المجموع** | **111 مهمة** | **12-18 يوم** |
+### 5.1 اختيار قاعدة البيانات
+- [ ] PostgreSQL (موصى به)
+- [ ] أو MongoDB
+- [ ] أو Supabase (مستضاف)
+
+### 5.2 ORM
+- [ ] Prisma (موصى به)
+- [ ] أو Drizzle
+
+### 5.3 نماذج البيانات
+```
+User
+├── id, email, password, firstName, lastName
+├── phone, avatar, role, status
+├── addresses[]
+└── createdAt, updatedAt
+
+Product
+├── id, name, description, images[]
+├── price, originalPrice, category
+├── sellerId, stock, status
+├── featured, tags
+└── createdAt, updatedAt
+
+Order
+├── id, userId, items[]
+├── totalPrice, shippingCost, discount
+├── status, paymentMethod
+├── shippingAddress
+└── createdAt, updatedAt
+
+Review
+├── id, productId, userId
+├── rating, comment, images[]
+├── helpfulCount
+└── createdAt
+
+Category
+├── id, name, slug, icon
+├── parentId, description
+└── createdAt
+
+Coupon
+├── id, code, type, value
+├── minPurchase, maxDiscount
+├── validFrom, validTo
+├── usageLimit, usedCount
+└── createdAt
+
+Notification
+├── id, userId, type, title
+├── message, data, isRead
+└── createdAt
+
+ActivityLog
+├── id, userId, action, entity
+├── entityId, details
+└── createdAt
+```
+
+### 5.4 الهجرة من localStorage
+- [ ] كتابة scripts لنقل البيانات
+- [ ] اختبار التكامل
+- [ ] خطة التراجع
+
+---
+
+## الجدول الزمني المقترح
+
+| المرحلة | المدة | الأولوية |
+|---------|-------|----------|
+| 1 - توسيع API | 2-3 أسابيع | 🔴 عالية |
+| 2 - تحسين لوحة التحكم | 3-4 أسابيع | 🟡 متوسطة |
+| 3 - ميزات متقدمة | 4-5 أسابيع | 🔵 متوسطة |
+| 4 - أداء وجودة | 2-3 أسابيع | 🟢 منخفضة |
+| 5 - قاعدة البيانات | 3-4 أسابيع | 🟣 عالية |
+
+**المدة الإجمالية: 14-19 أسبوع**
+
+---
+
+## الأولويات الفورية (الأسبوع 1-2)
+
+1. **نقاط API الأساسية** (POST/PUT/DELETE للمنتجات والطلبات)
+2. **نظام المصادقة** (JWT/Session-based)
+3. **رفع الصور** (تخزين سحابي أو محلي)
+4. **تحسين لوحة التحكم** (رسوم بيانية، تصدير)
+5. **إضافة صفحات النواقص** (offline page, 500 error)
+
+---
+
+## ملاحظات هامة
+
+- جميع البيانات حالياً في localStorage - يجب الانتقال لقاعدة بيانات حقيقية
+- نقاط API الحالية GET فقط - تحتاج POST/PUT/DELETE
+- لا يوجد نظام مصادقة حقيقي - يعتمد على كوكي بسيط
+- لا يوجد رفع صور حقيقي - واجهة فقط
+- لوحة التحكم تعمل لكن ببيانات محاكاة

@@ -8,6 +8,7 @@ import ToastContainer from "@/components/ui/ToastContainer";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
 import BottomNav from "@/components/layout/BottomNav";
 import AdminFloatingButton from "@/components/AdminFloatingButton";
+import ServiceWorkerRegistration from "@/components/layout/ServiceWorkerRegistration";
 
 const notoKufi = Noto_Kufi_Arabic({
   variable: "--font-arabic",
@@ -72,6 +73,7 @@ export default function RootLayout({
           <Footer />
           <BottomNav />
           <AdminFloatingButton />
+          <ServiceWorkerRegistration />
           <ToastContainer />
         </AppProviders>
       </body>
