@@ -42,10 +42,19 @@ export const checkoutSchema = z.object({
 export const productSchema = z.object({
   name: z.string().min(3, "اسم المنتج يجب أن يكون 3 أحرف على الأقل"),
   description: z.string().min(20, "الوصف يجب أن يكون 20 حرف على الأقل"),
-  price: z.number().positive("السعر يجب أن يكون أكبر من صفر"),
-  originalPrice: z.number().positive().optional(),
+  price: z.string().min(1, "السعر مطلوب"),
+  originalPrice: z.string().optional(),
   category: z.string().min(1, "القسم مطلوب"),
-  quantity: z.number().int().positive("الكمية يجب أن تكون رقم صحيح موجب"),
+});
+
+export const serviceSchema = z.object({
+  title: z.string().min(3, "عنوان الخدمة يجب أن يكون 3 أحرف على الأقل"),
+  category: z.string().min(1, "التخصص مطلوب"),
+  description: z.string().min(20, "الوصف يجب أن يكون 20 حرف على الأقل"),
+  price: z.string().min(1, "السعر مطلوب"),
+  location: z.string().min(2, "الموقع مطلوب"),
+  phone: z.string().regex(/^7[0137]\d{7}$/, "رقم الجوال غير صحيح"),
+  pricingType: z.enum(["fixed", "hourly", "daily", "negotiable"]),
 });
 
 export const searchSchema = z.object({
@@ -64,4 +73,5 @@ export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type CheckoutInput = z.infer<typeof checkoutSchema>;
 export type ProductInput = z.infer<typeof productSchema>;
+export type ServiceInput = z.infer<typeof serviceSchema>;
 export type ProfileInput = z.infer<typeof profileSchema>;

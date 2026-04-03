@@ -1,26 +1,15 @@
 "use client";
 
 import { CITIES } from "@/lib";
-
-export interface ShippingData {
-  firstName: string;
-  lastName: string;
-  phone: string;
-  city: string;
-  address: string;
-}
+import type { FieldErrors, UseFormRegister } from "react-hook-form";
+import type { CheckoutInput } from "@/lib/validations";
 
 interface ShippingFormProps {
-  data: ShippingData;
-  onChange: (data: ShippingData) => void;
-  errors?: Partial<Record<keyof ShippingData, string>>;
+  register: UseFormRegister<CheckoutInput>;
+  errors: FieldErrors<CheckoutInput>;
 }
 
-export default function ShippingForm({ data, onChange, errors }: ShippingFormProps) {
-  const update = (field: keyof ShippingData, value: string) => {
-    onChange({ ...data, [field]: value });
-  };
-
+export default function ShippingForm({ register, errors }: ShippingFormProps) {
   return (
     <div className="card p-6">
       <h2 className="text-lg font-bold text-slate-800 mb-4">معلومات الشحن</h2>
@@ -32,15 +21,14 @@ export default function ShippingForm({ data, onChange, errors }: ShippingFormPro
           <input
             id="ship-firstName"
             type="text"
-            value={data.firstName}
-            onChange={(e) => update("firstName", e.target.value)}
+            {...register("firstName")}
             placeholder="أدخل اسمك الأول"
-            aria-invalid={!!errors?.firstName}
+            aria-invalid={!!errors.firstName}
             className={`w-full px-4 py-2.5 rounded-xl border transition-colors text-right focus:outline-none ${
-              errors?.firstName ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+              errors.firstName ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
             }`}
           />
-          {errors?.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
+          {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName.message}</p>}
         </div>
         <div>
           <label htmlFor="ship-lastName" className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -49,15 +37,14 @@ export default function ShippingForm({ data, onChange, errors }: ShippingFormPro
           <input
             id="ship-lastName"
             type="text"
-            value={data.lastName}
-            onChange={(e) => update("lastName", e.target.value)}
+            {...register("lastName")}
             placeholder="أدخل اسمك الأخير"
-            aria-invalid={!!errors?.lastName}
+            aria-invalid={!!errors.lastName}
             className={`w-full px-4 py-2.5 rounded-xl border transition-colors text-right focus:outline-none ${
-              errors?.lastName ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+              errors.lastName ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
             }`}
           />
-          {errors?.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
+          {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName.message}</p>}
         </div>
         <div className="md:col-span-2">
           <label htmlFor="ship-phone" className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -66,16 +53,15 @@ export default function ShippingForm({ data, onChange, errors }: ShippingFormPro
           <input
             id="ship-phone"
             type="tel"
-            value={data.phone}
-            onChange={(e) => update("phone", e.target.value)}
+            {...register("phone")}
             placeholder="05xxxxxxxx"
             dir="ltr"
-            aria-invalid={!!errors?.phone}
+            aria-invalid={!!errors.phone}
             className={`w-full px-4 py-2.5 rounded-xl border transition-colors focus:outline-none ${
-              errors?.phone ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+              errors.phone ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
             }`}
           />
-          {errors?.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+          {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
         </div>
         <div className="md:col-span-2">
           <label htmlFor="ship-city" className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -83,16 +69,17 @@ export default function ShippingForm({ data, onChange, errors }: ShippingFormPro
           </label>
           <select
             id="ship-city"
-            value={data.city}
-            onChange={(e) => update("city", e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors bg-white"
+            {...register("city")}
+            className={`w-full px-4 py-2.5 rounded-xl border focus:outline-none transition-colors bg-white ${
+              errors.city ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+            }`}
           >
             <option value="">اختر المدينة</option>
             {CITIES.map((city) => (
               <option key={city} value={city}>{city}</option>
             ))}
           </select>
-          {errors?.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
+          {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city.message}</p>}
         </div>
         <div className="md:col-span-2">
           <label htmlFor="ship-address" className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -101,15 +88,14 @@ export default function ShippingForm({ data, onChange, errors }: ShippingFormPro
           <textarea
             id="ship-address"
             rows={3}
-            value={data.address}
-            onChange={(e) => update("address", e.target.value)}
+            {...register("address")}
             placeholder="الحي، الشارع، رقم المبنى..."
-            aria-invalid={!!errors?.address}
+            aria-invalid={!!errors.address}
             className={`w-full px-4 py-2.5 rounded-xl border transition-colors text-right resize-none focus:outline-none ${
-              errors?.address ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+              errors.address ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
             }`}
           />
-          {errors?.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
+          {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address.message}</p>}
         </div>
       </div>
     </div>

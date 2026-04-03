@@ -1,24 +1,35 @@
 "use client";
 
 import { CreditCard, Banknote } from "lucide-react";
-
-export interface PaymentData {
-  method: "card" | "cash";
-  cardNumber: string;
-  cardExpiry: string;
-  cardCvv: string;
-}
+import { useController, type Control, type FieldErrors } from "react-hook-form";
+import type { CheckoutInput } from "@/lib/validations";
 
 interface PaymentFormProps {
-  data: PaymentData;
-  onChange: (data: PaymentData) => void;
-  errors?: Partial<Record<keyof PaymentData, string>>;
+  control: Control<CheckoutInput>;
+  paymentMethod: "card" | "cash";
+  errors: FieldErrors<CheckoutInput>;
 }
 
-export default function PaymentForm({ data, onChange, errors }: PaymentFormProps) {
-  const update = (field: keyof PaymentData, value: string) => {
-    onChange({ ...data, [field]: value });
-  };
+export default function PaymentForm({ control, paymentMethod, errors }: PaymentFormProps) {
+  const { field: methodField } = useController({
+    name: "paymentMethod",
+    control,
+  });
+
+  const { field: cardNumberField } = useController({
+    name: "cardNumber",
+    control,
+  });
+
+  const { field: cardExpiryField } = useController({
+    name: "cardExpiry",
+    control,
+  });
+
+  const { field: cardCvvField } = useController({
+    name: "cardCvv",
+    control,
+  });
 
   return (
     <div className="card p-6">
@@ -26,14 +37,14 @@ export default function PaymentForm({ data, onChange, errors }: PaymentFormProps
         <legend className="text-lg font-bold text-slate-800 mb-4">طريقة الدفع</legend>
         <div className="space-y-3">
           <label className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors ${
-            data.method === "card" ? "border-sky-500 bg-sky-50" : "border-slate-200 hover:border-sky-300"
+            methodField.value === "card" ? "border-sky-500 bg-sky-50" : "border-slate-200 hover:border-sky-300"
           }`}>
             <input
               type="radio"
-              name="payment"
+              name="paymentMethod"
               value="card"
-              checked={data.method === "card"}
-              onChange={() => update("method", "card")}
+              checked={methodField.value === "card"}
+              onChange={() => methodField.onChange("card")}
               className="accent-sky-500"
             />
             <CreditCard size={20} className="text-sky-600" aria-hidden="true" />
@@ -43,14 +54,14 @@ export default function PaymentForm({ data, onChange, errors }: PaymentFormProps
             </div>
           </label>
           <label className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors ${
-            data.method === "cash" ? "border-sky-500 bg-sky-50" : "border-slate-200 hover:border-sky-300"
+            methodField.value === "cash" ? "border-sky-500 bg-sky-50" : "border-slate-200 hover:border-sky-300"
           }`}>
             <input
               type="radio"
-              name="payment"
+              name="paymentMethod"
               value="cash"
-              checked={data.method === "cash"}
-              onChange={() => update("method", "cash")}
+              checked={methodField.value === "cash"}
+              onChange={() => methodField.onChange("cash")}
               className="accent-sky-500"
             />
             <Banknote size={20} className="text-slate-600" aria-hidden="true" />
@@ -62,7 +73,7 @@ export default function PaymentForm({ data, onChange, errors }: PaymentFormProps
         </div>
       </fieldset>
 
-      {data.method === "card" && (
+      {paymentMethod === "card" && (
         <div className="mt-4 grid md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
             <label htmlFor="card-number" className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -71,17 +82,16 @@ export default function PaymentForm({ data, onChange, errors }: PaymentFormProps
             <input
               id="card-number"
               type="text"
-              value={data.cardNumber}
-              onChange={(e) => update("cardNumber", e.target.value)}
+              {...cardNumberField}
               placeholder="0000 0000 0000 0000"
               dir="ltr"
               maxLength={19}
-              aria-invalid={!!errors?.cardNumber}
+              aria-invalid={!!errors.cardNumber}
               className={`w-full px-4 py-2.5 rounded-xl border transition-colors focus:outline-none ${
-                errors?.cardNumber ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+                errors.cardNumber ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
               }`}
             />
-            {errors?.cardNumber && <p className="text-red-500 text-xs mt-1">{errors.cardNumber}</p>}
+            {errors.cardNumber && <p className="text-red-500 text-xs mt-1">{errors.cardNumber.message}</p>}
           </div>
           <div>
             <label htmlFor="card-expiry" className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -90,17 +100,16 @@ export default function PaymentForm({ data, onChange, errors }: PaymentFormProps
             <input
               id="card-expiry"
               type="text"
-              value={data.cardExpiry}
-              onChange={(e) => update("cardExpiry", e.target.value)}
+              {...cardExpiryField}
               placeholder="MM/YY"
               dir="ltr"
               maxLength={5}
-              aria-invalid={!!errors?.cardExpiry}
+              aria-invalid={!!errors.cardExpiry}
               className={`w-full px-4 py-2.5 rounded-xl border transition-colors focus:outline-none ${
-                errors?.cardExpiry ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+                errors.cardExpiry ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
               }`}
             />
-            {errors?.cardExpiry && <p className="text-red-500 text-xs mt-1">{errors.cardExpiry}</p>}
+            {errors.cardExpiry && <p className="text-red-500 text-xs mt-1">{errors.cardExpiry.message}</p>}
           </div>
           <div>
             <label htmlFor="card-cvv" className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -109,17 +118,16 @@ export default function PaymentForm({ data, onChange, errors }: PaymentFormProps
             <input
               id="card-cvv"
               type="text"
-              value={data.cardCvv}
-              onChange={(e) => update("cardCvv", e.target.value)}
+              {...cardCvvField}
               placeholder="***"
               dir="ltr"
               maxLength={4}
-              aria-invalid={!!errors?.cardCvv}
+              aria-invalid={!!errors.cardCvv}
               className={`w-full px-4 py-2.5 rounded-xl border transition-colors focus:outline-none ${
-                errors?.cardCvv ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+                errors.cardCvv ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
               }`}
             />
-            {errors?.cardCvv && <p className="text-red-500 text-xs mt-1">{errors.cardCvv}</p>}
+            {errors.cardCvv && <p className="text-red-500 text-xs mt-1">{errors.cardCvv.message}</p>}
           </div>
         </div>
       )}

@@ -3,43 +3,51 @@
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import { CheckCircle, Loader2 } from "lucide-react";
+import { useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useCart } from "@/lib/CartContext";
 import { useToast } from "@/lib/ToastContext";
 import { useOrders } from "@/lib/OrderContext";
 import { FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_COST } from "@/lib";
 import { Breadcrumb, OrderSummary, EmptyState } from "@/components/ui";
-import ShippingForm, { type ShippingData } from "@/components/checkout/ShippingForm";
-import PaymentForm, { type PaymentData } from "@/components/checkout/PaymentForm";
+import ShippingForm from "@/components/checkout/ShippingForm";
+import PaymentForm from "@/components/checkout/PaymentForm";
 import CouponInput from "@/components/checkout/CouponInput";
 import { checkoutSchema } from "@/lib/validations";
 import type { Coupon } from "@/lib/coupons";
+import type { CheckoutInput } from "@/lib/validations";
 
 export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCart();
-  const { success, error } = useToast();
+  const { success, error: showError } = useToast();
   const { addOrder } = useOrders();
   const [submitted, setSubmitted] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderId, setOrderId] = useState("");
-  const [shippingErrors, setShippingErrors] = useState<Partial<Record<keyof ShippingData, string>>>({});
   const [couponDiscount, setCouponDiscount] = useState(0);
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
 
-  const [shipping, setShipping] = useState<ShippingData>({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    city: "",
-    address: "",
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CheckoutInput>({
+    resolver: zodResolver(checkoutSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      phone: "",
+      city: "",
+      address: "",
+      paymentMethod: "card",
+      cardNumber: "",
+      cardExpiry: "",
+      cardCvv: "",
+    },
   });
 
-  const [payment, setPayment] = useState<PaymentData>({
-    method: "card",
-    cardNumber: "",
-    cardExpiry: "",
-    cardCvv: "",
-  });
-
+  const paymentMethod = useWatch({ control, name: "paymentMethod" });
   const shippingCost = totalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : DEFAULT_SHIPPING_COST;
   const finalTotal = totalPrice - couponDiscount + shippingCost;
 
@@ -48,29 +56,7 @@ export default function CheckoutPage() {
     setCouponDiscount(discount);
   }, []);
 
-  const handleCheckout = useCallback(async () => {
-    const result = checkoutSchema.safeParse({
-      ...shipping,
-      paymentMethod: payment.method,
-      ...(payment.method === "card" ? {
-        cardNumber: payment.cardNumber,
-        cardExpiry: payment.cardExpiry,
-        cardCvv: payment.cardCvv,
-      } : {}),
-    });
-
-    if (!result.success) {
-      const fieldErrors: Partial<Record<keyof ShippingData, string>> = {};
-      for (const issue of result.error.issues) {
-        const field = issue.path[0] as keyof ShippingData;
-        fieldErrors[field] = issue.message;
-      }
-      setShippingErrors(fieldErrors);
-      error("يرجى تصحيح الأخطاء في النموذج");
-      return;
-    }
-
-    setShippingErrors({});
+  const onSubmit = useCallback(async (data: CheckoutInput) => {
     setIsProcessing(true);
     await new Promise((r) => setTimeout(r, 1500));
 
@@ -78,8 +64,14 @@ export default function CheckoutPage() {
       items,
       totalPrice,
       shippingCost,
-      shipping,
-      paymentMethod: payment.method,
+      shipping: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phone,
+        city: data.city,
+        address: data.address,
+      },
+      paymentMethod: data.paymentMethod,
     });
 
     clearCart();
@@ -87,7 +79,11 @@ export default function CheckoutPage() {
     setIsProcessing(false);
     setSubmitted(true);
     success("تم تأكيد طلبك بنجاح!");
-  }, [shipping, payment, items, totalPrice, shippingCost, clearCart, addOrder, success, error]);
+  }, [items, totalPrice, shippingCost, clearCart, addOrder, success]);
+
+  const onError = useCallback(() => {
+    showError("يرجى تصحيح الأخطاء في النموذج");
+  }, [showError]);
 
   if (submitted) {
     return (
@@ -128,38 +124,40 @@ export default function CheckoutPage() {
 
       <h1 className="text-2xl font-extrabold text-slate-800 mb-8">إتمام الشراء</h1>
 
-      <div className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-6">
-          <ShippingForm data={shipping} onChange={setShipping} errors={shippingErrors} />
-          <PaymentForm data={payment} onChange={setPayment} />
-        </div>
-
-        <div className="h-fit sticky top-32 space-y-4">
-          <OrderSummary
-            items={items}
-            totalPrice={totalPrice}
-            shipping={shippingCost}
-            discount={couponDiscount}
-          />
-          <div className="card p-6">
-            <CouponInput totalPrice={totalPrice} onApply={handleCouponApply} />
+      <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
+        <div className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-6">
+            <ShippingForm register={register} errors={errors} />
+            <PaymentForm control={control} paymentMethod={paymentMethod} errors={errors} />
           </div>
-          <button
-            onClick={handleCheckout}
-            disabled={isProcessing}
-            className="btn-secondary w-full justify-center py-3 text-base disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {isProcessing ? (
-              <>
-                <Loader2 size={18} className="animate-spin" />
-                جاري المعالجة...
-              </>
-            ) : (
-              "تأكيد الطلب والدفع"
-            )}
-          </button>
+
+          <div className="h-fit sticky top-32 space-y-4">
+            <OrderSummary
+              items={items}
+              totalPrice={totalPrice}
+              shipping={shippingCost}
+              discount={couponDiscount}
+            />
+            <div className="card p-6">
+              <CouponInput totalPrice={totalPrice} onApply={handleCouponApply} />
+            </div>
+            <button
+              type="submit"
+              disabled={isProcessing}
+              className="btn-secondary w-full justify-center py-3 text-base disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {isProcessing ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  جاري المعالجة...
+                </>
+              ) : (
+                "تأكيد الطلب والدفع"
+              )}
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

@@ -2,34 +2,46 @@
 
 import { useState } from "react";
 import { Loader2, Briefcase } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { categories } from "@/lib";
 import { useToast } from "@/lib/ToastContext";
+import { serviceSchema } from "@/lib/validations";
+import type { ServiceInput } from "@/lib/validations";
 
 const serviceCategories = categories.find((c) => c.slug === "services")?.subcategories || [];
 
 export default function NewServiceForm() {
-  const { success, error } = useToast();
+  const { success, error: showError } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = new FormData(e.currentTarget);
-    const title = form.get("title") as string;
-    const category = form.get("category") as string;
-    const description = form.get("description") as string;
-    const price = form.get("price") as string;
-    const location = form.get("location") as string;
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<ServiceInput>({
+    resolver: zodResolver(serviceSchema),
+    defaultValues: {
+      title: "",
+      category: "",
+      description: "",
+      price: "",
+      location: "",
+      phone: "",
+      pricingType: "fixed",
+    },
+  });
 
-    if (!title || !category || !description || !price || !location) {
-      error("يرجى ملء جميع الحقول المطلوبة");
-      return;
-    }
-
+  const onSubmit = async (data: ServiceInput) => {
     setIsSubmitting(true);
     await new Promise((r) => setTimeout(r, 1200));
     setIsSubmitting(false);
     success("تم نشر الخدمة بنجاح!");
-    (e.target as HTMLFormElement).reset();
+  };
+
+  const onError = () => {
+    showError("يرجى تصحيح الأخطاء في النموذج");
   };
 
   return (
@@ -44,19 +56,22 @@ export default function NewServiceForm() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit(onSubmit, onError)} noValidate className="space-y-5">
         <div>
           <label htmlFor="service-title" className="block text-sm font-medium text-slate-700 mb-1.5">
             عنوان الخدمة <span className="text-red-500">*</span>
           </label>
           <input
             id="service-title"
-            name="title"
             type="text"
-            required
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors text-right"
+            {...register("title")}
+            aria-invalid={!!errors.title}
+            className={`w-full px-4 py-2.5 rounded-xl border transition-colors text-right focus:outline-none ${
+              errors.title ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+            }`}
             placeholder="مثال: سباك محترف - إصلاح جميع الأعطال"
           />
+          {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>}
         </div>
 
         <div className="grid md:grid-cols-2 gap-4">
@@ -66,9 +81,11 @@ export default function NewServiceForm() {
             </label>
             <select
               id="service-category"
-              name="category"
-              required
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors bg-white"
+              {...register("category")}
+              aria-invalid={!!errors.category}
+              className={`w-full px-4 py-2.5 rounded-xl border transition-colors focus:outline-none bg-white ${
+                errors.category ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+              }`}
             >
               <option value="">اختر التخصص</option>
               {serviceCategories.map((sub) => (
@@ -77,6 +94,7 @@ export default function NewServiceForm() {
                 </option>
               ))}
             </select>
+            {errors.category && <p className="text-red-500 text-xs mt-1">{errors.category.message}</p>}
           </div>
           <div>
             <label htmlFor="service-location" className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -84,12 +102,15 @@ export default function NewServiceForm() {
             </label>
             <input
               id="service-location"
-              name="location"
               type="text"
-              required
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors text-right"
+              {...register("location")}
+              aria-invalid={!!errors.location}
+              className={`w-full px-4 py-2.5 rounded-xl border transition-colors text-right focus:outline-none ${
+                errors.location ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+              }`}
               placeholder="مثال: صنعاء - حي الحصبة"
             />
+            {errors.location && <p className="text-red-500 text-xs mt-1">{errors.location.message}</p>}
           </div>
         </div>
 
@@ -99,12 +120,15 @@ export default function NewServiceForm() {
           </label>
           <textarea
             id="service-description"
-            name="description"
             rows={4}
-            required
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors text-right resize-none"
+            {...register("description")}
+            aria-invalid={!!errors.description}
+            className={`w-full px-4 py-2.5 rounded-xl border transition-colors text-right resize-none focus:outline-none ${
+              errors.description ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+            }`}
             placeholder="اكتب وصفاً تفصيلياً عن خدماتك وخبراتك..."
           />
+          {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description.message}</p>}
         </div>
 
         <div className="grid md:grid-cols-2 gap-4">
@@ -114,13 +138,15 @@ export default function NewServiceForm() {
             </label>
             <input
               id="service-price"
-              name="price"
               type="number"
-              required
-              min="1"
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors"
+              {...register("price")}
+              aria-invalid={!!errors.price}
+              className={`w-full px-4 py-2.5 rounded-xl border transition-colors focus:outline-none ${
+                errors.price ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+              }`}
               placeholder="مثال: 5000"
             />
+            {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price.message}</p>}
           </div>
           <div>
             <label htmlFor="service-phone" className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -128,31 +154,33 @@ export default function NewServiceForm() {
             </label>
             <input
               id="service-phone"
-              name="phone"
               type="tel"
-              required
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none transition-colors"
-              placeholder="77xxxxxxxx"
+              {...register("phone")}
               dir="ltr"
+              aria-invalid={!!errors.phone}
+              className={`w-full px-4 py-2.5 rounded-xl border transition-colors focus:outline-none ${
+                errors.phone ? "border-red-300 bg-red-50/50" : "border-slate-200 focus:border-sky-500"
+              }`}
+              placeholder="77xxxxxxxx"
             />
+            {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
           </div>
         </div>
 
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1.5">نوع التسعير</label>
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-wrap">
             {[
-              { value: "fixed", label: "سعر ثابت" },
-              { value: "hourly", label: "بالساعة" },
-              { value: "daily", label: "باليوم" },
-              { value: "negotiable", label: "قابل للتفاوض" },
+              { value: "fixed" as const, label: "سعر ثابت" },
+              { value: "hourly" as const, label: "بالساعة" },
+              { value: "daily" as const, label: "باليوم" },
+              { value: "negotiable" as const, label: "قابل للتفاوض" },
             ].map((option) => (
               <label key={option.value} className="flex items-center gap-2 cursor-pointer text-sm">
                 <input
                   type="radio"
-                  name="pricing"
+                  {...register("pricingType")}
                   value={option.value}
-                  defaultChecked={option.value === "fixed"}
                   className="accent-sky-500"
                 />
                 <span>{option.label}</span>
