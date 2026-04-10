@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { Address } from "./types";
-import { useToast } from "./ToastContext";
+import { Address } from "../types/product";
+import { useToast } from "../contexts/ToastContext";
 
 const STORAGE_KEY = "khuboor_addresses";
 

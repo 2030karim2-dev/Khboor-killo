@@ -3,3 +3,5 @@ export { autoPartsProducts } from "./autoParts";
 export { clothingProducts } from "./clothing";
 export { buildingMaterialsProducts } from "./buildingMaterials";
 export { accessoriesProducts } from "./accessories";
+export { products } from "./products";
+export { categories } from "./categories";

@@ -1,4 +1,4 @@
-import type { AdminOrder, AdminUser, AdminSettings } from "./adminTypes";
+import type { AdminOrder, AdminUser, AdminSettings } from "../types/admin";
 import { products as defaultProducts, categories as defaultCategories } from "./index";
 
 export const STORAGE_KEYS = {

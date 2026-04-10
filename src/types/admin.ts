@@ -1,5 +1,5 @@
-import type { Product, Category } from "./types";
-import type { OrderStatus } from "./orderTypes";
+import type { Product, Category } from "./product";
+import type { OrderStatus } from "./order";
 
 export interface AdminOrder {
   id: string;
