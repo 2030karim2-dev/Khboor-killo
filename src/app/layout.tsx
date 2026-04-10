@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Noto_Kufi_Arabic } from "next/font/google";
+import { Cairo, Tajawal } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -10,10 +10,17 @@ import BottomNav from "@/components/layout/BottomNav";
 import AdminFloatingButton from "@/components/AdminFloatingButton";
 import ServiceWorkerRegistration from "@/components/layout/ServiceWorkerRegistration";
 
-const notoKufi = Noto_Kufi_Arabic({
-  variable: "--font-arabic",
+const cairo = Cairo({
+  variable: "--font-cairo",
   subsets: ["arabic"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
+
+const tajawal = Tajawal({
+  variable: "--font-tajawal",
+  subsets: ["arabic"],
+  weight: ["200", "300", "400", "500", "700", "800", "900"],
   display: "swap",
 });
 
@@ -61,7 +68,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={`${notoKufi.variable} antialiased mobile-scale-down`}>
+      <body className={`${cairo.variable} ${tajawal.variable} antialiased`}>
         <OrganizationJsonLd />
         <WebsiteJsonLd />
         <AppProviders>
