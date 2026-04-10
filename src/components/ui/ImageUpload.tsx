@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import NextImage from "next/image";
 import { Upload, X, Image as ImageIcon, Loader2 } from "lucide-react";
 
 interface ImageFile {
@@ -221,10 +222,11 @@ export default function ImageUpload({
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {images.map((img) => (
             <div key={img.id} className="relative group aspect-square rounded-xl overflow-hidden border border-slate-200">
-              <img
+              <NextImage
                 src={img.preview}
                 alt="معاينة الصورة"
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
               {img.compressed && (
                 <span className="absolute top-1.5 left-1.5 bg-emerald-500 text-white text-[10px] px-1.5 py-0.5 rounded font-medium">

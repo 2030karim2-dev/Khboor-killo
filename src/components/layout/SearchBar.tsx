@@ -60,7 +60,7 @@ export default function SearchBar({ className = "" }: { className?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [results, setResults] = useState<typeof products>([]);
   const [suggestions, setSuggestions] = useState<{ type: "product" | "category"; label: string; href: string; icon?: string }[]>([]);
-  const [history] = useState<string[]>(() => getSearchHistory());
+  const history = getSearchHistory();
   const containerRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -116,22 +116,25 @@ export default function SearchBar({ className = "" }: { className?: string }) {
     setSuggestions(suggestionList);
   }, []);
 
-  useEffect(() => {
-    if (!query.trim()) {
+  const handleQueryChange = useCallback((value: string) => {
+    if (!value.trim()) {
       setResults([]);
       setSuggestions([]);
-      return;
+    } else {
+      doSearch(value);
     }
+  }, [doSearch]);
 
+  useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      doSearch(query);
+      handleQueryChange(query);
     }, 200);
 
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
-  }, [query, doSearch]);
+  }, [query, handleQueryChange]);
 
   const popularSearches = getPopularSearches();
 
@@ -158,6 +161,7 @@ export default function SearchBar({ className = "" }: { className?: string }) {
           placeholder="ابحث عن منتجات..."
           className="w-full py-2.5 pr-12 pl-4 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none transition-colors bg-white text-right"
           autoComplete="off"
+          role="combobox"
           aria-expanded={isOpen}
           aria-haspopup="listbox"
           aria-controls="search-suggestions"
@@ -197,6 +201,7 @@ export default function SearchBar({ className = "" }: { className?: string }) {
                         className="flex items-center justify-between group px-3 py-2 rounded-lg hover:bg-slate-50 cursor-pointer"
                         onClick={() => handleSearch(item)}
                         role="option"
+                        aria-selected={false}
                       >
                         <div className="flex items-center gap-2">
                           <Clock size={14} className="text-slate-400" />
