@@ -184,10 +184,7 @@ export default function SearchBar({ className = "" }: { className?: string }) {
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wide">عمليات البحث الأخيرة</h3>
                     <button
-                      onClick={() => {
-                        localStorage.removeItem(SEARCH_HISTORY_KEY);
-                        setHistory([]);
-                      }}
+                      onClick={clearHistory}
                       className="text-xs text-sky-600 hover:text-sky-700"
                     >
                       مسح الكل
@@ -208,8 +205,7 @@ export default function SearchBar({ className = "" }: { className?: string }) {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            removeSearchHistory(item);
-                            setHistory(getSearchHistory());
+                            removeHistoryItem(item);
                           }}
                           className="opacity-0 group-hover:opacity-100 p-1 hover:bg-slate-200 rounded"
                           aria-label={`إزالة "${item}" من التاريخ`}
