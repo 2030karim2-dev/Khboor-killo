@@ -61,7 +61,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={`${notoKufi.variable} antialiased`}>
+      <body className={`${notoKufi.variable} antialiased mobile-scale-down`}>
         <OrganizationJsonLd />
         <WebsiteJsonLd />
         <AppProviders>
