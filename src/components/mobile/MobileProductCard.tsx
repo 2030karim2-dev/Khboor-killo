@@ -14,11 +14,26 @@ export default function MobileProductCard({ product }: { product: Product }) {
   const { success, info } = useToast();
   const liked = isInWishlist(product.id);
 
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    addToCart(product);
+    success("تمت إضافة المنتج للسلة");
+  };
+
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    toggleWishlist(product);
+    info(liked ? "تمت إزالة من المفضلة" : "تمت إضافة للمفضلة");
+  };
+
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden animate-fade-in active:scale-[0.98] transition-transform">
-      <Link href={`/product/${product.id}`} className="flex gap-3 p-3">
+    <Link 
+      href={`/product/${product.id}`} 
+      className="block bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden hover:shadow-lg transition-all active:scale-[0.99]"
+    >
+      <div className="flex gap-3 p-3">
         {/* Image */}
-        <div className="w-24 h-24 relative rounded-xl overflow-hidden shrink-0">
+        <div className="w-24 h-24 relative rounded-xl overflow-hidden shrink-0 bg-slate-100">
           <Image
             src={product.image}
             alt={product.name}
@@ -26,69 +41,72 @@ export default function MobileProductCard({ product }: { product: Product }) {
             sizes="96px"
             className="object-cover"
           />
-          {product.discount && (
-            <span className="absolute top-1 right-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">
-              -{product.discount}%
-            </span>
-          )}
+          {/* Badges */}
+          <div className="absolute top-1 right-1 flex flex-col gap-1">
+            {product.discount && (
+              <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md shadow">
+                -{product.discount}%
+              </span>
+            )}
+            {product.featured && (
+              <span className="bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md shadow">
+                مميز
+              </span>
+            )}
+          </div>
           {!product.inStock && (
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-              <span className="text-white text-[10px] font-bold">نفد</span>
+            <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+              <span className="bg-white/90 text-slate-800 text-[10px] font-bold px-2 py-1 rounded-full">
+               نفد المخزون
+              </span>
             </div>
           )}
         </div>
 
         {/* Info */}
-        <div className="flex-1 min-w-0 flex flex-col justify-between">
+        <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
           <div>
-            <h3 className="text-sm font-bold text-slate-800 line-clamp-2 leading-tight mb-1">
+            <h3 className="text-sm font-bold text-slate-800 dark:text-white line-clamp-2 leading-tight mb-1.5">
               {product.name}
             </h3>
             <div className="flex items-center gap-1 mb-1">
               <Star size={12} className="fill-amber-400 text-amber-400" />
-              <span className="text-[11px] text-slate-500">{product.rating}</span>
+              <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">{product.rating}</span>
+              <span className="text-[10px] text-slate-400">({product.reviews})</span>
             </div>
           </div>
           <div>
-            <p className="text-base font-extrabold text-slate-900">
+            <p className="text-base font-extrabold text-slate-900 dark:text-white">
               {formatPrice(product.price)}
             </p>
             {product.originalPrice && (
-              <p className="text-[11px] text-slate-400 line-through">
+              <p className="text-xs text-slate-400 line-through">
                 {formatPrice(product.originalPrice)}
               </p>
             )}
           </div>
         </div>
-      </Link>
+      </div>
 
       {/* Actions */}
-      <div className="flex items-center border-t border-slate-100">
+      <div className="flex items-center border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            toggleWishlist(product);
-            info(liked ? "تم الإزالة" : "تمت الإضافة للمفضلة");
-          }}
-          className="flex-1 py-2.5 flex items-center justify-center gap-1.5 text-xs text-slate-500 active:bg-slate-50 transition-colors"
+          onClick={handleToggleWishlist}
+          className="flex-1 py-2.5 flex items-center justify-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-red-500 active:bg-slate-100 dark:active:bg-slate-700 transition-colors"
         >
-          <Heart size={15} className={liked ? "fill-red-500 text-red-500" : ""} />
+          <Heart size={16} className={liked ? "fill-red-500 text-red-500" : ""} />
           <span>مفضلة</span>
         </button>
-        <div className="w-px h-6 bg-slate-100" />
+        <div className="w-px h-6 bg-slate-200 dark:bg-slate-600" />
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            addToCart(product);
-            success("تمت الإضافة للسلة");
-          }}
+          onClick={handleAddToCart}
           disabled={!product.inStock}
-          className="flex-1 py-2.5 flex items-center justify-center gap-1.5 text-xs text-sky-600 font-medium active:bg-sky-50 transition-colors disabled:opacity-40"
+          className="flex-1 py-2.5 flex items-center justify-center gap-1.5 text-xs text-sky-600 dark:text-sky-400 font-semibold active:bg-sky-100 dark:active:bg-sky-900/30 transition-colors disabled:opacity-40"
         >
-          <ShoppingCart size={15} />
+          <ShoppingCart size={16} />
           <span>أضف للسلة</span>
         </button>
       </div>
-    </div>
+    </Link>
   );
 }
