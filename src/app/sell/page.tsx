@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { Plus, Package, Briefcase } from "lucide-react";
 import { Breadcrumb } from "@/components/ui";
 import SellerStats from "@/components/sell/SellerStats";
-import NewProductForm from "@/components/sell/NewProductForm";
-import NewServiceForm from "@/components/sell/NewServiceForm";
-import SellerListings from "@/components/sell/SellerListings";
+
+const NewProductForm = dynamic(() => import("@/components/sell/NewProductForm"), { loading: () => <div className="animate-pulse h-64 bg-slate-100 rounded-xl" /> });
+const NewServiceForm = dynamic(() => import("@/components/sell/NewServiceForm"), { loading: () => <div className="animate-pulse h-64 bg-slate-100 rounded-xl" /> });
+const SellerListings = dynamic(() => import("@/components/sell/SellerListings"), { loading: () => <div className="animate-pulse h-64 bg-slate-100 rounded-xl" /> });
 
 export default function SellPage() {
   const [activeTab, setActiveTab] = useState<"new" | "service" | "listings">("new");
@@ -22,8 +24,11 @@ export default function SellPage() {
 
       <SellerStats />
 
-      <div className="flex gap-2 mb-6 flex-wrap">
+      <div className="flex gap-2 mb-6 flex-wrap" role="tablist" aria-label="أقسام لوحة البائع">
         <button
+          role="tab"
+          aria-selected={activeTab === "new"}
+          aria-controls="tab-panel-new"
           onClick={() => setActiveTab("new")}
           className={`px-4 py-2.5 rounded-xl font-medium text-sm transition-colors ${
             activeTab === "new"
@@ -35,6 +40,9 @@ export default function SellPage() {
           إضافة منتج
         </button>
         <button
+          role="tab"
+          aria-selected={activeTab === "service"}
+          aria-controls="tab-panel-service"
           onClick={() => setActiveTab("service")}
           className={`px-4 py-2.5 rounded-xl font-medium text-sm transition-colors ${
             activeTab === "service"
@@ -46,6 +54,9 @@ export default function SellPage() {
           إضافة خدمة/مهنة
         </button>
         <button
+          role="tab"
+          aria-selected={activeTab === "listings"}
+          aria-controls="tab-panel-listings"
           onClick={() => setActiveTab("listings")}
           className={`px-4 py-2.5 rounded-xl font-medium text-sm transition-colors ${
             activeTab === "listings"
@@ -58,9 +69,11 @@ export default function SellPage() {
         </button>
       </div>
 
-      {activeTab === "new" && <NewProductForm />}
-      {activeTab === "service" && <NewServiceForm />}
-      {activeTab === "listings" && <SellerListings />}
+      <div role="tabpanel" id={`tab-panel-${activeTab}`}>
+        {activeTab === "new" && <NewProductForm />}
+        {activeTab === "service" && <NewServiceForm />}
+        {activeTab === "listings" && <SellerListings />}
+      </div>
     </div>
   );
 }

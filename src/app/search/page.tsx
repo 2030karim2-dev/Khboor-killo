@@ -1,8 +1,14 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Search } from "lucide-react";
-import { searchProducts, categories, SORT_OPTIONS } from "@/lib";
+import { searchProducts, categories } from "@/lib";
 import { Breadcrumb, ProductGrid, EmptyState } from "@/components/ui";
+import SortSelect from "@/components/search/SortSelect";
+
+export const metadata: Metadata = {
+  title: "نتائج البحث",
+  description: "ابحث عن المنتجات في منصة خبور - سيارات، قطع غيار، ملابس، مواد بناء، إكسسوارات",
+};
 
 export default async function SearchPage({
   searchParams,
@@ -105,19 +111,10 @@ export default async function SearchPage({
               </div>
 
               {/* Sort */}
-              <select
-                defaultValue={params.sort || ""}
-                onChange={(e) => {
-                  window.location.href = buildFilterUrl("sort", e.target.value);
-                }}
-                className="px-3 py-1.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-sky-500"
-                aria-label="ترتيب النتائج"
-              >
-                <option value="">الترتيب الافتراضي</option>
-                {SORT_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                ))}
-              </select>
+              <SortSelect
+                currentSort={params.sort || ""}
+                buildFilterUrl={buildFilterUrl}
+              />
             </div>
           )}
 

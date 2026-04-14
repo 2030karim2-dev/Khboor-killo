@@ -87,10 +87,13 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   const clearWishlist = useCallback(() => setItemIds([]), []);
 
+  const value = useMemo(
+    () => ({ itemIds, products, addToWishlist, removeFromWishlist, toggleWishlist, isInWishlist, clearWishlist }),
+    [itemIds, products, addToWishlist, removeFromWishlist, toggleWishlist, isInWishlist, clearWishlist]
+  );
+
   return (
-    <WishlistContext.Provider
-      value={{ itemIds, products, addToWishlist, removeFromWishlist, toggleWishlist, isInWishlist, clearWishlist }}
-    >
+    <WishlistContext.Provider value={value}>
       {children}
     </WishlistContext.Provider>
   );

@@ -31,7 +31,7 @@ export * from '../i18n';
 export { useAddresses } from '../hooks/useAddresses';
 
 export * from '../utils/constants';
-export * from '../utils/helpers';
+export { getProductById, getProductsByCategory, getFeaturedProducts, getCategoryBySlug, searchProducts, formatNumber, formatPrice, calculateDiscountPercent } from '../utils/helpers';
 export * from '../utils/validations';
 
 export { default as AppProviders } from '../AppProviders';

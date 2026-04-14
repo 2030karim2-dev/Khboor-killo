@@ -6,7 +6,8 @@ import {
   useState,
   useCallback,
   useEffect,
-  ReactNode,
+  useMemo,
+  type ReactNode,
 } from "react";
 import { Order, OrderStatus } from "../types/order";
 
@@ -66,8 +67,13 @@ export function OrderProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const value = useMemo(
+    () => ({ orders, addOrder, getOrder, updateOrderStatus }),
+    [orders, addOrder, getOrder, updateOrderStatus]
+  );
+
   return (
-    <OrderContext.Provider value={{ orders, addOrder, getOrder, updateOrderStatus }}>
+    <OrderContext.Provider value={value}>
       {children}
     </OrderContext.Provider>
   );

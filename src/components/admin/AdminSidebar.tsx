@@ -2,33 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  Package,
-  ShoppingCart,
-  Users,
-  Tags,
-  Settings,
-  ChevronRight,
-} from "lucide-react";
-
-const navItems = [
-  { href: "/admin", icon: LayoutDashboard, label: "لوحة التحكم", exact: true },
-  { href: "/admin/orders", icon: ShoppingCart, label: "الطلبات", badge: 12 },
-  { href: "/admin/products", icon: Package, label: "المنتجات" },
-  { href: "/admin/users", icon: Users, label: "المستخدمين" },
-  { href: "/admin/categories", icon: Tags, label: "الأقسام" },
-  { href: "/admin/settings", icon: Settings, label: "الإعدادات" },
-];
+import { ChevronRight } from "lucide-react";
+import { useAdmin } from "@/contexts/AdminContext";
+import { adminNavItems } from "./constants";
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const { orders } = useAdmin();
+  const pendingOrdersCount = orders.filter((o) => o.status === "pending" || o.status === "confirmed").length;
 
   const isActive = (href: string, exact?: boolean) =>
     exact ? pathname === href : pathname.startsWith(href);
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 bg-white dark:bg-slate-800 border-l border-slate-200 dark:border-slate-700">
+    <aside className="hidden lg:flex flex-col w-64 bg-white dark:bg-slate-800 border-e border-slate-200 dark:border-slate-700">
       <div className="p-4 border-b border-slate-200 dark:border-slate-700">
         <Link href="/admin" className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-lg gradient-primary flex items-center justify-center text-white font-bold">
@@ -41,8 +28,8 @@ export default function AdminSidebar() {
         </Link>
       </div>
 
-      <nav className="flex-1 p-3 space-y-1">
-        {navItems.map((item) => (
+      <nav className="flex-1 p-3 space-y-1" aria-label="التنقل في لوحة التحكم">
+        {adminNavItems.map((item) => (
           <Link
             key={item.href}
             href={item.href}
@@ -54,9 +41,9 @@ export default function AdminSidebar() {
           >
             <item.icon size={18} />
             <span className="flex-1">{item.label}</span>
-            {item.badge && (
+            {item.href === "/admin/orders" && pendingOrdersCount > 0 && (
               <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
-                {item.badge}
+                {pendingOrdersCount}
               </span>
             )}
             {isActive(item.href, item.exact) && (

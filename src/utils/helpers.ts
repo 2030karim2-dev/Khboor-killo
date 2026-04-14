@@ -37,6 +37,6 @@ export function formatPrice(price: number): string {
   return formatNumber(price) + " " + CURRENCY;
 }
 
-export function calculateDiscount(original: number, current: number): number {
+export function calculateDiscountPercent(original: number, current: number): number {
   return Math.round(((original - current) / original) * 100);
 }

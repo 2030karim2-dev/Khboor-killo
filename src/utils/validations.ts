@@ -37,13 +37,25 @@ export const checkoutSchema = z.object({
   cardNumber: z.string().optional(),
   cardExpiry: z.string().optional(),
   cardCvv: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.paymentMethod === "card") {
+    if (!data.cardNumber || !/^\d{16}$/.test(data.cardNumber.replace(/\s/g, ""))) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "رقم البطاقة يجب أن يتكون من 16 رقم", path: ["cardNumber"] });
+    }
+    if (!data.cardExpiry || !/^\d{2}\/\d{2}$/.test(data.cardExpiry)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "تاريخ الانتهاء يجب أن يكون بصيغة MM/YY", path: ["cardExpiry"] });
+    }
+    if (!data.cardCvv || !/^\d{3,4}$/.test(data.cardCvv)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "CVV يجب أن يتكون من 3 أو 4 أرقام", path: ["cardCvv"] });
+    }
+  }
 });
 
 export const productSchema = z.object({
   name: z.string().min(3, "اسم المنتج يجب أن يكون 3 أحرف على الأقل"),
   description: z.string().min(20, "الوصف يجب أن يكون 20 حرف على الأقل"),
-  price: z.string().min(1, "السعر مطلوب"),
-  originalPrice: z.string().optional(),
+  price: z.string().min(1, "السعر مطلوب").regex(/^\d+(\.\d{1,2})?$/, "السعر يجب أن يكون رقماً صحيحاً"),
+  originalPrice: z.string().regex(/^\d+(\.\d{1,2})?$/, "السعر يجب أن يكون رقماً صحيحاً").optional().or(z.literal("")),
   category: z.string().min(1, "القسم مطلوب"),
 });
 
@@ -51,7 +63,7 @@ export const serviceSchema = z.object({
   title: z.string().min(3, "عنوان الخدمة يجب أن يكون 3 أحرف على الأقل"),
   category: z.string().min(1, "التخصص مطلوب"),
   description: z.string().min(20, "الوصف يجب أن يكون 20 حرف على الأقل"),
-  price: z.string().min(1, "السعر مطلوب"),
+  price: z.string().min(1, "السعر مطلوب").regex(/^\d+(\.\d{1,2})?$/, "السعر يجب أن يكون رقماً صحيحاً"),
   location: z.string().min(2, "الموقع مطلوب"),
   phone: z.string().regex(/^7[0137]\d{7}$/, "رقم الجوال غير صحيح"),
   pricingType: z.enum(["fixed", "hourly", "daily", "negotiable"]),

@@ -18,7 +18,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
 
   if (!user) notFound();
 
-  const userOrders = orders.filter((o) => o.customer === user.name).slice(0, 5);
+  const userOrders = orders.filter((o) => o.customer === user.name || o.phone === user.phone).slice(0, 5);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">

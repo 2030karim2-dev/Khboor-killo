@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function AdminFloatingButton() {
   const pathname = usePathname();
+  const { isAuthenticated } = useAuth();
 
-  if (pathname.startsWith("/admin")) return null;
+  if (pathname.startsWith("/admin") || !isAuthenticated) return null;
 
   return (
     <Link

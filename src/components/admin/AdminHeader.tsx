@@ -4,11 +4,13 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Menu, Bell, Search, User, ChevronDown, X } from "lucide-react";
 import AdminMobileSidebar from "./AdminMobileSidebar";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function AdminHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const { logout } = useAuth();
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -40,7 +42,7 @@ export default function AdminHeader() {
         </div>
 
         <div className="flex items-center gap-2">
-          <button className="relative p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
+          <button className="relative p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700" aria-label="الإشعارات">
             <Bell size={20} className="text-slate-600 dark:text-slate-300" />
             <span className="absolute top-0.5 right-0.5 w-2 h-2 rounded-full bg-red-500" />
           </button>
@@ -49,6 +51,8 @@ export default function AdminHeader() {
             <button
               onClick={() => setUserMenuOpen(!userMenuOpen)}
               className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700"
+              aria-label="قائمة المستخدم"
+              aria-expanded={userMenuOpen}
             >
               <div className="w-7 h-7 rounded-full bg-sky-100 flex items-center justify-center">
                 <User size={14} className="text-sky-600" />
@@ -62,7 +66,7 @@ export default function AdminHeader() {
                   الإعدادات
                 </Link>
                 <hr className="my-1 border-slate-100 dark:border-slate-700" />
-                <Link href="/" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2 text-sm text-red-500 hover:bg-red-50">
+                <Link href="/" onClick={() => { logout(); setUserMenuOpen(false); }} className="block px-4 py-2 text-sm text-red-500 hover:bg-red-50">
                   تسجيل الخروج
                 </Link>
               </div>

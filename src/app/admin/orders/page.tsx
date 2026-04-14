@@ -57,7 +57,7 @@ export default function AdminOrders() {
     {
       key: "actions", header: "إجراءات", width: 80, sortable: false,
       render: (_, row) => (
-        <Link href={`/admin/orders/${row.id}`} onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-lg hover:bg-sky-50 text-slate-400 hover:text-sky-600 inline-flex">
+        <Link href={`/admin/orders/${row.id}`} onClick={(e) => e.stopPropagation()} className="p-1.5 rounded-lg hover:bg-sky-50 text-slate-400 hover:text-sky-600 inline-flex" aria-label={`عرض الطلب ${row.id}`}>
           <Eye size={16} />
         </Link>
       ),

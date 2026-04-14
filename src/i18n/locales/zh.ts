@@ -1,5 +1,5 @@
 const zh: Record<string, string> = {
-  "site.name": "خبر",
+  "site.name": "Khuboor",
   "site.tagline": "一站式购物平台",
 
   // Navigation

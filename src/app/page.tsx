@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { categories, getFeaturedProducts } from "@/lib";
 import CategoryCard from "@/components/CategoryCard";
 import { SectionHeader, ProductGrid, TrustBar } from "@/components/ui";
@@ -58,7 +59,7 @@ export default function Home() {
       <section className="md:hidden px-2 py-3">
         <div className="flex items-center justify-between mb-2 px-1">
           <h2 className="text-sm font-extrabold text-slate-800">منتجات مميزة</h2>
-          <a href="/search" className="text-[10px] text-sky-600 font-medium">عرض الكل</a>
+          <Link href="/search" className="text-[10px] text-sky-600 font-medium">عرض الكل</Link>
         </div>
         <div className="grid grid-cols-3 gap-1.5">
           {featured.slice(0, 6).map((product) => (
@@ -83,9 +84,9 @@ export default function Home() {
         <div className="gradient-primary rounded-2xl p-5 text-center">
           <h3 className="text-white text-lg font-extrabold mb-1">عروض حصرية!</h3>
           <p className="text-sky-100 text-xs mb-3">خصم يصل إلى 50%</p>
-          <a href="/search" className="inline-block px-5 py-2 bg-white text-sky-600 font-bold rounded-xl text-sm">
+          <Link href="/search" className="inline-block px-5 py-2 bg-white text-sky-600 font-bold rounded-xl text-sm">
             تصفح العروض
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -115,7 +116,7 @@ export default function Home() {
               <h2 className="text-sm font-extrabold text-slate-800 flex items-center gap-1.5">
                 <span aria-hidden="true">{cat.icon}</span> {cat.name}
               </h2>
-              <a href={`/category/${cat.slug}`} className="text-[10px] text-sky-600 font-medium">عرض الكل</a>
+              <Link href={`/category/${cat.slug}`} className="text-[10px] text-sky-600 font-medium">عرض الكل</Link>
             </div>
             <div className="grid grid-cols-3 gap-1.5">
               {products.slice(0, 3).map((product) => (

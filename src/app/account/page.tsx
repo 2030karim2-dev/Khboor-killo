@@ -1,5 +1,3 @@
-"use client";
-
 import { Breadcrumb } from "@/components/ui";
 import AccountSidebar from "@/components/account/AccountSidebar";
 import PersonalInfoForm from "@/components/account/PersonalInfoForm";

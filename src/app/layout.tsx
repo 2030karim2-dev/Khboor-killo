@@ -3,7 +3,7 @@ import { Cairo, Tajawal } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import AppProviders from "@/lib/AppProviders";
+import AppProviders from "@/AppProviders";
 import ToastContainer from "@/components/ui/ToastContainer";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
 import BottomNav from "@/components/layout/BottomNav";

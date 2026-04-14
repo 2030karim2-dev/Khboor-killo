@@ -42,16 +42,6 @@ export interface CartItem {
   quantity: number;
 }
 
-export interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  city: string;
-  avatar?: string;
-}
-
 export interface Address {
   id: string;
   label: string;

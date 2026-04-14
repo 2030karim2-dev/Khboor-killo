@@ -47,8 +47,8 @@ export default function AdminUsers() {
       key: "actions", header: "إجراءات", width: 80, sortable: false,
       render: () => (
         <div className="flex items-center gap-1">
-          <button className="p-1.5 rounded-lg hover:bg-sky-50 text-slate-400 hover:text-sky-600"><Eye size={15} /></button>
-          <button className="p-1.5 rounded-lg hover:bg-amber-50 text-slate-400 hover:text-amber-600"><Pencil size={15} /></button>
+          <button className="p-1.5 rounded-lg hover:bg-sky-50 text-slate-400 hover:text-sky-600" aria-label="عرض المستخدم"><Eye size={15} /></button>
+          <button className="p-1.5 rounded-lg hover:bg-amber-50 text-slate-400 hover:text-amber-600" aria-label="تعديل المستخدم"><Pencil size={15} /></button>
         </div>
       ),
     },

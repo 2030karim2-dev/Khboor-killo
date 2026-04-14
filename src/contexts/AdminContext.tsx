@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, useMemo, type ReactNode } from "react";
 import type { Product, Category } from "../types/product";
 import type { OrderStatus } from "../types/order";
 import type { AdminContextType, AdminOrder, AdminUser, ActivityLogEntry } from "../types/admin";
@@ -68,7 +68,10 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   }, [addLog]);
 
   const addCategory = useCallback((cat: Omit<Category, "slug" | "productCount" | "subcategories">) => {
-    const slug = cat.name.toLowerCase().replace(/\s+/g, "-");
+    const slug = cat.name
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\u0600-\u06FF-]/g, "") || `cat-${Date.now()}`;
     setCats((prev) => [...prev, { ...cat, slug, productCount: 0, subcategories: [] }]);
     addLog("category", "إضافة قسم", `تم إضافة "${cat.name}"`);
   }, [addLog]);
@@ -97,14 +100,23 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     lowStockProducts: products.filter((p) => !p.inStock).length,
   }), [orders, products, users]);
 
-  return (
-    <AdminContext.Provider value={{
+  const value = useMemo(
+    () => ({
       products, addProduct, updateProduct, deleteProduct,
       orders, updateOrderStatus, getOrder,
       users, updateUserRole, updateUserStatus,
       categories, addCategory, updateCategory, deleteCategory,
       settings, updateSettings, activityLog, getStats,
-    }}>
+    }),
+    [products, addProduct, updateProduct, deleteProduct,
+     orders, updateOrderStatus, getOrder,
+     users, updateUserRole, updateUserStatus,
+     categories, addCategory, updateCategory, deleteCategory,
+     settings, updateSettings, activityLog, getStats]
+  );
+
+  return (
+    <AdminContext.Provider value={value}>
       {children}
     </AdminContext.Provider>
   );

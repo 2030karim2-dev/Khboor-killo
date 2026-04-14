@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useAdmin, type AdminOrder } from "@/lib/AdminContext";
+import { useAdmin } from "@/lib/AdminContext";
 import { Pencil, Trash2, Plus, Package } from "lucide-react";
 import { useToast } from "@/lib/ToastContext";
 
@@ -62,8 +62,8 @@ export default function AdminCategories() {
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-bold text-slate-800 dark:text-white">{cat.name}</h3>
                   <div className="flex gap-1">
-                    <button className="p-1.5 rounded-lg hover:bg-amber-50 text-slate-400 hover:text-amber-600"><Pencil size={14} /></button>
-                    <button onClick={() => { if (confirm(`حذف "${cat.name}"؟`)) { deleteCategory(cat.slug); warning("تم الحذف"); }}} className="p-1.5 rounded-lg hover:bg-red-50 text-slate-400 hover:text-red-600"><Trash2 size={14} /></button>
+                    <button className="p-1.5 rounded-lg hover:bg-amber-50 text-slate-400 hover:text-amber-600" aria-label={`تعديل ${cat.name}`}><Pencil size={14} /></button>
+                    <button onClick={() => { if (confirm(`حذف "${cat.name}"؟`)) { deleteCategory(cat.slug); warning("تم الحذف"); }}} className="p-1.5 rounded-lg hover:bg-red-50 text-slate-400 hover:text-red-600" aria-label={`حذف ${cat.name}`}><Trash2 size={14} /></button>
                   </div>
                 </div>
                 <p className="text-xs text-slate-500 mb-2">{cat.description}</p>

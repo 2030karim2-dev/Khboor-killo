@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useRef, useEffect, useMemo, ReactNode } from "react";
 
 type ToastType = "success" | "error" | "warning" | "info";
 
@@ -25,17 +25,34 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const timersRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+
+  useEffect(() => {
+    const timers = timersRef.current;
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+      timers.clear();
+    };
+  }, []);
 
   const removeToast = useCallback((id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
+    const timer = timersRef.current.get(id);
+    if (timer) {
+      clearTimeout(timer);
+      timersRef.current.delete(id);
+    }
   }, []);
 
   const addToast = useCallback(
     (type: ToastType, message: string, duration = 4000) => {
-      const id = Math.random().toString(36).slice(2);
+      const id = crypto.randomUUID().slice(0, 8);
       setToasts((prev) => [...prev, { id, type, message, duration }]);
       if (duration > 0) {
-        setTimeout(() => removeToast(id), duration);
+        const timer = setTimeout(() => {
+          removeToast(id);
+        }, duration);
+        timersRef.current.set(id, timer);
       }
     },
     [removeToast]
@@ -46,8 +63,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const warning = useCallback((msg: string) => addToast("warning", msg), [addToast]);
   const info = useCallback((msg: string) => addToast("info", msg), [addToast]);
 
+  const value = useMemo(
+    () => ({ toasts, addToast, removeToast, success, error, warning, info }),
+    [toasts, addToast, removeToast, success, error, warning, info]
+  );
+
   return (
-    <ToastContext.Provider value={{ toasts, addToast, removeToast, success, error, warning, info }}>
+    <ToastContext.Provider value={value}>
       {children}
     </ToastContext.Provider>
   );

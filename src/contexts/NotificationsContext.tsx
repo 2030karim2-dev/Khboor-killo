@@ -6,7 +6,8 @@ import {
   useState,
   useCallback,
   useEffect,
-  ReactNode,
+  useMemo,
+  type ReactNode,
 } from "react";
 
 export type NotificationType = "order" | "offer" | "system" | "review";
@@ -73,7 +74,7 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications));
   }, [notifications]);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  const unreadCount = useMemo(() => notifications.filter((n) => !n.read).length, [notifications]);
 
   const addNotification = useCallback((notif: Omit<Notification, "id" | "read" | "createdAt">) => {
     const newNotif: Notification = {
@@ -97,10 +98,13 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
 
   const clearAll = useCallback(() => setNotifications([]), []);
 
+  const value = useMemo(
+    () => ({ notifications, unreadCount, addNotification, markAsRead, markAllAsRead, clearAll }),
+    [notifications, unreadCount, addNotification, markAsRead, markAllAsRead, clearAll]
+  );
+
   return (
-    <NotificationsContext.Provider
-      value={{ notifications, unreadCount, addNotification, markAsRead, markAllAsRead, clearAll }}
-    >
+    <NotificationsContext.Provider value={value}>
       {children}
     </NotificationsContext.Provider>
   );

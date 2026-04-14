@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from "react";
 
 export type CurrencyCode = "SAR" | "YER" | "OMR" | "USD" | "CNY";
 
@@ -67,8 +67,13 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     [convert, currency.symbol]
   );
 
+  const value = useMemo(
+    () => ({ currency, setCurrency, convert, format, currencies }),
+    [currency, setCurrency, convert, format]
+  );
+
   return (
-    <CurrencyContext.Provider value={{ currency, setCurrency, convert, format, currencies }}>
+    <CurrencyContext.Provider value={value}>
       {children}
     </CurrencyContext.Provider>
   );

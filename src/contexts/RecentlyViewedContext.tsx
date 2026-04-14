@@ -53,8 +53,13 @@ export function RecentlyViewedProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const value = useMemo(
+    () => ({ products, addProduct }),
+    [products, addProduct]
+  );
+
   return (
-    <RecentlyViewedContext.Provider value={{ products, addProduct }}>
+    <RecentlyViewedContext.Provider value={value}>
       {children}
     </RecentlyViewedContext.Provider>
   );
