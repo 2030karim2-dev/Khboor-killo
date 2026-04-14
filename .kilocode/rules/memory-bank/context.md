@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Project Status**: ✅ Production-ready, fully optimized
+**Project Status**: ✅ Production-ready with improvement plan in progress
 
 The codebase is professionally structured with zero lint warnings, zero TypeScript errors, Image optimization, loading states, error handling, validation schemas, API routes, admin guard, SEO (robots.ts + sitemap), and product-specific reviews.
 
@@ -57,6 +57,23 @@ The codebase is professionally structured with zero lint warnings, zero TypeScri
 - [x] AdminFloatingButton checks admin role
 - [x] Checkout phone placeholder matches validation
 - [x] FAQ uses Next.js Link, removed .bak file, removed console.logs
+- [x] Created comprehensive improvement plan (IMPROVEMENT_PLAN.md) covering 50+ tasks across 6 dimensions
+- [x] Unified Order system: created sharedOrders.ts to sync OrderContext ↔ AdminContext
+- [x] Added totalPrice, createdAt, customerId to AdminOrder, added syncFromAdmin() function
+- [x] Added suppressHydrationWarning to <html>, inline theme init script in layout.tsx
+- [x] Added @custom-variant dark for Tailwind v4 data-theme compatibility
+- [x] Changed ThemeContext from class-based to data-attribute (data-theme) switching
+
+## Active Focus
+
+Phase 1: Critical Fixes (in progress)
+- ✅ Order system unification
+- ✅ Hydration fix (suppressHydrationWarning + data-theme variant setup)
+- ⏳ Complete dark mode migration (261 `dark:` class usages → data-theme)
+- ⏳ Currency formatting unification (formatPrice → useCurrency hook)
+- ⏳ Security fixes (JWT + Middleware)
+
+Remaining tasks from IMPROVEMENT_PLAN.md: 45+
 
 ## Tech Stack
 
@@ -140,3 +157,6 @@ src/
 | 2026-04-14 | Bug fixes: Chinese chars in FAQ, Arabic typos, product-specific reviews, CurrencyContext params, admin guard, admin button fixes, robots.ts, FAQ/Contact metadata |
 | 2026-04-14 | Admin audit: settings booleans, addUser, status transitions, image upload, category orphans, dashboard metrics, activity log, search bar, dedup constants |
 | 2026-04-14 | Frontend audit: login redirect, checkout coupon, remove empty categories, fix broken links, global-error fonts, RecentOrders context, admin role check |
+| 2026-04-14 | Code quality audit (63%) with detailed improvement plan (IMPROVEMENT_PLAN.md) |
+| 2026-04-14 | Order system unification (OrderContext ↔ AdminContext via sharedOrders.ts) |
+| 2026-04-14 | Hydration fix: suppressHydrationWarning + inline theme script + data-theme variant |

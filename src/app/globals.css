@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"]));
+
 @theme {
   --font-family-arabic: var(--font-cairo), "Cairo", "Noto Kufi Arabic", "Segoe UI", Tahoma, sans-serif;
   --font-family-display: var(--font-tajawal), "Tajawal", "Cairo", sans-serif;

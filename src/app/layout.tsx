@@ -67,7 +67,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var theme = localStorage.getItem('khuboor_theme');
+                if (theme) {
+                  document.documentElement.dataset.theme = theme;
+                } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                  document.documentElement.dataset.theme = 'dark';
+                }
+                var currency = localStorage.getItem('khuboor_currency');
+                if (currency) {
+                  document.documentElement.dataset.currency = currency;
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className={`${cairo.variable} ${tajawal.variable} antialiased`}>
         <OrganizationJsonLd />
         <WebsiteJsonLd />
