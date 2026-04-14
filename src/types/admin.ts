@@ -1,5 +1,5 @@
-import type { Product, Category } from "./product";
-import type { OrderStatus } from "./order";
+import type { Product, Category, CartItem } from "./product";
+import type { OrderStatus, Order } from "./order";
 
 export interface AdminOrder {
   id: string;
@@ -9,11 +9,51 @@ export interface AdminOrder {
   address: string;
   items: { productId: string; name: string; price: number; quantity: number; image: string }[];
   total: number;
+  totalPrice: number;
   shippingCost: number;
   paymentMethod: "card" | "cash";
   status: OrderStatus;
   date: string;
+  createdAt: string;
   notes?: string;
+  customerId?: string;
+}
+
+export function adminOrderToOrder(adminOrder: AdminOrder): Order {
+  const items: CartItem[] = adminOrder.items.map((item) => ({
+    product: {
+      id: item.productId,
+      name: item.name,
+      description: "",
+      price: item.price,
+      image: item.image,
+      category: "",
+      categorySlug: "",
+      rating: 0,
+      reviews: 0,
+      inStock: true,
+    },
+    quantity: item.quantity,
+  }));
+
+  return {
+    id: adminOrder.id,
+    items,
+    totalPrice: adminOrder.totalPrice || adminOrder.total,
+    shippingCost: adminOrder.shippingCost,
+    status: adminOrder.status,
+    shipping: {
+      firstName: adminOrder.customer.split(" ")[0] || "",
+      lastName: adminOrder.customer.split(" ").slice(1).join(" ") || "",
+      phone: adminOrder.phone,
+      city: adminOrder.city,
+      address: adminOrder.address,
+    },
+    paymentMethod: adminOrder.paymentMethod,
+    createdAt: adminOrder.createdAt || adminOrder.date,
+    notes: adminOrder.notes,
+    customerId: adminOrder.customerId,
+  };
 }
 
 export interface AdminUser {

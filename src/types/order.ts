@@ -19,6 +19,8 @@ export interface Order {
   shipping: OrderShipping;
   paymentMethod: "card" | "cash";
   createdAt: string;
+  customerId?: string;
+  notes?: string;
 }
 
 export const statusLabels: Record<OrderStatus, string> = {
