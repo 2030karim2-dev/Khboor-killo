@@ -5,10 +5,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { useAdmin, type AdminUser } from "@/lib/AdminContext";
 import { useToast } from "@/lib/ToastContext";
-import { ArrowRight, Mail, Phone, MapPin, Calendar, ShoppingBag, DollarSign, Shield } from "lucide-react";
-
-const roleLabels: Record<string, string> = { buyer: "مشتري", seller: "بائع", admin: "مسؤول" };
-const statusLabels: Record<string, string> = { active: "نشط", pending: "معلق", banned: "محظور" };
+import { userRoleLabels, userStatusLabels, userRoleColors, userStatusColors } from "@/components/admin/constants";
+import { ArrowRight, Mail, Phone, Calendar, ShoppingBag, DollarSign, Shield } from "lucide-react";
 
 export default function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -30,10 +28,8 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
           <h1 className="text-xl font-extrabold text-slate-800 dark:text-white">{user.name}</h1>
           <p className="text-sm text-slate-500">عضو منذ {user.joined}</p>
         </div>
-        <span className={`mr-auto text-sm font-medium px-3 py-1 rounded-lg ${
-          user.status === "active" ? "bg-emerald-50 text-emerald-600" : user.status === "pending" ? "bg-amber-50 text-amber-600" : "bg-red-50 text-red-600"
-        }`}>
-          {statusLabels[user.status]}
+        <span className={`mr-auto text-sm font-medium px-3 py-1 rounded-lg ${userStatusColors[user.status]}`}>
+          {userStatusLabels[user.status]}
         </span>
       </div>
 
@@ -57,7 +53,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
               </div>
               <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
                 <Shield size={18} className="text-slate-400" />
-                <div><p className="text-xs text-slate-500">الدور</p><p className="text-sm font-medium">{roleLabels[user.role]}</p></div>
+                <div><p className="text-xs text-slate-500">الدور</p><p className="text-sm font-medium">{userRoleLabels[user.role]}</p></div>
               </div>
             </div>
           </div>
@@ -107,7 +103,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
                 onChange={(e) => { updateUserRole(user.id, e.target.value as AdminUser["role"]); success("تم تغيير الدور"); }}
                 className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-transparent text-sm"
               >
-                {Object.entries(roleLabels).map(([k, l]) => <option key={k} value={k}>{l}</option>)}
+                {Object.entries(userRoleLabels).map(([k, l]) => <option key={k} value={k}>{l}</option>)}
               </select>
             </div>
             <div>
@@ -117,7 +113,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
                 onChange={(e) => { updateUserStatus(user.id, e.target.value as AdminUser["status"]); success("تم تغيير الحالة"); }}
                 className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-transparent text-sm"
               >
-                {Object.entries(statusLabels).map(([k, l]) => <option key={k} value={k}>{l}</option>)}
+                {Object.entries(userStatusLabels).map(([k, l]) => <option key={k} value={k}>{l}</option>)}
               </select>
             </div>
           </div>

@@ -69,6 +69,7 @@ export interface AdminContextType {
   updateOrderStatus: (id: string, status: OrderStatus) => void;
   getOrder: (id: string) => AdminOrder | undefined;
   users: AdminUser[];
+  addUser: (user: Omit<AdminUser, "id" | "orders" | "totalSpent" | "joined">) => void;
   updateUserRole: (id: string, role: AdminUser["role"]) => void;
   updateUserStatus: (id: string, status: AdminUser["status"]) => void;
   categories: Category[];

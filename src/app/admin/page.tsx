@@ -1,6 +1,6 @@
 "use client";
 
-import { DashboardStats, DashboardAlerts, DashboardRecentOrders, DashboardTopProducts } from "@/components/admin/DashboardComponents";
+import { DashboardStats, DashboardAlerts, DashboardRecentOrders, DashboardTopProducts, DashboardActivityLog } from "@/components/admin/DashboardComponents";
 
 export default function AdminDashboard() {
   return (
@@ -15,6 +15,7 @@ export default function AdminDashboard() {
         <DashboardRecentOrders />
         <DashboardTopProducts />
       </div>
+      <DashboardActivityLog />
     </div>
   );
 }

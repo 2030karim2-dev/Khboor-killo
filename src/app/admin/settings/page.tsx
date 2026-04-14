@@ -15,10 +15,14 @@ export default function AdminSettings() {
       siteName: form.get("siteName") as string,
       siteDescription: form.get("siteDescription") as string,
       supportEmail: form.get("supportEmail") as string,
-      freeShippingThreshold: Number(form.get("freeShipping")),
-      shippingCost: Number(form.get("shippingCost")),
-      returnDays: Number(form.get("returnDays")),
-      minPasswordLength: Number(form.get("minPassword")),
+      freeShippingThreshold: Math.max(0, Number(form.get("freeShipping"))),
+      shippingCost: Math.max(0, Number(form.get("shippingCost"))),
+      returnDays: Math.max(1, Number(form.get("returnDays"))),
+      minPasswordLength: Math.max(4, Number(form.get("minPassword"))),
+      emailNotifications: form.get("emailNotifications") === "on",
+      smsNotifications: form.get("smsNotifications") === "on",
+      autoConfirmOrders: form.get("autoConfirmOrders") === "on",
+      twoFactorAuth: form.get("twoFactorAuth") === "on",
     });
     success("تم حفظ الإعدادات بنجاح");
   };
@@ -56,9 +60,9 @@ export default function AdminSettings() {
           <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-6">
             <div className="flex items-center gap-3 mb-4"><div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center"><DollarSign size={20} className="text-emerald-600" /></div><h2 className="font-bold text-slate-800 dark:text-white">الدفع والشحن</h2></div>
             <div className="space-y-4">
-              <div><label className="block text-sm font-medium mb-1.5">حد الشحن المجاني (ر.ي)</label><input name="freeShipping" type="number" defaultValue={settings.freeShippingThreshold} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" /></div>
-              <div><label className="block text-sm font-medium mb-1.5">تكلفة الشحن (ر.ي)</label><input name="shippingCost" type="number" defaultValue={settings.shippingCost} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" /></div>
-              <div><label className="block text-sm font-medium mb-1.5">فترة الإرجاع (أيام)</label><input name="returnDays" type="number" defaultValue={settings.returnDays} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" /></div>
+              <div><label className="block text-sm font-medium mb-1.5">حد الشحن المجاني (ر.ي)</label><input name="freeShipping" type="number" min={0} defaultValue={settings.freeShippingThreshold} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" /></div>
+              <div><label className="block text-sm font-medium mb-1.5">تكلفة الشحن (ر.ي)</label><input name="shippingCost" type="number" min={0} defaultValue={settings.shippingCost} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" /></div>
+              <div><label className="block text-sm font-medium mb-1.5">فترة الإرجاع (أيام)</label><input name="returnDays" type="number" min={1} defaultValue={settings.returnDays} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" /></div>
             </div>
           </div>
 
@@ -66,10 +70,10 @@ export default function AdminSettings() {
           <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-6">
             <div className="flex items-center gap-3 mb-4"><div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center"><Shield size={20} className="text-red-600" /></div><h2 className="font-bold text-slate-800 dark:text-white">الأمان</h2></div>
             <div className="space-y-4">
-              <div><label className="block text-sm font-medium mb-1.5">الحد الأدنى لكلمة المرور</label><input name="minPassword" type="number" defaultValue={settings.minPasswordLength} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" /></div>
+              <div><label className="block text-sm font-medium mb-1.5">الحد الأدنى لكلمة المرور</label><input name="minPassword" type="number" min={4} max={32} defaultValue={settings.minPasswordLength} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" /></div>
               <label className="flex items-center justify-between cursor-pointer">
                 <div><p className="font-medium text-sm">المصادقة الثنائية</p><p className="text-xs text-slate-500">تفعيل 2FA</p></div>
-                <input type="checkbox" name="twoFactor" defaultChecked={settings.twoFactorAuth} className="accent-sky-500 w-5 h-5" />
+                <input type="checkbox" name="twoFactorAuth" defaultChecked={settings.twoFactorAuth} className="accent-sky-500 w-5 h-5" />
               </label>
             </div>
           </div>

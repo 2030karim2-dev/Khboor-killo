@@ -1,16 +1,42 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAdmin } from "@/lib/AdminContext";
-import { Eye, Pencil, Trash2, Plus } from "lucide-react";
+import { Eye, Pencil, Trash2, Plus, X, Upload } from "lucide-react";
 import ExcelTable, { type Column } from "@/components/admin/ExcelTable";
 import { useToast } from "@/lib/ToastContext";
 import type { Product } from "@/lib/types";
 
 export default function AdminProducts() {
-  const { products, deleteProduct } = useAdmin();
+  const { products, addProduct, deleteProduct, categories } = useAdmin();
   const { warning, success } = useToast();
+  const router = useRouter();
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  const handleAddProduct = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const categorySlug = form.get("category") as string;
+    addProduct({
+      name: form.get("name") as string,
+      description: form.get("description") as string || "",
+      price: Number(form.get("price")),
+      originalPrice: form.get("originalPrice") ? Number(form.get("originalPrice")) : undefined,
+      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop",
+      category: categories.find((c) => c.slug === categorySlug)?.name || "",
+      categorySlug,
+      rating: 0,
+      reviews: 0,
+      inStock: form.get("inStock") === "on",
+      featured: false,
+    });
+    success("تمت إضافة المنتج");
+    setShowAddForm(false);
+    (e.target as HTMLFormElement).reset();
+  };
 
   const columns: Column<Product>[] = [
     {
@@ -73,11 +99,42 @@ export default function AdminProducts() {
           <h1 className="text-xl font-extrabold text-slate-800 dark:text-white">المنتجات</h1>
           <p className="text-sm text-slate-500">{products.length} منتج</p>
         </div>
-        <button onClick={() => success("استخدم نموذج إضافة المنتج في لوحة البائع")} className="btn-primary text-sm">
+        <button onClick={() => setShowAddForm(!showAddForm)} className="btn-primary text-sm">
           <Plus size={16} /> إضافة منتج
         </button>
       </div>
-      <ExcelTable columns={columns} data={products} getRowId={(p) => p.id} searchPlaceholder="بحث في المنتجات..." pageSize={8} onRowClick={(p) => window.open(`/admin/products/${p.id}/edit`, "_blank")} />
+
+      {showAddForm && (
+        <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-6 animate-slide-up">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-bold text-slate-800 dark:text-white">منتج جديد</h2>
+            <button onClick={() => setShowAddForm(false)} className="p-1.5 rounded-lg hover:bg-slate-100"><X size={18} className="text-slate-500" /></button>
+          </div>
+          <form onSubmit={handleAddProduct} className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              <div><label className="block text-sm font-medium mb-1.5">اسم المنتج</label><input name="name" required className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" /></div>
+              <div><label className="block text-sm font-medium mb-1.5">القسم</label>
+                <select name="category" required className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent">
+                  {categories.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+                </select>
+              </div>
+              <div><label className="block text-sm font-medium mb-1.5">السعر (ر.ي)</label><input name="price" type="number" min={0} required className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" /></div>
+              <div><label className="block text-sm font-medium mb-1.5">السعر قبل الخصم</label><input name="originalPrice" type="number" min={0} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" /></div>
+            </div>
+            <div><label className="block text-sm font-medium mb-1.5">الوصف</label><textarea name="description" rows={2} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent resize-none" /></div>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" name="inStock" defaultChecked className="accent-sky-500 w-4 h-4" />
+              <span className="text-sm">متوفر في المخزون</span>
+            </label>
+            <div className="flex gap-3">
+              <button type="submit" className="btn-primary text-sm">حفظ</button>
+              <button type="button" onClick={() => setShowAddForm(false)} className="btn-outline text-sm">إلغاء</button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      <ExcelTable columns={columns} data={products} getRowId={(p) => p.id} searchPlaceholder="بحث في المنتجات..." pageSize={8} onRowClick={(p) => router.push(`/admin/products/${p.id}/edit`)} />
     </div>
   );
 }

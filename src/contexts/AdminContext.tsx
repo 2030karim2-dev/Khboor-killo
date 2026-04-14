@@ -67,6 +67,18 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     addLog("user", "تغيير حالة", `تم تغيير حالة ${id} إلى ${status}`);
   }, [addLog]);
 
+  const addUser = useCallback((userData: Omit<AdminUser, "id" | "orders" | "totalSpent" | "joined">) => {
+    const newUser: AdminUser = {
+      ...userData,
+      id: crypto.randomUUID().slice(0, 8),
+      orders: 0,
+      totalSpent: 0,
+      joined: new Date().toISOString().split("T")[0],
+    };
+    setUsers((prev) => [newUser, ...prev]);
+    addLog("user", "إضافة مستخدم", `تم إضافة "${userData.name}"`);
+  }, [addLog]);
+
   const addCategory = useCallback((cat: Omit<Category, "slug" | "productCount" | "subcategories">) => {
     const slug = cat.name
       .toLowerCase()
@@ -104,13 +116,13 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     () => ({
       products, addProduct, updateProduct, deleteProduct,
       orders, updateOrderStatus, getOrder,
-      users, updateUserRole, updateUserStatus,
+      users, addUser, updateUserRole, updateUserStatus,
       categories, addCategory, updateCategory, deleteCategory,
       settings, updateSettings, activityLog, getStats,
     }),
     [products, addProduct, updateProduct, deleteProduct,
      orders, updateOrderStatus, getOrder,
-     users, updateUserRole, updateUserStatus,
+     users, addUser, updateUserRole, updateUserStatus,
      categories, addCategory, updateCategory, deleteCategory,
      settings, updateSettings, activityLog, getStats]
   );

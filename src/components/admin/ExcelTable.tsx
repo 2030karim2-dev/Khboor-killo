@@ -80,7 +80,8 @@ export default function ExcelTable<T>({
 
   // Pagination
   const totalPages = Math.max(1, Math.ceil(sorted.length / pageSize));
-  const paginated = sorted.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const safePage = Math.min(currentPage, totalPages);
+  const paginated = sorted.slice((safePage - 1) * pageSize, safePage * pageSize);
 
   const handleSort = (key: string) => {
     if (sortKey === key) {
