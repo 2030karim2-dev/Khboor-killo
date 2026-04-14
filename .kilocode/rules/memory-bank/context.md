@@ -47,6 +47,16 @@ The codebase is professionally structured with zero lint warnings, zero TypeScri
 - [x] Dashboard: added activity log section
 - [x] Admin header: functional search + notifications + user name
 - [x] Deduplicated status labels/colors into constants.ts
+- [x] Frontend audit: login callbackUrl redirect, checkout coupon in order total
+- [x] Removed 4 empty categories (real-estate, food, home-appliances, services)
+- [x] Fixed fictional productCount values in categories data
+- [x] Removed broken /account/payment and /category links
+- [x] global-error.tsx includes font variables
+- [x] About page: Saudi Arabia → Yemen
+- [x] RecentOrders uses OrderContext instead of hardcoded mock
+- [x] AdminFloatingButton checks admin role
+- [x] Checkout phone placeholder matches validation
+- [x] FAQ uses Next.js Link, removed .bak file, removed console.logs
 
 ## Tech Stack
 
@@ -129,3 +139,4 @@ src/
 | Today | Image optimization, loading states, error handling, validation, API routes |
 | 2026-04-14 | Bug fixes: Chinese chars in FAQ, Arabic typos, product-specific reviews, CurrencyContext params, admin guard, admin button fixes, robots.ts, FAQ/Contact metadata |
 | 2026-04-14 | Admin audit: settings booleans, addUser, status transitions, image upload, category orphans, dashboard metrics, activity log, search bar, dedup constants |
+| 2026-04-14 | Frontend audit: login redirect, checkout coupon, remove empty categories, fix broken links, global-error fonts, RecentOrders context, admin role check |
