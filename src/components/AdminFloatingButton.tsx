@@ -7,9 +7,9 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export default function AdminFloatingButton() {
   const pathname = usePathname();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
-  if (pathname.startsWith("/admin") || !isAuthenticated) return null;
+  if (pathname.startsWith("/admin") || !isAuthenticated || user?.role !== "admin") return null;
 
   return (
     <Link

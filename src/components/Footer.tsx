@@ -5,7 +5,7 @@ const footerLinks = {
   shop: [
     { label: "الرئيسية", href: "/" },
     { label: "المنتجات", href: "/search" },
-    { label: "التصنيفات", href: "/category" },
+    { label: "التصنيفات", href: "/search" },
     { label: "عروض خاصة", href: "/search?featured=true" },
   ],
   sell: [

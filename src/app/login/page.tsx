@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, use } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/lib/validations";
@@ -16,6 +16,7 @@ export default function LoginPage() {
   const { login } = useAuth();
   const { success, error } = useToast();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const {
     register,
@@ -29,7 +30,8 @@ export default function LoginPage() {
     const result = await login(data.email, data.password);
     if (result) {
       success("تم تسجيل الدخول بنجاح");
-      router.push("/");
+      const callbackUrl = searchParams.get("redirect") || searchParams.get("callbackUrl") || "/";
+      router.push(callbackUrl);
     } else {
       error("البريد الإلكتروني أو كلمة المرور غير صحيحة");
     }

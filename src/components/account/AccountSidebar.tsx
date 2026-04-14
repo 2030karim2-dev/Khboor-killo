@@ -6,7 +6,6 @@ import {
   Package,
   Heart,
   MapPin,
-  CreditCard,
   LogOut,
   Settings,
 } from "lucide-react";
@@ -18,7 +17,6 @@ const navItems = [
   { icon: Package, label: "طلباتي", href: "/account/orders" },
   { icon: Heart, label: "المفضلة", href: "/wishlist" },
   { icon: MapPin, label: "العناوين", href: "/account/addresses" },
-  { icon: CreditCard, label: "طرق الدفع", href: "/account/payment" },
   { icon: Settings, label: "الإعدادات", href: "/account/settings" },
 ];
 

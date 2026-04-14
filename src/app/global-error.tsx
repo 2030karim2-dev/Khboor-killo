@@ -1,6 +1,21 @@
 "use client";
 
+import { Cairo, Tajawal } from "next/font/google";
 import Link from "next/link";
+
+const cairo = Cairo({
+  variable: "--font-cairo",
+  subsets: ["arabic"],
+  weight: ["700", "800"],
+  display: "swap",
+});
+
+const tajawal = Tajawal({
+  variable: "--font-tajawal",
+  subsets: ["arabic"],
+  weight: ["400", "500"],
+  display: "swap",
+});
 
 export default function GlobalError({
   error,
@@ -11,7 +26,7 @@ export default function GlobalError({
 }) {
   return (
     <html lang="ar" dir="rtl">
-      <body className="font-sans bg-slate-50">
+      <body className={`${cairo.variable} ${tajawal.variable} antialiased font-sans bg-slate-50`}>
         <div className="min-h-screen flex items-center justify-center px-4">
           <div className="text-center max-w-md">
             <div className="text-6xl mb-6">💥</div>

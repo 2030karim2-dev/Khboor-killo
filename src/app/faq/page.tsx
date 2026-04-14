@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Breadcrumb } from "@/components/ui";
 import { ChevronDown } from "lucide-react";
 
@@ -85,9 +86,9 @@ export default function FaqPage() {
 
         <div className="mt-8 p-5 bg-sky-50 rounded-xl text-center">
           <p className="text-slate-700 mb-2">لم تجد إجابة لسؤالك؟</p>
-          <a href="/contact" className="btn-primary text-sm">
+          <Link href="/contact" className="btn-primary text-sm">
             تواصل معنا
-          </a>
+          </Link>
         </div>
       </div>
     </div>

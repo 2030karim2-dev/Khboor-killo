@@ -4,7 +4,7 @@ import { Shield, Truck, Users, Award } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "من نحن",
-  description: "تعرف على منصة خبور - منصة البيع والشراء الإلكترونية الرائدة في المملكة العربية السعودية",
+  description: "تعرف على منصة خبور - منصة البيع والشراء الإلكترونية الرائدة في اليمن",
 };
 
 const stats = [

@@ -54,7 +54,7 @@ export default function ShippingForm({ register, errors }: ShippingFormProps) {
             id="ship-phone"
             type="tel"
             {...register("phone")}
-            placeholder="05xxxxxxxx"
+            placeholder="7XXXXXXXX"
             dir="ltr"
             aria-invalid={!!errors.phone}
             className={`w-full px-4 py-2.5 rounded-xl border transition-colors focus:outline-none ${

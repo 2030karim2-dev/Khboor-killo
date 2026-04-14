@@ -62,7 +62,7 @@ export default function CheckoutPage() {
 
     const newOrderId = addOrder({
       items,
-      totalPrice,
+      totalPrice: finalTotal,
       shippingCost,
       shipping: {
         firstName: data.firstName,
@@ -79,7 +79,7 @@ export default function CheckoutPage() {
     setIsProcessing(false);
     setSubmitted(true);
     success("تم تأكيد طلبك بنجاح!");
-  }, [items, totalPrice, shippingCost, clearCart, addOrder, success]);
+  }, [items, finalTotal, shippingCost, clearCart, addOrder, success]);
 
   const onError = useCallback(() => {
     showError("يرجى تصحيح الأخطاء في النموذج");

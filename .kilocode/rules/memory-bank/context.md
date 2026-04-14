@@ -37,6 +37,16 @@ The codebase is professionally structured with zero lint warnings, zero TypeScri
 - [x] Added User.role to User type with admin guard enforcement
 - [x] Fixed admin non-functional buttons (Add User form, category edit, user view/edit)
 - [x] ProductJsonLd already integrated on product detail pages
+- [x] Comprehensive admin dashboard audit - fixed 15+ critical/high issues
+- [x] Settings page: boolean settings now save correctly, twoFactor name mismatch fixed
+- [x] Add User form: actually creates users via AdminContext.addUser
+- [x] Order status: validation for transitions + confirmation dialogs
+- [x] Product edit: functional image upload + featured toggle
+- [x] Category delete: blocked when category has products
+- [x] Dashboard: meaningful metrics instead of hardcoded +12%
+- [x] Dashboard: added activity log section
+- [x] Admin header: functional search + notifications + user name
+- [x] Deduplicated status labels/colors into constants.ts
 
 ## Tech Stack
 
@@ -118,3 +128,4 @@ src/
 | Today | Codebase refactoring with modular architecture |
 | Today | Image optimization, loading states, error handling, validation, API routes |
 | 2026-04-14 | Bug fixes: Chinese chars in FAQ, Arabic typos, product-specific reviews, CurrencyContext params, admin guard, admin button fixes, robots.ts, FAQ/Contact metadata |
+| 2026-04-14 | Admin audit: settings booleans, addUser, status transitions, image upload, category orphans, dashboard metrics, activity log, search bar, dedup constants |
