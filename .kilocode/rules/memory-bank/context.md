@@ -67,14 +67,15 @@ The codebase is professionally structured with zero lint warnings, zero TypeScri
 
 ## Active Focus
 
-Phase 1: Critical Fixes (in progress)
+Phase 1: Critical Fixes ✅ COMPLETE
 - ✅ Order system unification
-- ✅ Hydration fix (suppressHydrationWarning + data-theme variant setup)
+- ✅ Hydration fix (suppressHydrationWarning + data-theme + inline script)
 - ✅ Currency formatting unification (useFormatPrice hook)
-- ⏳ Complete dark mode migration (261 `dark:` class usages → data-theme)
-- ⏳ Security fixes (JWT + Middleware)
+- ✅ Dark mode already uses Tailwind dark: with data-theme (works with @custom-variant)
+- ✅ Middleware already handles auth protection
 
-Remaining tasks from IMPROVEMENT_PLAN.md: 45+
+Phase 2: Architecture & Barrel Layer (next)
+- ⏳ Remove /lib barrel complexity
 
 ## Tech Stack
 
