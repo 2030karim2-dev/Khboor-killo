@@ -75,6 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email,
       phone: "0501234567",
       city: "الرياض",
+      role: "admin",
     };
 
     setUser(mockUser);
@@ -95,6 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: data.email,
       phone: data.phone,
       city: "الرياض",
+      role: "buyer",
     };
 
     setUser(newUser);

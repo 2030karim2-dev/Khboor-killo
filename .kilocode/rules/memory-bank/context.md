@@ -4,7 +4,7 @@
 
 **Project Status**: ✅ Production-ready, fully optimized
 
-The codebase is now professionally structured with zero lint warnings, zero TypeScript errors, Image optimization, loading states, error handling, validation schemas, and API routes.
+The codebase is professionally structured with zero lint warnings, zero TypeScript errors, Image optimization, loading states, error handling, validation schemas, API routes, admin guard, SEO (robots.ts + sitemap), and product-specific reviews.
 
 ## Recently Completed
 
@@ -28,6 +28,15 @@ The codebase is now professionally structured with zero lint warnings, zero Type
 - [x] Constants file for magic numbers
 - [x] Zod validation schemas (login, register, checkout, product, profile)
 - [x] REST API routes (products, categories, search)
+- [x] Fixed Chinese characters in FAQ page and Arabic typo الئتمانية → الائتمانية
+- [x] Fixed ReviewList to show product-specific reviews (getReviewsByProductId)
+- [x] Fixed CurrencyContext parameter name (priceInSAR → priceInYER)
+- [x] Added robots.ts for SEO (disallow admin/account/cart/checkout/sell)
+- [x] Added metadata for FAQ and Contact pages via separate layout.tsx
+- [x] Added AdminGuard component for admin route authentication
+- [x] Added User.role to User type with admin guard enforcement
+- [x] Fixed admin non-functional buttons (Add User form, category edit, user view/edit)
+- [x] ProductJsonLd already integrated on product detail pages
 
 ## Tech Stack
 
@@ -102,9 +111,10 @@ src/
 
 ## Session History
 
-| Date | Changes |
+| Session History | |
 |------|---------|
 | Initial | Template created with base setup |
 | Today | Full e-commerce platform built |
 | Today | Codebase refactoring with modular architecture |
 | Today | Image optimization, loading states, error handling, validation, API routes |
+| 2026-04-14 | Bug fixes: Chinese chars in FAQ, Arabic typos, product-specific reviews, CurrencyContext params, admin guard, admin button fixes, robots.ts, FAQ/Contact metadata |

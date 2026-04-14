@@ -24,8 +24,8 @@ export const currencies: Currency[] = [
 interface CurrencyContextType {
   currency: Currency;
   setCurrency: (code: CurrencyCode) => void;
-  convert: (priceInSAR: number) => number;
-  format: (priceInSAR: number) => string;
+  convert: (priceInYER: number) => number;
+  format: (priceInYER: number) => string;
   currencies: Currency[];
 }
 
@@ -53,15 +53,15 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const convert = useCallback(
-    (priceInSAR: number): number => {
-      return Math.round(priceInSAR * currency.rate * 100) / 100;
+    (priceInYER: number): number => {
+      return Math.round(priceInYER * currency.rate * 100) / 100;
     },
     [currency.rate]
   );
 
   const format = useCallback(
-    (priceInSAR: number): string => {
-      const converted = convert(priceInSAR);
+    (priceInYER: number): string => {
+      const converted = convert(priceInYER);
       return `${converted.toLocaleString("en")} ${currency.symbol}`;
     },
     [convert, currency.symbol]

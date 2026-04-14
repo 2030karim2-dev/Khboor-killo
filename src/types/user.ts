@@ -6,4 +6,5 @@ export interface User {
   phone: string;
   city: string;
   avatar?: string;
+  role?: "buyer" | "seller" | "admin";
 }

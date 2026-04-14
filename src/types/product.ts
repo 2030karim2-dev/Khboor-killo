@@ -58,4 +58,5 @@ export interface Review {
   comment: string;
   date: string;
   helpful: number;
+  productId?: string;
 }

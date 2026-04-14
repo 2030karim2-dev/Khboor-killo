@@ -46,7 +46,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-slate-800 mb-3">4. الدفع والتوصيل</h2>
             <ul className="list-disc list-inside space-y-2 text-slate-600">
-              <li>الدفع متاح عبر البطاقات الئتمانية أو الدفع عند الاستلام</li>
+              <li>الدفع متاح عبر البطاقات الائتمانية أو الدفع عند الاستلام</li>
               <li>مدة التوصيل تختلف حسب الموقع ونوع المنتج</li>
               <li>الشحن مجاني للطلبات فوق 200 ريال</li>
             </ul>

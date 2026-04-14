@@ -1,16 +1,26 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useAdmin, type AdminUser } from "@/lib/AdminContext";
-import { Eye, Pencil, UserPlus } from "lucide-react";
+import { Eye, Pencil, UserPlus, X } from "lucide-react";
 import ExcelTable, { type Column } from "@/components/admin/ExcelTable";
 import { useToast } from "@/lib/ToastContext";
 
 export default function AdminUsers() {
   const { users, updateUserRole, updateUserStatus } = useAdmin();
   const { success } = useToast();
+  const [showAddForm, setShowAddForm] = useState(false);
   const roleLabels: Record<string, string> = { buyer: "مشتري", seller: "بائع", admin: "مسؤول" };
   const statusLabels: Record<string, string> = { active: "نشط", pending: "معلق", banned: "محظور" };
+
+  const handleAddUser = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    success("تمت إضافة المستخدم");
+    setShowAddForm(false);
+    (e.target as HTMLFormElement).reset();
+  };
 
   const columns: Column<AdminUser>[] = [
     {
@@ -44,11 +54,11 @@ export default function AdminUsers() {
     },
     { key: "joined", header: "الانضمام", width: 110 },
     {
-      key: "actions", header: "إجراءات", width: 80, sortable: false,
-      render: () => (
+      key: "actions", header: "إجراءات", width: 100, sortable: false,
+      render: (_, row) => (
         <div className="flex items-center gap-1">
-          <button className="p-1.5 rounded-lg hover:bg-sky-50 text-slate-400 hover:text-sky-600" aria-label="عرض المستخدم"><Eye size={15} /></button>
-          <button className="p-1.5 rounded-lg hover:bg-amber-50 text-slate-400 hover:text-amber-600" aria-label="تعديل المستخدم"><Pencil size={15} /></button>
+          <Link href={`/admin/users/${row.id}`} className="p-1.5 rounded-lg hover:bg-sky-50 text-slate-400 hover:text-sky-600" aria-label="عرض المستخدم"><Eye size={15} /></Link>
+          <button onClick={(e) => { e.stopPropagation(); success("ميزة التعديل قيد التطوير"); }} className="p-1.5 rounded-lg hover:bg-amber-50 text-slate-400 hover:text-amber-600" aria-label="تعديل المستخدم"><Pencil size={15} /></button>
         </div>
       ),
     },
@@ -58,8 +68,34 @@ export default function AdminUsers() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div><h1 className="text-xl font-extrabold text-slate-800 dark:text-white">المستخدمين</h1><p className="text-sm text-slate-500">{users.length} مستخدم</p></div>
-        <button className="btn-primary text-sm"><UserPlus size={16} /> إضافة مستخدم</button>
+        <button onClick={() => setShowAddForm(!showAddForm)} className="btn-primary text-sm"><UserPlus size={16} /> إضافة مستخدم</button>
       </div>
+
+      {showAddForm && (
+        <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-6 animate-slide-up">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-bold text-slate-800 dark:text-white">مستخدم جديد</h2>
+            <button onClick={() => setShowAddForm(false)} className="p-1.5 rounded-lg hover:bg-slate-100"><X size={18} className="text-slate-500" /></button>
+          </div>
+          <form onSubmit={handleAddUser} className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              <div><label className="block text-sm font-medium mb-1.5">الاسم الكامل</label><input name="name" required className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" /></div>
+              <div><label className="block text-sm font-medium mb-1.5">البريد الإلكتروني</label><input name="email" type="email" required className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" dir="ltr" /></div>
+              <div><label className="block text-sm font-medium mb-1.5">الهاتف</label><input name="phone" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent" dir="ltr" /></div>
+              <div><label className="block text-sm font-medium mb-1.5">الدور</label>
+                <select name="role" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent">
+                  {Object.entries(roleLabels).map(([k, l]) => <option key={k} value={k}>{l}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button type="submit" className="btn-primary text-sm">حفظ</button>
+              <button type="button" onClick={() => setShowAddForm(false)} className="btn-outline text-sm">إلغاء</button>
+            </div>
+          </form>
+        </div>
+      )}
+
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700"><p className="text-2xl font-extrabold">{users.length}</p><p className="text-xs text-slate-500">إجمالي</p></div>
         <div className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700"><p className="text-2xl font-extrabold text-purple-600">{users.filter((u) => u.role === "seller").length}</p><p className="text-xs text-slate-500">بائعين</p></div>
