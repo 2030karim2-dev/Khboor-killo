@@ -3,16 +3,17 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Heart, ShoppingCart, Trash2 } from "lucide-react";
-import { useCart } from "@/lib/CartContext";
-import { useWishlist } from "@/lib/WishlistContext";
-import { useToast } from "@/lib/ToastContext";
-import { formatPrice } from "@/lib";
+import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
+import { useToast } from "@/contexts/ToastContext";
 import { Breadcrumb, EmptyState } from "@/components/ui";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 export default function WishlistPage() {
   const { products, removeFromWishlist, clearWishlist } = useWishlist();
   const { addToCart } = useCart();
   const { success } = useToast();
+  const { format: formatCurrency } = useFormatPrice();
 
   const moveToCart = (product: typeof products[0]) => {
     addToCart(product);
@@ -76,7 +77,7 @@ export default function WishlistPage() {
                   {product.name}
                 </h3>
               </Link>
-              <p className="text-lg font-bold text-slate-900 mb-3">{formatPrice(product.price)}</p>
+              <p className="text-lg font-bold text-slate-900 mb-3">{formatCurrency(product.price)}</p>
               <button
                 onClick={() => moveToCart(product)}
                 disabled={!product.inStock}

@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ShoppingCart, Heart, Minus, Plus } from "lucide-react";
-import { Product, formatPrice, formatNumber } from "@/lib";
-import { useCart } from "@/lib/CartContext";
-import { useWishlist } from "@/lib/WishlistContext";
-import { useToast } from "@/lib/ToastContext";
+import { Product, formatNumber } from "@/lib";
+import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
+import { useToast } from "@/contexts/ToastContext";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 import { StarRating, TrustBar } from "@/components/ui";
 import ShareButton from "@/components/product/ShareButton";
 import ImageGallery from "@/components/product/ImageGallery";
@@ -20,6 +21,7 @@ export function ProductActionsDesktop({ product }: Props) {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { success } = useToast();
+  const { format: formatCurrency } = useFormatPrice();
   const liked = isInWishlist(product.id);
 
   const images = product.images?.length ? product.images : [product.image];
@@ -42,8 +44,8 @@ export function ProductActionsDesktop({ product }: Props) {
         <StarRating rating={product.rating} reviews={product.reviews} size={16} />
         <div className="bg-slate-50 rounded-xl p-4 my-4">
           <div className="flex items-baseline gap-3">
-            <span className="text-3xl font-extrabold text-slate-900">{formatPrice(product.price)}</span>
-            {product.originalPrice && <><span className="text-lg text-slate-400 line-through">{formatPrice(product.originalPrice)}</span><span className="text-sm font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">وفر {formatNumber(product.originalPrice - product.price)}</span></>}
+            <span className="text-3xl font-extrabold text-slate-900">{formatCurrency(product.price)}</span>
+            {product.originalPrice && <><span className="text-lg text-slate-400 line-through">{formatCurrency(product.originalPrice)}</span><span className="text-sm font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">وفر {formatNumber(product.originalPrice - product.price)}</span></>}
           </div>
         </div>
         <p className="text-slate-600 leading-relaxed mb-6">{product.description}</p>
@@ -71,6 +73,7 @@ export function ProductActionsMobile({ product }: Props) {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { success } = useToast();
+  const { format: formatCurrency } = useFormatPrice();
   const liked = isInWishlist(product.id);
 
   const handleAdd = () => {
@@ -96,8 +99,8 @@ export function ProductActionsMobile({ product }: Props) {
         <StarRating rating={product.rating} reviews={product.reviews} size={14} />
         <div className="bg-slate-50 rounded-xl p-3 my-4">
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-extrabold text-slate-900">{formatPrice(product.price)}</span>
-            {product.originalPrice && <><span className="text-sm text-slate-400 line-through">{formatPrice(product.originalPrice)}</span><span className="text-xs font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded-full">وفر {formatNumber(product.originalPrice - product.price)}</span></>}
+            <span className="text-2xl font-extrabold text-slate-900">{formatCurrency(product.price)}</span>
+            {product.originalPrice && <><span className="text-sm text-slate-400 line-through">{formatCurrency(product.originalPrice)}</span><span className="text-xs font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded-full">وفر {formatNumber(product.originalPrice - product.price)}</span></>}
           </div>
         </div>
         <p className="text-sm text-slate-600 leading-relaxed mb-4">{product.description}</p>
@@ -120,7 +123,7 @@ export function ProductActionsMobile({ product }: Props) {
 
       <div className="fixed bottom-16 left-0 right-0 z-40 p-3 bg-white/90 backdrop-blur border-t border-slate-100">
         <div className="flex items-center gap-3">
-          <div className="flex-1"><p className="text-xs text-slate-500">السعر</p><p className="text-lg font-extrabold text-slate-900">{formatPrice(product.price * quantity)}</p></div>
+          <div className="flex-1"><p className="text-xs text-slate-500">السعر</p><p className="text-lg font-extrabold text-slate-900">{formatCurrency(product.price * quantity)}</p></div>
           <button onClick={handleAdd} disabled={!product.inStock} className="flex-1 btn-primary py-3 justify-center text-sm disabled:opacity-50"><ShoppingCart size={18} />{product.inStock ? "أضف للسلة" : "غير متوفر"}</button>
         </div>
       </div>

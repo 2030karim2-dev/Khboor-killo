@@ -4,13 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Trash2 } from "lucide-react";
 import { CartItem } from "@/lib/types";
-import { formatPrice } from "@/lib";
-import { useCart } from "@/lib/CartContext";
-import { useToast } from "@/lib/ToastContext";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/contexts/ToastContext";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 export default function MobileCartCard({ item }: { item: CartItem }) {
   const { updateQuantity, removeFromCart } = useCart();
   const { warning } = useToast();
+  const { format: formatCurrency } = useFormatPrice();
 
   return (
     <div className="bg-white rounded-2xl border border-slate-100 p-3 flex gap-3 animate-fade-in">
@@ -26,7 +27,7 @@ export default function MobileCartCard({ item }: { item: CartItem }) {
 
         <div className="flex items-center justify-between">
           <p className="text-sm font-extrabold text-slate-900">
-            {formatPrice(item.product.price * item.quantity)}
+            {formatCurrency(item.product.price * item.quantity)}
           </p>
 
           <div className="flex items-center gap-1">

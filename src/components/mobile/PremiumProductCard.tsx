@@ -4,15 +4,17 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Star, ShoppingCart, Heart } from "lucide-react";
-import { Product, formatPrice } from "@/lib";
-import { useCart } from "@/lib/CartContext";
-import { useWishlist } from "@/lib/WishlistContext";
-import { useToast } from "@/lib/ToastContext";
+import { Product } from "@/lib";
+import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
+import { useToast } from "@/contexts/ToastContext";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 export default function PremiumProductCard({ product, index = 0 }: { product: Product; index?: number }) {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { success, info } = useToast();
+  const { format: formatCurrency } = useFormatPrice();
   const liked = isInWishlist(product.id);
   const [pressed, setPressed] = useState(false);
 
@@ -107,11 +109,11 @@ export default function PremiumProductCard({ product, index = 0 }: { product: Pr
         <div className="flex items-end justify-between">
           <div>
             <p className="text-[13px] font-extrabold text-slate-900 dark:text-white leading-none">
-              {formatPrice(product.price)}
+              {formatCurrency(product.price)}
             </p>
             {product.originalPrice && (
               <p className="text-[9px] text-slate-400 line-through mt-0.5">
-                {formatPrice(product.originalPrice)}
+                {formatCurrency(product.originalPrice)}
               </p>
             )}
           </div>

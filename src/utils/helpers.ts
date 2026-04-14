@@ -33,8 +33,11 @@ export function formatNumber(num: number): string {
   return num.toLocaleString("en");
 }
 
-export function formatPrice(price: number): string {
-  return formatNumber(price) + " " + CURRENCY;
+export function formatPrice(priceInYER: number, currencySymbol?: string, exchangeRate?: number): string {
+  const rate = exchangeRate ?? 1;
+  const symbol = currencySymbol ?? CURRENCY;
+  const converted = Math.round(priceInYER * rate * 100) / 100;
+  return formatNumber(converted) + " " + symbol;
 }
 
 export function calculateDiscountPercent(original: number, current: number): number {

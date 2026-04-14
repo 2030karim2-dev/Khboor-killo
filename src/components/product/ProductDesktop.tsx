@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { ShoppingCart, Heart, Share2, Minus, Plus } from "lucide-react";
-import { Product, formatPrice, formatNumber } from "@/lib";
-import { useCart } from "@/lib/CartContext";
-import { useWishlist } from "@/lib/WishlistContext";
-import { useToast } from "@/lib/ToastContext";
+import { Product, formatNumber } from "@/lib";
+import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
+import { useToast } from "@/contexts/ToastContext";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 import { Breadcrumb, StarRating, TrustBar } from "@/components/ui";
 import ShareButton from "@/components/product/ShareButton";
 import ReviewList from "@/components/product/ReviewList";
@@ -23,6 +24,7 @@ export function ProductDesktop({ product, quantity, setQuantity, related }: Prop
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { success } = useToast();
+  const { format: formatCurrency } = useFormatPrice();
   const liked = isInWishlist(product.id);
 
   const handleAdd = () => {
@@ -52,8 +54,8 @@ export function ProductDesktop({ product, quantity, setQuantity, related }: Prop
           <StarRating rating={product.rating} reviews={product.reviews} size={16} />
           <div className="bg-slate-50 rounded-xl p-4 my-4">
             <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-extrabold text-slate-900">{formatPrice(product.price)}</span>
-              {product.originalPrice && <><span className="text-lg text-slate-400 line-through">{formatPrice(product.originalPrice)}</span><span className="text-sm font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">وفر {formatNumber(product.originalPrice - product.price)}</span></>}
+              <span className="text-3xl font-extrabold text-slate-900">{formatCurrency(product.price)}</span>
+              {product.originalPrice && <><span className="text-lg text-slate-400 line-through">{formatCurrency(product.originalPrice)}</span><span className="text-sm font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">وفر {formatNumber(product.originalPrice - product.price)}</span></>}
             </div>
           </div>
           <p className="text-slate-600 leading-relaxed mb-6">{product.description}</p>

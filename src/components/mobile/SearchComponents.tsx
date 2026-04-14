@@ -3,7 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Clock, TrendingUp } from "lucide-react";
-import { searchProducts, categories, formatPrice } from "@/lib";
+import { searchProducts, categories } from "@/lib";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 const recentSearches = ["سيارات تويوتا", "ثوب رجالي", "حديد تسليح"];
 const trendingSearches = ["كامري 2024", "ساعة ذكية", "بلاط سيراميك", "فستان سهرة"];
@@ -61,6 +62,7 @@ interface SearchResultsProps {
 
 export function SearchResults({ query, onClose }: SearchResultsProps) {
   const results = searchProducts(query);
+  const { format: formatCurrency } = useFormatPrice();
 
   if (results.length > 0) {
     return (
@@ -73,7 +75,7 @@ export function SearchResults({ query, onClose }: SearchResultsProps) {
             <div className="flex-1 min-w-0">
               <h3 className="text-sm font-medium text-slate-800 line-clamp-1">{product.name}</h3>
               <p className="text-xs text-slate-500">{product.category}</p>
-              <p className="text-sm font-bold text-slate-900 mt-0.5">{formatPrice(product.price)}</p>
+              <p className="text-sm font-bold text-slate-900 mt-0.5">{formatCurrency(product.price)}</p>
             </div>
           </Link>
         ))}

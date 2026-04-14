@@ -4,15 +4,17 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Trash2, ShoppingBag } from "lucide-react";
-import { useCart } from "@/lib/CartContext";
-import { useToast } from "@/lib/ToastContext";
-import { formatPrice, FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_COST } from "@/lib";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/contexts/ToastContext";
+import { FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_COST } from "@/lib";
 import { Breadcrumb, QuantityStepper, OrderSummary, EmptyState } from "@/components/ui";
 import { MobileCartCard } from "@/components/mobile";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 export default function CartPage() {
   const { items, removeFromCart, updateQuantity, totalPrice, clearCart } = useCart();
   const { success, warning } = useToast();
+  const { format: formatCurrency } = useFormatPrice();
   const [confirmClear, setConfirmClear] = useState(false);
 
   const handleRemove = (id: string, name: string) => {
@@ -96,7 +98,7 @@ export default function CartPage() {
                   <p className="text-sm text-slate-500 mt-0.5">{item.product.category}</p>
                   <div className="flex items-center justify-between mt-3">
                     <QuantityStepper value={item.quantity} onChange={(v) => updateQuantity(item.product.id, v)} min={0} size="sm" />
-                    <p className="font-bold text-slate-800">{formatPrice(item.product.price * item.quantity)}</p>
+                    <p className="font-bold text-slate-800">{formatCurrency(item.product.price * item.quantity)}</p>
                   </div>
                 </div>
                 <button onClick={() => handleRemove(item.product.id, item.product.name)} className="text-slate-400 hover:text-red-500 transition-colors self-start p-1" aria-label={`إزالة ${item.product.name}`}>
@@ -114,11 +116,11 @@ export default function CartPage() {
         <div className="lg:hidden fixed bottom-16 left-0 right-0 z-40 p-3 bg-white/90 backdrop-blur border-t border-slate-100">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-slate-600">الإجمالي</span>
-            <span className="text-lg font-extrabold text-slate-900">{formatPrice(totalPrice + shipping)}</span>
+            <span className="text-lg font-extrabold text-slate-900">{formatCurrency(totalPrice + shipping)}</span>
           </div>
           <Link href="/checkout" className="btn-primary w-full justify-center py-3 text-sm">
             <ShoppingBag size={16} />
-            إتمام الشراء ({formatPrice(totalPrice + shipping)})
+            إتمام الشراء ({formatCurrency(totalPrice + shipping)})
           </Link>
         </div>
 

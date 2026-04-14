@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Tag, X, Check } from "lucide-react";
 import { validateCoupon, calculateDiscount, type Coupon } from "@/lib/coupons";
-import { formatPrice } from "@/lib";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 interface Props {
   totalPrice: number;
@@ -13,6 +13,7 @@ interface Props {
 export default function CouponInput({ totalPrice, onApply }: Props) {
   const [code, setCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
+  const { format: formatCurrency } = useFormatPrice();
   const [error, setError] = useState("");
 
   const handleApply = () => {
@@ -44,7 +45,7 @@ export default function CouponInput({ totalPrice, onApply }: Props) {
           <p className="text-xs text-emerald-600">{appliedCoupon.description}</p>
         </div>
         <span className="text-sm font-bold text-emerald-700">
-          -{formatPrice(calculateDiscount(appliedCoupon, totalPrice))}
+          -{formatCurrency(calculateDiscount(appliedCoupon, totalPrice))}
         </span>
         <button
           onClick={handleRemove}

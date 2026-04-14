@@ -3,10 +3,11 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Heart, Minus, Plus, ShoppingCart } from "lucide-react";
-import { Product, formatPrice, formatNumber } from "@/lib";
-import { useCart } from "@/lib/CartContext";
-import { useWishlist } from "@/lib/WishlistContext";
-import { useToast } from "@/lib/ToastContext";
+import { Product, formatNumber } from "@/lib";
+import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
+import { useToast } from "@/contexts/ToastContext";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 import ShareButton from "@/components/product/ShareButton";
 import { StarRating, TrustBar } from "@/components/ui";
 
@@ -18,6 +19,7 @@ export default function MobileProductSticky({
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { success } = useToast();
+  const { format: formatCurrency } = useFormatPrice();
   const [quantity, setQuantity] = useState(1);
   const liked = isInWishlist(product.id);
 
@@ -75,12 +77,12 @@ export default function MobileProductSticky({
           <div className="bg-slate-50 rounded-xl p-3 mb-4">
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-extrabold text-slate-900">
-                {formatPrice(product.price)}
+                {formatCurrency(product.price)}
               </span>
               {product.originalPrice && (
                 <>
                   <span className="text-sm text-slate-400 line-through">
-                    {formatPrice(product.originalPrice)}
+                    {formatCurrency(product.originalPrice)}
                   </span>
                   <span className="text-xs font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded-full">
                     وفر {formatNumber(product.originalPrice - product.price)}
@@ -131,7 +133,7 @@ export default function MobileProductSticky({
         <div className="flex items-center gap-3">
           <div className="flex-1">
             <p className="text-xs text-slate-500">السعر</p>
-            <p className="text-lg font-extrabold text-slate-900">{formatPrice(product.price * quantity)}</p>
+            <p className="text-lg font-extrabold text-slate-900">{formatCurrency(product.price * quantity)}</p>
           </div>
           <button
             onClick={handleAddToCart}

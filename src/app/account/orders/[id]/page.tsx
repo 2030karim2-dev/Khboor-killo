@@ -5,9 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { CheckCircle, Clock, Package, Truck, XCircle } from "lucide-react";
-import { useOrders, statusLabels, type OrderStatus } from "@/lib/OrderContext";
+import { useOrders, statusLabels, type OrderStatus } from "@/contexts/OrderContext";
 import { Breadcrumb } from "@/components/ui";
-import { formatPrice } from "@/lib";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 const steps: OrderStatus[] = ["confirmed", "processing", "shipped", "delivered"];
 
@@ -27,6 +27,7 @@ export default function OrderDetailPage({
 }) {
   const { id } = use(params);
   const { getOrder } = useOrders();
+  const { format: formatCurrency } = useFormatPrice();
   const order = getOrder(id);
 
   if (!order) notFound();
@@ -101,7 +102,7 @@ export default function OrderDetailPage({
                 <p className="font-medium text-slate-800 truncate">{item.product.name}</p>
                 <p className="text-sm text-slate-500">الكمية: {item.quantity}</p>
               </div>
-              <p className="font-bold text-slate-800 shrink-0">{formatPrice(item.product.price * item.quantity)}</p>
+              <p className="font-bold text-slate-800 shrink-0">{formatCurrency(item.product.price * item.quantity)}</p>
             </div>
           ))}
         </div>
@@ -111,15 +112,15 @@ export default function OrderDetailPage({
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-slate-600">المجموع الفرعي</span>
-            <span>{formatPrice(order.totalPrice)}</span>
+            <span>{formatCurrency(order.totalPrice)}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-slate-600">الشحن</span>
-            <span>{order.shippingCost === 0 ? "مجاني" : formatPrice(order.shippingCost)}</span>
+            <span>{order.shippingCost === 0 ? "مجاني" : formatCurrency(order.shippingCost)}</span>
           </div>
           <div className="flex justify-between font-bold text-base pt-2">
             <span>الإجمالي</span>
-            <span>{formatPrice(order.totalPrice + order.shippingCost)}</span>
+            <span>{formatCurrency(order.totalPrice + order.shippingCost)}</span>
           </div>
         </div>
 

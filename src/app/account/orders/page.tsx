@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { Package, ChevronRight, Truck, CheckCircle, Clock, XCircle } from "lucide-react";
-import { useOrders, statusLabels, type OrderStatus } from "@/lib/OrderContext";
+import { useOrders, statusLabels, type OrderStatus } from "@/contexts/OrderContext";
 import { Breadcrumb, EmptyState } from "@/components/ui";
-import { formatPrice } from "@/lib";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 const statusIcons: Record<OrderStatus, typeof CheckCircle> = {
   pending: Clock,
@@ -26,6 +26,7 @@ const statusColors: Record<OrderStatus, string> = {
 
 export default function OrdersPage() {
   const { orders } = useOrders();
+  const { format: formatCurrency } = useFormatPrice();
 
   if (orders.length === 0) {
     return (
@@ -75,7 +76,7 @@ export default function OrdersPage() {
                   })}
                 </p>
                 <p className="text-sm text-slate-500">
-                  {order.items.length} منتجات - {formatPrice(order.totalPrice + order.shippingCost)}
+                  {order.items.length} منتجات - {formatCurrency(order.totalPrice + order.shippingCost)}
                 </p>
               </div>
               <ChevronRight size={20} className="text-slate-400 shrink-0" />

@@ -29,6 +29,7 @@ export * from '../data/mockData';
 export * from '../i18n';
 
 export { useAddresses } from '../hooks/useAddresses';
+export { useFormatPrice } from '../hooks/useFormatPrice';
 
 export * from '../utils/constants';
 export { getProductById, getProductsByCategory, getFeaturedProducts, getCategoryBySlug, searchProducts, formatNumber, formatPrice, calculateDiscountPercent } from '../utils/helpers';

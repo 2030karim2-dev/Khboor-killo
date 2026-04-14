@@ -63,14 +63,15 @@ The codebase is professionally structured with zero lint warnings, zero TypeScri
 - [x] Added suppressHydrationWarning to <html>, inline theme init script in layout.tsx
 - [x] Added @custom-variant dark for Tailwind v4 data-theme compatibility
 - [x] Changed ThemeContext from class-based to data-attribute (data-theme) switching
+- [x] Currency formatting unification: created useFormatPrice hook, updated all 52 usages across components
 
 ## Active Focus
 
 Phase 1: Critical Fixes (in progress)
 - ✅ Order system unification
 - ✅ Hydration fix (suppressHydrationWarning + data-theme variant setup)
+- ✅ Currency formatting unification (useFormatPrice hook)
 - ⏳ Complete dark mode migration (261 `dark:` class usages → data-theme)
-- ⏳ Currency formatting unification (formatPrice → useCurrency hook)
 - ⏳ Security fixes (JWT + Middleware)
 
 Remaining tasks from IMPROVEMENT_PLAN.md: 45+

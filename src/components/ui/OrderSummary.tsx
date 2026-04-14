@@ -3,8 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { CartItem } from "@/lib/types";
-import { formatPrice } from "@/lib/helpers";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 export default function OrderSummary({
   items,
@@ -23,6 +23,7 @@ export default function OrderSummary({
   actionHref?: string;
   onAction?: () => void;
 }) {
+  const { format: formatCurrency } = useFormatPrice();
   return (
     <div className="card p-6 h-fit sticky top-32">
       <h2 className="text-lg font-bold text-slate-800 mb-4">ملخص الطلب</h2>
@@ -47,7 +48,7 @@ export default function OrderSummary({
               </p>
             </div>
             <p className="text-sm font-bold shrink-0">
-              {formatPrice(item.product.price * item.quantity)}
+              {formatCurrency(item.product.price * item.quantity)}
             </p>
           </div>
         ))}
@@ -56,12 +57,12 @@ export default function OrderSummary({
       <div className="space-y-2 text-sm">
         <div className="flex justify-between">
           <span className="text-slate-600">المجموع الفرعي</span>
-          <span className="font-medium">{formatPrice(totalPrice)}</span>
+          <span className="font-medium">{formatCurrency(totalPrice)}</span>
         </div>
         {discount > 0 && (
           <div className="flex justify-between text-emerald-600">
             <span>الخصم</span>
-            <span className="font-medium">-{formatPrice(discount)}</span>
+            <span className="font-medium">-{formatCurrency(discount)}</span>
           </div>
         )}
         <div className="flex justify-between">
@@ -70,20 +71,20 @@ export default function OrderSummary({
             {shipping === 0 ? (
               <span className="text-emerald-600">مجاني</span>
             ) : (
-              formatPrice(shipping)
+              formatCurrency(shipping)
             )}
           </span>
         </div>
         {shipping > 0 && (
           <p className="text-xs text-sky-600">
-            أضف {formatPrice(FREE_SHIPPING_THRESHOLD - totalPrice)} للحصول على شحن مجاني
+            أضف {formatCurrency(FREE_SHIPPING_THRESHOLD - totalPrice)} للحصول على شحن مجاني
           </p>
         )}
         <hr className="my-2" />
         <div className="flex justify-between text-base">
           <span className="font-bold text-slate-800">الإجمالي</span>
           <span className="font-extrabold text-slate-900">
-            {formatPrice(totalPrice - discount + shipping)}
+            {formatCurrency(totalPrice - discount + shipping)}
           </span>
         </div>
       </div>

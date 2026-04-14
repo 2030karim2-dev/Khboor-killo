@@ -3,15 +3,17 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Star, ShoppingCart, Heart } from "lucide-react";
-import { Product, formatPrice } from "@/lib";
-import { useCart } from "@/lib/CartContext";
-import { useWishlist } from "@/lib/WishlistContext";
-import { useToast } from "@/lib/ToastContext";
+import { Product } from "@/lib";
+import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
+import { useToast } from "@/contexts/ToastContext";
+import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 export default function MobileProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { success, info } = useToast();
+  const { format: formatCurrency } = useFormatPrice();
   const liked = isInWishlist(product.id);
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -77,11 +79,11 @@ export default function MobileProductCard({ product }: { product: Product }) {
           </div>
           <div>
             <p className="text-base font-extrabold text-slate-900 dark:text-white">
-              {formatPrice(product.price)}
+              {formatCurrency(product.price)}
             </p>
             {product.originalPrice && (
               <p className="text-xs text-slate-400 line-through">
-                {formatPrice(product.originalPrice)}
+                {formatCurrency(product.originalPrice)}
               </p>
             )}
           </div>
