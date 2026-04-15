@@ -48,8 +48,8 @@
 
   body {
     font-family: var(--font-family-arabic);
-    background-color: var(--color-surface-dark);
-    color: var(--color-dark-lighter);
+    background-color: #f1f5f9;
+    color: #1e293b;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -57,7 +57,7 @@
 
   .dark body,
   html.dark body {
-    background-color: var(--color-dark);
+    background-color: #0f172a;
     color: #e2e8f0;
   }
 
