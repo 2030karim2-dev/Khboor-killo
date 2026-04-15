@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
-import { categories, products } from "@/lib";
+import { categories } from "@/data/categories";
+import { products } from "@/data/products";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://khuboor.com";
