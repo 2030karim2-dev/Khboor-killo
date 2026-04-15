@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getProductById, getProductsByCategory } from "@/utils/helpers";
+import { products } from "@/data/products";
 import { Breadcrumb } from "@/components/ui";
 import ProductJsonLd from "@/components/seo/JsonLd";
 import ReviewList from "@/components/product/ReviewList";
@@ -8,6 +9,10 @@ import ReviewForm from "@/components/product/ReviewForm";
 import ProductCard from "@/components/ProductCard";
 import { ProductActionsDesktop, ProductActionsMobile } from "@/components/product/ProductActions";
 import ProductViewTracker from "@/components/product/ProductViewTracker";
+
+export function generateStaticParams() {
+  return products.map((product) => ({ id: product.id }));
+}
 
 export async function generateMetadata({
   params,

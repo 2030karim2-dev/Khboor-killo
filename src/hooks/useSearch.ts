@@ -3,7 +3,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Search, X, Clock, TrendingUp } from "lucide-react";
-import { searchProducts, categories, products } from "@/lib";
+import { searchProducts } from "@/utils/helpers";
+import { categories } from "@/data/categories";
+import { products } from "@/data/products";
 
 const SEARCH_HISTORY_KEY = "khuboor_search_history";
 const MAX_HISTORY = 8;
@@ -11,7 +13,7 @@ const MAX_HISTORY = 8;
 export function useSearch() {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState(products);
+  const [results, setResults] = useState<typeof products>([]);
   const [suggestions, setSuggestions] = useState<{ type: "product" | "category"; label: string; href: string; icon?: string }[]>([]);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
