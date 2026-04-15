@@ -62,7 +62,7 @@ export default async function SearchPage({
             name="q"
             defaultValue={query}
             placeholder="ابحث عن منتجات..."
-            className="w-full py-3.5 pe-14 ps-4 rounded-2xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none transition-colors bg-white text-right text-lg"
+            className="w-full py-3.5 pe-14 ps-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 focus:border-sky-500 dark:focus:border-sky-400 focus:outline-none transition-colors bg-white dark:bg-slate-800 text-right text-lg text-slate-900 dark:text-slate-100"
           />
           <button
             type="submit"
@@ -76,10 +76,10 @@ export default async function SearchPage({
 
       {query ? (
         <>
-          <h1 className="text-xl font-bold text-slate-800 mb-2">
+          <h1 className="text-xl font-bold text-slate-800 dark:text-white mb-2">
             نتائج البحث عن: &ldquo;{query}&rdquo;
           </h1>
-          <p className="text-slate-500 mb-6">تم العثور على {results.length} منتج</p>
+          <p className="text-slate-500 dark:text-slate-400 mb-6">تم العثور على {results.length} منتج</p>
 
           {/* Filters */}
           {results.length > 0 && (
@@ -91,23 +91,23 @@ export default async function SearchPage({
                   className={`shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                     !params.category
                       ? "bg-sky-500 text-white"
-                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                      : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
                   }`}
                 >
                   الكل
                 </Link>
                 {categories.map((cat) => (
-                  <Link
-                    key={cat.slug}
-                    href={buildFilterUrl("category", cat.slug)}
-                    className={`shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                      params.category === cat.slug
-                        ? "bg-sky-500 text-white"
-                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                    }`}
-                  >
-                    {cat.icon} {cat.name}
-                  </Link>
+                <Link
+                  key={cat.slug}
+                  href={buildFilterUrl("category", cat.slug)}
+                  className={`shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                    params.category === cat.slug
+                      ? "bg-sky-500 text-white"
+                      : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                  }`}
+                >
+                  {cat.icon} {cat.name}
+                </Link>
                 ))}
               </div>
 
@@ -133,7 +133,7 @@ export default async function SearchPage({
                   <Link
                     key={cat.slug}
                     href={`/category/${cat.slug}`}
-                    className="px-4 py-2 bg-sky-50 text-sky-700 rounded-xl text-sm font-medium hover:bg-sky-100 transition-colors"
+                    className="px-4 py-2 bg-sky-50 dark:bg-sky-900/30 text-sky-700 dark:text-sky-300 rounded-xl text-sm font-medium hover:bg-sky-100 dark:hover:bg-sky-900/50 transition-colors"
                   >
                     {cat.icon} {cat.name}
                   </Link>
@@ -145,8 +145,8 @@ export default async function SearchPage({
       ) : (
         <div className="text-center py-16">
           <Search size={48} className="text-slate-300 mx-auto mb-4" aria-hidden="true" />
-          <h2 className="text-xl font-bold text-slate-800 mb-2">ابحث عن ما تحتاجه</h2>
-          <p className="text-slate-500 mb-6">اكتب في مربع البحث أعلاه للعثور على المنتجات</p>
+          <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-2">ابحث عن ما تحتاجه</h2>
+          <p className="text-slate-500 dark:text-slate-400 mb-6">اكتب في مربع البحث أعلاه للعثور على المنتجات</p>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3 max-w-2xl mx-auto">
             {categories.map((cat) => (
               <Link
@@ -155,7 +155,7 @@ export default async function SearchPage({
                 className="card p-4 text-center hover:border-sky-300"
               >
                 <span className="text-3xl block mb-2" aria-hidden="true">{cat.icon}</span>
-                <span className="text-sm font-medium text-slate-700">{cat.name}</span>
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{cat.name}</span>
               </Link>
             ))}
           </div>

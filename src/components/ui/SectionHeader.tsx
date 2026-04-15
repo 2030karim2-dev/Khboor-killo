@@ -23,7 +23,7 @@ export default function SectionHeader({
       {viewAllHref && (
         <Link
           href={viewAllHref}
-          className="hidden md:flex items-center gap-2 text-sky-600 hover:text-sky-700 font-semibold text-sm transition-all hover:gap-3"
+          className="hidden md:flex items-center gap-2 text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-semibold text-sm transition-all hover:gap-3"
         >
           {viewAllLabel}
           <ChevronRight size={18} />

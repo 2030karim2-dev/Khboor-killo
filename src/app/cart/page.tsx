@@ -57,13 +57,13 @@ export default function CartPage() {
 
       {/* Mobile Header */}
       <div className="md:hidden flex items-center justify-between mb-4">
-        <h1 className="text-lg font-extrabold text-slate-800">
+        <h1 className="text-lg font-extrabold text-slate-800 dark:text-white">
           سلة التسوق ({items.length})
         </h1>
         <button
           onClick={handleClear}
           className={`text-xs font-medium px-3 py-1.5 rounded-lg transition-colors ${
-            confirmClear ? "bg-red-500 text-white" : "text-red-500 bg-red-50"
+            confirmClear ? "bg-red-500 text-white" : "text-red-500 bg-red-50 dark:bg-red-900/20"
           }`}
         >
           {confirmClear ? "تأكيد الإفراغ؟" : "إفراغ"}
@@ -71,7 +71,7 @@ export default function CartPage() {
       </div>
 
       {/* Desktop Header */}
-      <h1 className="hidden md:block text-2xl font-extrabold text-slate-800 mb-8">
+      <h1 className="hidden md:block text-2xl font-extrabold text-slate-800 dark:text-white mb-8">
         سلة التسوق ({items.length} منتجات)
       </h1>
 
@@ -92,13 +92,13 @@ export default function CartPage() {
                   <Image src={item.product.image} alt={item.product.name} fill sizes="96px" className="object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <Link href={`/product/${item.product.id}`} className="font-bold text-slate-800 hover:text-sky-600 transition-colors line-clamp-1">
+                  <Link href={`/product/${item.product.id}`} className="font-bold text-slate-800 dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition-colors line-clamp-1">
                     {item.product.name}
                   </Link>
-                  <p className="text-sm text-slate-500 mt-0.5">{item.product.category}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">{item.product.category}</p>
                   <div className="flex items-center justify-between mt-3">
                     <QuantityStepper value={item.quantity} onChange={(v) => updateQuantity(item.product.id, v)} min={0} size="sm" />
-                    <p className="font-bold text-slate-800">{formatCurrency(item.product.price * item.quantity)}</p>
+                    <p className="font-bold text-slate-800 dark:text-white">{formatCurrency(item.product.price * item.quantity)}</p>
                   </div>
                 </div>
                 <button onClick={() => handleRemove(item.product.id, item.product.name)} className="text-slate-400 hover:text-red-500 transition-colors self-start p-1" aria-label={`إزالة ${item.product.name}`}>
@@ -106,17 +106,17 @@ export default function CartPage() {
                 </button>
               </div>
             ))}
-            <button onClick={handleClear} className={`text-sm font-medium transition-colors ${confirmClear ? "text-red-700 bg-red-50 px-3 py-1 rounded-lg" : "text-red-500 hover:text-red-600"}`}>
+            <button onClick={handleClear} className={`text-sm font-medium transition-colors ${confirmClear ? "text-red-700 bg-red-50 dark:bg-red-900/30 px-3 py-1 rounded-lg" : "text-red-500 hover:text-red-600"}`}>
               {confirmClear ? "تأكيد الإفراغ؟" : "إفراغ السلة"}
             </button>
           </div>
         </div>
 
         {/* Mobile Summary */}
-        <div className="lg:hidden fixed bottom-16 left-0 right-0 z-40 p-3 bg-white/90 backdrop-blur border-t border-slate-100">
+        <div className="lg:hidden fixed bottom-16 left-0 right-0 z-40 p-3 bg-white dark:bg-slate-800/90 backdrop-blur border-t border-slate-100 dark:border-slate-700">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-slate-600">الإجمالي</span>
-            <span className="text-lg font-extrabold text-slate-900">{formatCurrency(totalPrice + shipping)}</span>
+            <span className="text-sm text-slate-600 dark:text-slate-300">الإجمالي</span>
+            <span className="text-lg font-extrabold text-slate-900 dark:text-white">{formatCurrency(totalPrice + shipping)}</span>
           </div>
           <Link href="/checkout" className="btn-primary w-full justify-center py-3 text-sm">
             <ShoppingBag size={16} />

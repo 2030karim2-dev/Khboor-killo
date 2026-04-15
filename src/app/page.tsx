@@ -16,7 +16,7 @@ export default function Home() {
   }));
 
   return (
-    <div>
+    <div className="bg-white dark:bg-slate-900">
       {/* Mobile Hero */}
       <div className="md:hidden px-2 pt-2 pb-1">
         <MobileHeroSlider />
@@ -33,7 +33,7 @@ export default function Home() {
       </div>
 
       {/* Desktop Trust Bar */}
-      <section className="hidden md:block bg-white border-b border-slate-200">
+      <section className="hidden md:block bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <TrustBar />
         </div>
@@ -59,8 +59,8 @@ export default function Home() {
       {/* Mobile Featured Products */}
       <section className="md:hidden px-2 py-3">
         <div className="flex items-center justify-between mb-2 px-1">
-          <h2 className="text-sm font-extrabold text-slate-800">منتجات مميزة</h2>
-          <Link href="/search" className="text-[10px] text-sky-600 font-medium">عرض الكل</Link>
+          <h2 className="text-sm font-extrabold text-slate-800 dark:text-white">منتجات مميزة</h2>
+          <Link href="/search" className="text-[10px] text-sky-600 dark:text-sky-400 font-medium">عرض الكل</Link>
         </div>
         <div className="grid grid-cols-3 gap-1.5">
           {featured.slice(0, 6).map((product) => (
@@ -70,7 +70,7 @@ export default function Home() {
       </section>
 
       {/* Desktop Featured Products */}
-      <section className="hidden md:block bg-white">
+      <section className="hidden md:block bg-white dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <SectionHeader
             title="منتجات مميزة"
@@ -101,7 +101,7 @@ export default function Home() {
         {categoryProducts.map(({ category: cat, products }) => {
           if (products.length === 0) return null;
           return (
-            <div key={cat.slug} className={cat.slug !== "accessories" ? "bg-white" : ""}>
+            <div key={cat.slug} className={cat.slug !== "accessories" ? "bg-white dark:bg-slate-900" : ""}>
               <CategorySection category={cat} products={products} />
             </div>
           );
@@ -114,10 +114,10 @@ export default function Home() {
         return (
           <section key={cat.slug} className="md:hidden px-2 py-3">
             <div className="flex items-center justify-between mb-2 px-1">
-              <h2 className="text-sm font-extrabold text-slate-800 flex items-center gap-1.5">
+              <h2 className="text-sm font-extrabold text-slate-800 dark:text-white flex items-center gap-1.5">
                 <span aria-hidden="true">{cat.icon}</span> {cat.name}
               </h2>
-              <Link href={`/category/${cat.slug}`} className="text-[10px] text-sky-600 font-medium">عرض الكل</Link>
+              <Link href={`/category/${cat.slug}`} className="text-[10px] text-sky-600 dark:text-sky-400 font-medium">عرض الكل</Link>
             </div>
             <div className="grid grid-cols-3 gap-1.5">
               {products.slice(0, 3).map((product) => (
