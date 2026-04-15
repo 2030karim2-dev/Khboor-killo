@@ -80,6 +80,8 @@ export default function RootLayout({
                 document.documentElement.dataset.theme = theme;
                 if (theme === 'dark') {
                   document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
                 }
                 var currency = localStorage.getItem('khuboor_currency');
                 if (currency) {
@@ -90,7 +92,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${cairo.variable} ${tajawal.variable} antialiased`}>
+      <body className={`${cairo.variable} ${tajawal.variable} antialiased bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100`}>
         <OrganizationJsonLd />
         <WebsiteJsonLd />
         <AppProviders>

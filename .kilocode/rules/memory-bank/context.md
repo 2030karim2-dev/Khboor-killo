@@ -170,3 +170,4 @@ src/
 | 2026-04-14 | Order system unification (OrderContext ↔ AdminContext via sharedOrders.ts) |
 | 2026-04-14 | Hydration fix: suppressHydrationWarning + inline theme script + data-theme variant |
 | 2026-04-15 | Dark mode fix: Added .dark class to html element + updated @custom-variant to support both class and data-theme |
+| 2026-04-15 | Dark mode fix: Added bg-white/dark:bg-slate-900 and text-slate-900/dark:text-slate-100 to body element + fixed script to remove dark class when light |
