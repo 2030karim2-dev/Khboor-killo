@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { categories } from "@/lib";
+import { categories } from "@/data/categories";
 import { ChevronLeft } from "lucide-react";
 
 export default function PremiumCategoryChips() {

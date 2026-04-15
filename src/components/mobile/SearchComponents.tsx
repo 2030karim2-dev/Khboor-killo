@@ -3,7 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Clock, TrendingUp } from "lucide-react";
-import { searchProducts, categories } from "@/lib";
+import { searchProducts } from "@/utils/helpers";
+import { categories } from "@/data/categories";
 import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 const recentSearches = ["سيارات تويوتا", "ثوب رجالي", "حديد تسليح"];

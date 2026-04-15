@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Category, Product } from "@/lib";
+import { Category, Product } from "@/types/product";
 import ProductCard from "@/components/ProductCard";
 import { ChevronLeft } from "lucide-react";
 

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { Category } from "@/lib";
+import { Category } from "@/types/product";
 
 export default function CategoryCard({ category }: { category: Category }) {
   return (

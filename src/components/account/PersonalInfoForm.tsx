@@ -1,8 +1,8 @@
 "use client";
 
-import { useAuth } from "@/lib/AuthContext";
-import { useToast } from "@/lib/ToastContext";
-import { CITIES } from "@/lib";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/contexts/ToastContext";
+import { CITIES } from "@/utils/constants";
 
 export default function PersonalInfoForm() {
   const { user, updateProfile } = useAuth();

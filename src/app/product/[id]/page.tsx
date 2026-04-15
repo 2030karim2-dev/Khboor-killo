@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getProductById, getProductsByCategory } from "@/lib";
+import { getProductById, getProductsByCategory } from "@/utils/helpers";
 import { Breadcrumb } from "@/components/ui";
 import ProductJsonLd from "@/components/seo/JsonLd";
 import ReviewList from "@/components/product/ReviewList";

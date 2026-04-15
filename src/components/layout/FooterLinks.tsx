@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { categories } from "@/lib";
+import { categories } from "@/data/categories";
 
 const quickLinks = [
   { label: "بيع معنا", href: "/sell" },

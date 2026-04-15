@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { categories, getFeaturedProducts } from "@/lib";
+import { categories } from "@/data/categories";
+import { getFeaturedProducts } from "@/utils/helpers";
 import CategoryCard from "@/components/CategoryCard";
 import { SectionHeader, ProductGrid, TrustBar } from "@/components/ui";
 import { HeroSection, PromoBanner, CategorySection } from "@/components/home";

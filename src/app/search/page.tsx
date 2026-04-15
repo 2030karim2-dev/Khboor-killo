@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Search } from "lucide-react";
-import { searchProducts, categories } from "@/lib";
+import { searchProducts } from "@/utils/helpers";
+import { categories } from "@/data/categories";
 import { Breadcrumb, ProductGrid, EmptyState } from "@/components/ui";
 import SortSelect from "@/components/search/SortSelect";
 

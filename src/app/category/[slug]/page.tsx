@@ -1,11 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
-import {
-  getCategoryBySlug,
-  getProductsByCategory,
-  categories,
-} from "@/lib";
+import { getCategoryBySlug, getProductsByCategory } from "@/utils/helpers";
+import { categories } from "@/data/categories";
 import { Breadcrumb, EmptyState } from "@/components/ui";
 import CategoryToolbar from "@/components/category/CategoryToolbar";
 import SubcategoryFilter from "@/components/category/SubcategoryFilter";

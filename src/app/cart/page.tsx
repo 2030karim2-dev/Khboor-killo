@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Trash2, ShoppingBag } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/contexts/ToastContext";
-import { FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_COST } from "@/lib";
+import { FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_COST } from "@/utils/constants";
 import { Breadcrumb, QuantityStepper, OrderSummary, EmptyState } from "@/components/ui";
 import { MobileCartCard } from "@/components/mobile";
 import { useFormatPrice } from "@/hooks/useFormatPrice";

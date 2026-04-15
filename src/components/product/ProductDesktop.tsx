@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { ShoppingCart, Heart, Share2, Minus, Plus } from "lucide-react";
-import { Product, formatNumber } from "@/lib";
+import { Product } from "@/types/product";
+import { formatNumber } from "@/utils/helpers";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useToast } from "@/contexts/ToastContext";

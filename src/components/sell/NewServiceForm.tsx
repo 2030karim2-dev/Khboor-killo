@@ -4,10 +4,10 @@ import { useState } from "react";
 import { Loader2, Briefcase } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { categories } from "@/lib";
-import { useToast } from "@/lib/ToastContext";
-import { serviceSchema } from "@/lib/validations";
-import type { ServiceInput } from "@/lib/validations";
+import { categories } from "@/data/categories";
+import { useToast } from "@/contexts/ToastContext";
+import { serviceSchema } from "@/utils/validations";
+import type { ServiceInput } from "@/utils/validations";
 
 const serviceCategories = categories.find((c) => c.slug === "services")?.subcategories || [];
 

@@ -4,12 +4,12 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { categories } from "@/lib";
-import { useToast } from "@/lib/ToastContext";
+import { categories } from "@/data/categories";
+import { useToast } from "@/contexts/ToastContext";
 import { FormTextarea, FormSelect, FormActions } from "@/components/ui/FormElements";
 import ImageUpload from "@/components/ui/ImageUpload";
-import { productSchema } from "@/lib/validations";
-import type { ProductInput } from "@/lib/validations";
+import { productSchema } from "@/utils/validations";
+import type { ProductInput } from "@/utils/validations";
 
 export default function NewProductForm() {
   const { success, error: showError } = useToast();

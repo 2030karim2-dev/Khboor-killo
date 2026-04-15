@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { categories } from "@/lib";
+import { categories } from "@/data/categories";
 import { usePathname } from "next/navigation";
 
 export default function MobileCategoryChips() {

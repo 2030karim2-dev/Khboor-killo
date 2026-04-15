@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { MapPin, Plus, Pencil, Trash2 } from "lucide-react";
 import { Breadcrumb, EmptyState } from "@/components/ui";
-import { useToast } from "@/lib/ToastContext";
-import { CITIES } from "@/lib";
+import { useToast } from "@/contexts/ToastContext";
+import { CITIES } from "@/utils/constants";
 
 interface Address {
   id: string;

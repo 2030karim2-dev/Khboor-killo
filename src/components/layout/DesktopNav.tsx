@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
-import { categories } from "@/lib";
+import { categories } from "@/data/categories";
 
 export default function DesktopNav({
   categoriesOpen,

@@ -1,8 +1,8 @@
 "use client";
 
-import { CITIES } from "@/lib";
+import { CITIES } from "@/utils/constants";
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
-import type { CheckoutInput } from "@/lib/validations";
+import type { CheckoutInput } from "@/utils/validations";
 
 interface ShippingFormProps {
   register: UseFormRegister<CheckoutInput>;

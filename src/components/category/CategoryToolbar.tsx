@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal, Grid3X3, List } from "lucide-react";
-import { SORT_OPTIONS } from "@/lib";
+import { SORT_OPTIONS } from "@/utils/constants";
 
 export default function CategoryToolbar({
   categorySlug,
