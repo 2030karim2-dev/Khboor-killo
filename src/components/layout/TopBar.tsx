@@ -2,10 +2,10 @@
 
 import { useId } from "react";
 import { Sun, Moon, Globe, DollarSign } from "lucide-react";
-import { useTheme } from "@/lib/ThemeContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage, languages } from "@/lib/i18n";
-import { useCurrency, currencies } from "@/lib/CurrencyContext";
-import { CONTACT_PHONE } from "@/lib/constants";
+import { useCurrency, currencies } from "@/contexts/CurrencyContext";
+import { CONTACT_PHONE } from "@/utils/constants";
 
 export default function TopBar() {
   const { theme, toggleTheme } = useTheme();

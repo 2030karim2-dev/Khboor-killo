@@ -2,9 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Settings, Sun, Moon, Globe, DollarSign, Check } from "lucide-react";
-import { useTheme } from "@/lib/ThemeContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage, languages } from "@/lib/i18n";
-import { useCurrency, currencies, type CurrencyCode } from "@/lib/CurrencyContext";
+import { useCurrency, currencies, type CurrencyCode } from "@/contexts/CurrencyContext";
 
 export default function SettingsDropdown() {
   const [open, setOpen] = useState(false);
