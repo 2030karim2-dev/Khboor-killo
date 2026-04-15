@@ -28,7 +28,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    root.dataset.theme = theme;
+    if (root.dataset.theme !== theme) {
+      root.dataset.theme = theme;
+    }
     localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
 
