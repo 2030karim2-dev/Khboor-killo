@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ShoppingCart, Package, Users, DollarSign, ArrowUpRight, ArrowDownRight, Clock, AlertTriangle, TrendingUp, Activity } from "lucide-react";
-import { useAdmin } from "@/lib/AdminContext";
+import { useAdmin } from "@/contexts/AdminContext";
 import { orderStatusLabels, orderStatusColors, type OrderStatus } from "@/components/admin/constants";
 
 export function DashboardStats() {

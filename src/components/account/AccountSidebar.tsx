@@ -9,8 +9,8 @@ import {
   LogOut,
   Settings,
 } from "lucide-react";
-import { useAuth } from "@/lib/AuthContext";
-import { useToast } from "@/lib/ToastContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/contexts/ToastContext";
 
 const navItems = [
   { icon: User, label: "معلوماتي", href: "/account" },

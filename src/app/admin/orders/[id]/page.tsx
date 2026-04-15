@@ -4,9 +4,9 @@ import { use } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { useAdmin } from "@/lib/AdminContext";
+import { useAdmin } from "@/contexts/AdminContext";
 import { orderStatusLabels, orderStatusColors, validStatusTransitions, type OrderStatus } from "@/components/admin/constants";
-import { useToast } from "@/lib/ToastContext";
+import { useToast } from "@/contexts/ToastContext";
 import { ArrowRight, CheckCircle, Clock, Package, Truck, XCircle, MapPin, Phone, User } from "lucide-react";
 
 const stepIcons: Record<OrderStatus, typeof CheckCircle> = {

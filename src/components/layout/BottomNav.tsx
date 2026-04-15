@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Search, ShoppingCart, User, Heart } from "lucide-react";
-import { useCart } from "@/lib/CartContext";
+import { useCart } from "@/contexts/CartContext";
 
 const navItems = [
   { href: "/", icon: Home, label: "الرئيسية" },

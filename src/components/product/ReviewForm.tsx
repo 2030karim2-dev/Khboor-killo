@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Star, Loader2 } from "lucide-react";
-import { useToast } from "@/lib/ToastContext";
+import { useToast } from "@/contexts/ToastContext";
 
 export default function ReviewForm({ productId }: { productId: string }) {
   const [rating, setRating] = useState(0);

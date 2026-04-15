@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useAdmin } from "@/lib/AdminContext";
+import { useAdmin } from "@/contexts/AdminContext";
 import { Pencil, Trash2, Plus, Package, X } from "lucide-react";
-import { useToast } from "@/lib/ToastContext";
+import { useToast } from "@/contexts/ToastContext";
 
 export default function AdminCategories() {
   const { categories, addCategory, updateCategory, deleteCategory, products } = useAdmin();

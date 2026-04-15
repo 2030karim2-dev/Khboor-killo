@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { useAdmin } from "@/lib/AdminContext";
-import { useToast } from "@/lib/ToastContext";
+import { useAdmin } from "@/contexts/AdminContext";
+import { useToast } from "@/contexts/ToastContext";
 import { ArrowRight, Save, Upload } from "lucide-react";
 
 export default function EditProductPage({ params }: { params: Promise<{ id: string }> }) {

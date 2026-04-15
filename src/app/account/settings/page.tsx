@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Settings, Bell, Shield, Palette, Trash2 } from "lucide-react";
 import { Breadcrumb } from "@/components/ui";
-import { useAuth } from "@/lib/AuthContext";
-import { useToast } from "@/lib/ToastContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/contexts/ToastContext";
 
 export default function SettingsPage() {
   const { user, logout } = useAuth();

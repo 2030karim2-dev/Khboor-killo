@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Bell, Package, Tag, Info, Star, CheckCheck, Trash2 } from "lucide-react";
-import { useNotifications, type NotificationType } from "@/lib/NotificationsContext";
+import { useNotifications, type NotificationType } from "@/contexts/NotificationsContext";
 
 const typeIcons: Record<NotificationType, typeof Bell> = {
   order: Package,

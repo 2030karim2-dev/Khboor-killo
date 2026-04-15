@@ -4,10 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useAdmin } from "@/lib/AdminContext";
+import { useAdmin } from "@/contexts/AdminContext";
 import { Eye, Pencil, Trash2, Plus, X, Upload } from "lucide-react";
 import ExcelTable, { type Column } from "@/components/admin/ExcelTable";
-import { useToast } from "@/lib/ToastContext";
+import { useToast } from "@/contexts/ToastContext";
 import type { Product } from "@/lib/types";
 
 export default function AdminProducts() {

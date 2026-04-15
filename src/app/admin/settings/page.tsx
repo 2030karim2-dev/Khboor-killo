@@ -1,8 +1,8 @@
 "use client";
 
-import { useAdmin } from "@/lib/AdminContext";
+import { useAdmin } from "@/contexts/AdminContext";
 import { Save, Bell, Shield, Globe, DollarSign } from "lucide-react";
-import { useToast } from "@/lib/ToastContext";
+import { useToast } from "@/contexts/ToastContext";
 
 export default function AdminSettings() {
   const { settings, updateSettings } = useAdmin();

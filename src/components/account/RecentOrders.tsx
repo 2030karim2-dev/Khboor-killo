@@ -1,6 +1,6 @@
 "use client";
 
-import { useOrders } from "@/lib/OrderContext";
+import { useOrders } from "@/contexts/OrderContext";
 import Link from "next/link";
 import { orderStatusLabels, orderStatusColors, type OrderStatus } from "@/components/admin/constants";
 

@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useAdmin } from "@/lib/AdminContext";
+import { useAdmin } from "@/contexts/AdminContext";
 import { orderStatusLabels, orderStatusColors, validStatusTransitions, type OrderStatus } from "@/components/admin/constants";
 import { Eye, Truck, Package, CheckCircle, XCircle, Clock } from "lucide-react";
 import ExcelTable, { type Column } from "@/components/admin/ExcelTable";
-import { useToast } from "@/lib/ToastContext";
+import { useToast } from "@/contexts/ToastContext";
 
 const statusIcons: Record<OrderStatus, typeof CheckCircle> = {
   pending: Clock, confirmed: CheckCircle, processing: Package,

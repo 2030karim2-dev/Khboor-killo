@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRecentlyViewed } from "@/lib/RecentlyViewedContext";
+import { useRecentlyViewed } from "@/contexts/RecentlyViewedContext";
 import { Product } from "@/lib/types";
 
 export default function ProductViewTracker({ product }: { product: Product }) {

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { useToast } from "@/lib/ToastContext";
+import { useToast } from "@/contexts/ToastContext";
 import { FormTextarea, FormSelect, FormActions } from "@/components/ui/FormElements";
 import FormField from "@/components/ui/FormField";
 

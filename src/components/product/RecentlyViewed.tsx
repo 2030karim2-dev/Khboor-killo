@@ -1,6 +1,6 @@
 "use client";
 
-import { useRecentlyViewed } from "@/lib/RecentlyViewedContext";
+import { useRecentlyViewed } from "@/contexts/RecentlyViewedContext";
 import ProductCard from "@/components/ProductCard";
 import { SectionHeader } from "@/components/ui";
 

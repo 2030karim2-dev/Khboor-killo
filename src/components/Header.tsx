@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ShoppingCart, Menu, X } from "lucide-react";
-import { useCart } from "@/lib/CartContext";
-import { useAuth } from "@/lib/AuthContext";
+import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { TopBar, SearchBar, DesktopNav, MobileMenu, NotificationBell } from "@/components/layout";
 import UserMenuDropdown from "@/components/layout/UserMenuDropdown";
 import SettingsDropdown from "@/components/layout/SettingsDropdown";

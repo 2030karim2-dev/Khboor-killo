@@ -6,9 +6,9 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState, use } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, type LoginInput } from "@/lib/validations";
-import { useAuth } from "@/lib/AuthContext";
-import { useToast } from "@/lib/ToastContext";
+import { loginSchema, type LoginInput } from "@/utils/validations";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/contexts/ToastContext";
 import FormField from "@/components/ui/FormField";
 
 export default function LoginPage() {

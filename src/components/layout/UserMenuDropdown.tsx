@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { User, Heart, LogOut, LayoutDashboard } from "lucide-react";
-import { useAuth } from "@/lib/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function UserMenuDropdown() {
   const { user, logout } = useAuth();

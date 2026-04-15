@@ -5,8 +5,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, type RegisterInput } from "@/lib/validations";
-import { useAuth } from "@/lib/AuthContext";
-import { useToast } from "@/lib/ToastContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/contexts/ToastContext";
 import FormField from "@/components/ui/FormField";
 
 export default function RegisterForm({ onSuccess }: { onSuccess?: () => void }) {

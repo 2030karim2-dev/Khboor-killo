@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useAdmin, type AdminUser } from "@/lib/AdminContext";
+import { useAdmin, type AdminUser } from "@/contexts/AdminContext";
 import { Eye, Pencil, UserPlus, X } from "lucide-react";
 import ExcelTable, { type Column } from "@/components/admin/ExcelTable";
-import { useToast } from "@/lib/ToastContext";
+import { useToast } from "@/contexts/ToastContext";
 import { userRoleLabels, userStatusLabels, userRoleColors, userStatusColors } from "@/components/admin/constants";
 
 export default function AdminUsers() {
