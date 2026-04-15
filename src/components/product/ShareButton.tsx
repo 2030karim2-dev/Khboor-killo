@@ -20,8 +20,12 @@ export default function ShareButton({
         // User cancelled
       }
     } else {
-      await navigator.clipboard.writeText(window.location.href);
-      success("تم نسخ الرابط!");
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        success("تم نسخ الرابط!");
+      } catch {
+        info("تعذر النسخ - يرجى نسخ الرابط يدوياً");
+      }
     }
   };
 

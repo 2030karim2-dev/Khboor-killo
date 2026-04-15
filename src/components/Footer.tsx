@@ -17,7 +17,7 @@ const footerLinks = {
     { label: "اتصل بنا", href: "/contact" },
     { label: "سياسة الخصوصية", href: "/privacy" },
     { label: "الشروط والأحكام", href: "/terms" },
-    { label: "سياسة الاستبدال", href: "/terms" },
+    { label: "سياسة الاستبدال", href: "/exchange-policy" },
   ],
 };
 
