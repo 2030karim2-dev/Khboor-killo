@@ -28,8 +28,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    if (root.dataset.theme !== theme) {
-      root.dataset.theme = theme;
+    root.dataset.theme = theme;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
     }
     localStorage.setItem(THEME_KEY, theme);
   }, [theme]);

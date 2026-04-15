@@ -74,10 +74,12 @@ export default function RootLayout({
             __html: `
               (function() {
                 var theme = localStorage.getItem('khuboor_theme');
-                if (theme) {
-                  document.documentElement.dataset.theme = theme;
-                } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                  document.documentElement.dataset.theme = 'dark';
+                if (!theme) {
+                  theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                document.documentElement.dataset.theme = theme;
+                if (theme === 'dark') {
+                  document.documentElement.classList.add('dark');
                 }
                 var currency = localStorage.getItem('khuboor_currency');
                 if (currency) {

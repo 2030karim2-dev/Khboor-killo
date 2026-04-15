@@ -169,3 +169,4 @@ src/
 | 2026-04-14 | Code quality audit (63%) with detailed improvement plan (IMPROVEMENT_PLAN.md) |
 | 2026-04-14 | Order system unification (OrderContext ↔ AdminContext via sharedOrders.ts) |
 | 2026-04-14 | Hydration fix: suppressHydrationWarning + inline theme script + data-theme variant |
+| 2026-04-15 | Dark mode fix: Added .dark class to html element + updated @custom-variant to support both class and data-theme |
