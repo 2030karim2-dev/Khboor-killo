@@ -94,7 +94,10 @@ export default function HeroSection() {
                     src={img.src}
                     alt={img.alt}
                     fill
+                    sizes="(max-width: 1024px) 50vw, 400px"
                     className="object-cover hover:scale-110 transition-transform duration-700"
+                    loading={i === 0 ? "eager" : "lazy"}
+                    priority={i === 0}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
                 </div>
@@ -110,7 +113,9 @@ export default function HeroSection() {
                     src={img.src}
                     alt={img.alt}
                     fill
+                    sizes="(max-width: 1024px) 50vw, 400px"
                     className="object-cover hover:scale-110 transition-transform duration-700"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
                 </div>

@@ -1,7 +1,20 @@
-export { carsProducts } from "./cars";
-export { autoPartsProducts } from "./autoParts";
-export { clothingProducts } from "./clothing";
-export { buildingMaterialsProducts } from "./buildingMaterials";
-export { accessoriesProducts } from "./accessories";
-export { products } from "./products";
-export { categories } from "./categories";
+import { carsProducts } from "./cars";
+import { autoPartsProducts } from "./autoParts";
+import { clothingProducts } from "./clothing";
+import { buildingMaterialsProducts } from "./buildingMaterials";
+import { accessoriesProducts } from "./accessories";
+import { products } from "./products";
+import { categories } from "./categories";
+
+const allProducts = [
+  ...carsProducts,
+  ...autoPartsProducts,
+  ...clothingProducts,
+  ...buildingMaterialsProducts,
+  ...accessoriesProducts,
+  ...products,
+];
+
+export const getAllProducts = () => allProducts;
+
+export { carsProducts, autoPartsProducts, clothingProducts, buildingMaterialsProducts, accessoriesProducts, products, categories };

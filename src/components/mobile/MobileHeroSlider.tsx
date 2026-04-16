@@ -70,6 +70,7 @@ export default function MobileHeroSlider() {
               sizes="100vw"
               className="object-cover"
               priority={i === 0}
+              loading={i === 0 ? "eager" : "lazy"}
             />
             <div className={`absolute inset-0 bg-gradient-to-r ${slide.color} to-transparent`} />
             <div className="absolute inset-0 flex flex-col justify-end p-5">
