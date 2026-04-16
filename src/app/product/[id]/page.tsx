@@ -1,14 +1,15 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getProductById, getProductsByCategory } from "@/utils/helpers";
 import { products } from "@/data/products";
+import ProductCard from "@/components/ProductCard";
 import { Breadcrumb } from "@/components/ui";
 import ProductJsonLd from "@/components/seo/JsonLd";
 import ReviewList from "@/components/product/ReviewList";
 import ReviewForm from "@/components/product/ReviewForm";
-import ProductCard from "@/components/ProductCard";
+import ProductQnA from "@/components/product/ProductQnA";
 import { ProductActionsDesktop, ProductActionsMobile } from "@/components/product/ProductActions";
 import ProductViewTracker from "@/components/product/ProductViewTracker";
+import { getProductById, getProductsByCategory } from "@/utils/helpers";
 
 export function generateStaticParams() {
   return products.map((product) => ({ id: product.id }));
@@ -73,6 +74,8 @@ export default async function ProductPage({
           <ReviewList productId={product.id} />
         </div>
 
+        <ProductQnA product={product} />
+
         {related.length > 0 && (
           <section>
             <h2 className="text-xl font-extrabold text-slate-800 mb-6">منتجات مشابهة</h2>
@@ -89,6 +92,7 @@ export default async function ProductPage({
       <div className="md:hidden px-4 pb-32 space-y-6">
         <ReviewForm productId={product.id} />
         <ReviewList productId={product.id} />
+        <ProductQnA product={product} />
         {related.length > 0 && (
           <section>
             <h2 className="text-lg font-extrabold text-slate-800 mb-4">منتجات مشابهة</h2>

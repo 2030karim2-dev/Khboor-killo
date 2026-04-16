@@ -95,48 +95,54 @@
 
 ## المرحلة الثانية: إدارة المنتجات (الأسبوع 5-10)
 
-### الأسبوع 5-6: نظام التقييم والتعليقات
+### الأسبوع 5-6: نظام التقييم والتعليقات ✅
 
 **الهدف**: إضافة نظام تقييم شامل
 
 | المهمة | التفاصيل | الحالة |
 |--------|----------|--------|
-| Review Model | إنشاء نموذج البيانات | ⏳ |
-| Review Component | مكون عرض التعليقات | ⏳ |
-| Review Form | نموذج إضافة تعليق | ⏳ |
-| Rating Display | عرض النجوم | ⏳ |
-| Sorting/Filtering | فلترة التعليقات | ⏳ |
+| Review Model | إنشاء نموذج البيانات | ✅ |
+| Review Component | مكون عرض التعليقات | ✅ |
+| Review Form | نموذج إضافة تعليق | ✅ |
+| Rating Display | عرض النجوم | ✅ |
+| Sorting/Filtering | فلترة التعليقات | ✅ |
 
 **الملفات المطلوب إنشاؤها**:
-- `src/components/product/ReviewList.tsx` (موجود - توسيع)
-- `src/components/product/ReviewForm.tsx`
-- `src/types/review.ts`
-- `src/app/api/reviews/route.ts`
+- `src/components/product/ReviewList.tsx` ✅ (تم توسيعه)
+- `src/components/product/ReviewForm.tsx` (مدمج في الـ component)
+- `src/types/review.ts` (موجود)
+- `src/app/api/reviews/route.ts` (يمكن إضافته لاحقاً)
 
-### الأسبوع 7: نظام الأسئلة والأجوبة
+### الأسبوع 7: نظام الأسئلة والأجوبة ✅
 
 **الهدف**: إضافة Q&A لكل منتج
 
 | المهمة | التفاصيل | الحالة |
 |--------|----------|--------|
-| Q&A Model | نموذج الأسئلة | ⏳ |
-| Q&A Component | عرض الأسئلة | ⏳ |
-| Q&A Form | إضافة سؤال | ⏳ |
+| Q&A Model | نموذج الأسئلة | ✅ |
+| Q&A Component | عرض الأسئلة | ✅ |
+| Q&A Form | إضافة سؤال | ✅ |
 | Admin Q&A | إدارة الأسئلة | ⏳ |
 
-### الأسبوع 8: مقارنة المنتجات
+**الملفات المطلوب إنشاؤها**:
+- `src/components/product/ProductQnA.tsx` ✅
+
+### الأسبوع 8: مقارنة المنتجات ✅
 
 **الهدف**: إضافة ميزة المقارنة
 
 | المهمة | التفاصيل | الحالة |
 |--------|----------|--------|
-| Compare Page | صفحة المقارنة | ⏳ |
-| Compare Button | زر الإضافة | ⏳ |
-| Compare Storage | تخزين المنتجات | ⏳ |
-| Compare Table | جدول المقارنة | ⏳ |
+| Compare Page | صفحة المقارنة | ✅ |
+| Compare Button | زر الإضافة | ✅ |
+| Compare Storage | تخزين المنتجات | ✅ |
+| Compare Table | جدول المقارنة | ✅ |
 
 **الملفات المطلوب إنشاؤها**:
-- `src/app/compare/page.tsx`
+- `src/app/compare/page.tsx` ✅
+- `src/contexts/CompareContext.tsx` ✅
+
+### الأسبوع 9: البحث المتقدم
 - `src/contexts/CompareContext.tsx`
 
 ### الأسبوع 9: البحث المتقدم

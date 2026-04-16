@@ -7,6 +7,7 @@ const footerLinks = {
     { label: "المنتجات", href: "/search" },
     { label: "التصنيفات", href: "/search" },
     { label: "عروض خاصة", href: "/search?featured=true" },
+    { label: "مقارنة", href: "/compare" },
   ],
   sell: [
     { label: "ابدأ البيع", href: "/sell" },

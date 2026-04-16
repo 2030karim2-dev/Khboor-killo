@@ -12,6 +12,7 @@ import { AdminProvider } from "@/contexts/AdminContext";
 import { LanguageProvider } from "@/i18n";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { RecentlyViewedProvider } from "@/contexts/RecentlyViewedContext";
+import { CompareProvider } from "@/contexts/CompareContext";
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -67,8 +68,10 @@ export default function AppProviders({ children }: { children: ReactNode }) {
                       <CartProvider>
                         <OrderProvider>
                           <RecentlyViewedProvider>
+                          <CompareProvider>
                             {children}
-                          </RecentlyViewedProvider>
+                          </CompareProvider>
+                        </RecentlyViewedProvider>
                         </OrderProvider>
                       </CartProvider>
                     </WishlistProvider>

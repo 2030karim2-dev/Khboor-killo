@@ -2,19 +2,22 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Star, ShoppingCart, Heart } from "lucide-react";
+import { Star, ShoppingCart, Heart, Scale } from "lucide-react";
 import { Product } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useCompare } from "@/contexts/CompareContext";
 import { useToast } from "@/contexts/ToastContext";
 import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const { addItem, isInCompare } = useCompare();
   const { success, info } = useToast();
   const { format: formatCurrency } = useFormatPrice();
   const liked = isInWishlist(product.id);
+  const inCompare = isInCompare(product.id);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -80,6 +83,20 @@ export default function ProductCard({ product }: { product: Product }) {
               size={18}
               className={`transition-all duration-300 ${liked ? "fill-red-500 text-red-500 scale-110" : "text-slate-400 group-hover:text-red-400"}`}
             />
+          </button>
+          
+          {/* Compare button */}
+          <button
+            onClick={(e) => { e.preventDefault(); addItem(product); info(inCompare ? "تمت إزالة المنتج من المقارنة" : "تمت إضافة المنتج للمقارنة"); }}
+            className={`absolute top-3 left-[3.5rem] w-9 h-9 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-300 z-10 shadow-md ${
+              inCompare 
+                ? "bg-sky-500 text-white" 
+                : "bg-white/90 text-slate-400 hover:bg-white hover:text-sky-500"
+            }`}
+            aria-label={inCompare ? "إزالة من المقارنة" : "إضافة للمقارنة"}
+            aria-pressed={inCompare}
+          >
+            <Scale size={16} />
           </button>
           
           {/* Quick add button */}
