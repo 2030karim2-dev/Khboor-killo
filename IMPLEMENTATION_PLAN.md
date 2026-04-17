@@ -142,20 +142,21 @@
 - `src/app/compare/page.tsx` ✅
 - `src/contexts/CompareContext.tsx` ✅
 
-### الأسبوع 9: البحث المتقدم
-- `src/contexts/CompareContext.tsx`
-
-### الأسبوع 9: البحث المتقدم
+### الأسبوع 9: البحث المتقدم ✅
 
 **الهدف**: بحث و فلترة محسنة
 
 | المهمة | التفاصيل | الحالة |
 |--------|----------|--------|
-| Advanced Filters | فلترة متعددة | ⏳ |
-| Price Range Slider | نطاق السعر | ⏳ |
-| Sort Options | خيارات الترتيب | ⏳ |
-| Voice Search | البحث الصوتي | ⏳ |
-| Search Suggestions | اقتراحات البحث | ⏳ |
+| Advanced Filters | فلترة متعددة | ✅ |
+| Price Range Slider | نطاق السعر | ✅ |
+| Sort Options | خيارات الترتيب | ✅ |
+| Availability Filter | فلترة التوفر | ✅ |
+| Rating Filter | فلترة التقييم | ✅ |
+| Active Filters | عرض الفلاتر النشطة | ✅ |
+
+**الملفات المطلوب إنشاؤها**:
+- `src/components/search/SearchFilters.tsx` ✅
 
 ### الأسبوع 10: إدارة المخزون
 

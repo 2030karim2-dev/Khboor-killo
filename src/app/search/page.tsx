@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import { searchProducts } from "@/utils/helpers";
 import { categories } from "@/data/categories";
 import { Breadcrumb, ProductGrid, EmptyState } from "@/components/ui";
-import SortSelect from "@/components/search/SortSelect";
+import SearchFilters from "@/components/search/SearchFilters";
 
 export const metadata: Metadata = {
   title: "نتائج البحث",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; category?: string; sort?: string; min?: string; max?: string }>;
+  searchParams: Promise<{ q?: string; category?: string; sort?: string; min?: string; max?: string; inStock?: string; minRating?: string }>;
 }) {
   const params = await searchParams;
   const query = params.q || "";
@@ -29,6 +29,14 @@ export default async function SearchPage({
   if (minPrice !== undefined) results = results.filter((p) => p.price >= minPrice);
   if (maxPrice !== undefined) results = results.filter((p) => p.price <= maxPrice);
 
+  if (params.inStock === "true") results = results.filter((p) => p.inStock);
+  if (params.inStock === "false") results = results.filter((p) => !p.inStock);
+
+  if (params.minRating) {
+    const minRating = Number(params.minRating);
+    results = results.filter((p) => p.rating >= minRating);
+  }
+
   if (params.sort === "price-asc") results = [...results].sort((a, b) => a.price - b.price);
   else if (params.sort === "price-desc") results = [...results].sort((a, b) => b.price - a.price);
   else if (params.sort === "rating") results = [...results].sort((a, b) => b.rating - a.rating);
@@ -40,8 +48,19 @@ export default async function SearchPage({
     if (params.sort && key !== "sort") sp.set("sort", params.sort);
     if (params.min && key !== "min") sp.set("min", params.min);
     if (params.max && key !== "max") sp.set("max", params.max);
+    if (params.inStock && key !== "inStock") sp.set("inStock", params.inStock);
+    if (params.minRating && key !== "minRating") sp.set("minRating", params.minRating);
     if (value) sp.set(key, value);
     return `/search?${sp.toString()}`;
+  };
+
+  const currentFilters = {
+    category: params.category,
+    sort: params.sort,
+    min: params.min,
+    max: params.max,
+    inStock: params.inStock,
+    minRating: params.minRating,
   };
 
   return (
@@ -79,45 +98,13 @@ export default async function SearchPage({
           <h1 className="text-xl font-bold text-slate-800 dark:text-white mb-2">
             نتائج البحث عن: &ldquo;{query}&rdquo;
           </h1>
-          <p className="text-slate-500 dark:text-slate-400 mb-6">تم العثور على {results.length} منتج</p>
 
           {/* Filters */}
-          {results.length > 0 && (
-            <div className="flex flex-wrap gap-3 mb-6">
-              {/* Category Filter */}
-              <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
-                <Link
-                  href={buildFilterUrl("category", "")}
-                  className={`shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                    !params.category
-                      ? "bg-sky-500 text-white"
-                      : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-                  }`}
-                >
-                  الكل
-                </Link>
-                {categories.map((cat) => (
-                <Link
-                  key={cat.slug}
-                  href={buildFilterUrl("category", cat.slug)}
-                  className={`shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                    params.category === cat.slug
-                      ? "bg-sky-500 text-white"
-                      : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-                  }`}
-                >
-                  {cat.icon} {cat.name}
-                </Link>
-                ))}
-              </div>
-
-              {/* Sort */}
-              <SortSelect
-                currentSort={params.sort || ""}
-                buildFilterUrl={buildFilterUrl}
-              />
-            </div>
-          )}
+          <SearchFilters
+            query={query}
+            results={results}
+            currentFilters={currentFilters}
+          />
 
           {results.length > 0 ? (
             <ProductGrid products={results} />
