@@ -11,7 +11,7 @@ export interface AdminOrder {
   total: number;
   totalPrice: number;
   shippingCost: number;
-  paymentMethod: "card" | "cash";
+  paymentMethod: "card" | "cash" | "bank" | "wallet";
   status: OrderStatus;
   date: string;
   createdAt: string;

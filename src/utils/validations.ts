@@ -33,7 +33,7 @@ export const checkoutSchema = z.object({
     .regex(/^7[0137]\d{7}$/, "رقم الجوال غير صحيح"),
   city: z.string().min(1, "المدينة مطلوبة"),
   address: z.string().min(10, "العنوان يجب أن يكون 10 أحرف على الأقل"),
-  paymentMethod: z.enum(["card", "cash"]),
+  paymentMethod: z.enum(["card", "cash", "bank", "wallet"]),
   cardNumber: z.string().optional(),
   cardExpiry: z.string().optional(),
   cardCvv: z.string().optional(),

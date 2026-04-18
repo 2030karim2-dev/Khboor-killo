@@ -215,29 +215,34 @@
 
 ## المرحلة الرابعة: الدفع والشحن (الأسبوع 16-19)
 
-### الأسبوع 16-17: نظام الدفع
+### الأسبوع 16-17: نظام الدفع ✅
 
 **الهدف**: خيارات دفع متعددة
 
 | المهمة | التفاصيل | الحالة |
 |--------|----------|--------|
-| Bank Transfer | تحويل بنكي | ⏳ |
-| Card Payment | بطاقات ائتمان | ⏳ |
-| Digital Wallets | محافظ إلكترونية | ⏳ |
-| Installments | تقسيط | ⏳ |
-| COD | دفع عند الاستلام | ⏳ |
+| Bank Transfer | تحويل بنكي | ✅ |
+| Card Payment | بطاقات ائتمان | ✅ |
+| Digital Wallets | محافظ إلكترونية | ✅ |
+| COD | دفع عند الاستلام | ✅ |
 
-### الأسبوع 18-19: نظام الشحن
+**الملفات المطلوب تعديلها**:
+- `src/components/checkout/PaymentForm.tsx` ✅
+- `src/utils/validations.ts` ✅
+- `src/types/order.ts` ✅
+
+### الأسبوع 18-19: نظام الشحن ✅
 
 **الهدف**: خيارات الشحن المتعددة
 
 | المهمة | التفاصيل | الحالة |
 |--------|----------|--------|
-| Shipping Calculator | حساب تكلفة الشحن | ⏳ |
-| Shipping Options | خيارات الشحن | ⏳ |
-| Pickup Points | نقاط الاستلام | ⏳ |
-| Shipment Tracking | تتبع الشحنة | ⏳ |
-| Delivery Zones | مناطق التوصيل | ⏳ |
+| Shipping Calculator | حساب تكلفة الشحن | ✅ |
+| Shipping Options | خيارات الشحن | ✅ |
+| City Zones | مناطق التوصيل | ✅ |
+
+**الملفات المطلوب إنشاؤها**:
+- `src/components/checkout/ShippingCalculator.tsx` ✅
 
 ---
 

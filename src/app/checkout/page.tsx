@@ -12,6 +12,7 @@ import { FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_COST } from "@/utils/constant
 import { Breadcrumb, OrderSummary, EmptyState } from "@/components/ui";
 import ShippingForm from "@/components/checkout/ShippingForm";
 import PaymentForm from "@/components/checkout/PaymentForm";
+import ShippingCalculator from "@/components/checkout/ShippingCalculator";
 import CouponInput from "@/components/checkout/CouponInput";
 import { checkoutSchema } from "@/lib/validations";
 import type { Coupon } from "@/lib/coupons";
@@ -40,7 +41,7 @@ export default function CheckoutPage() {
       phone: "",
       city: "",
       address: "",
-      paymentMethod: "card",
+      paymentMethod: "cash",
       cardNumber: "",
       cardExpiry: "",
       cardCvv: "",
@@ -128,6 +129,7 @@ export default function CheckoutPage() {
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             <ShippingForm register={register} errors={errors} />
+            <ShippingCalculator />
             <PaymentForm control={control} paymentMethod={paymentMethod} errors={errors} />
           </div>
 

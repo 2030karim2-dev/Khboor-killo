@@ -17,7 +17,7 @@ export interface Order {
   shippingCost: number;
   status: OrderStatus;
   shipping: OrderShipping;
-  paymentMethod: "card" | "cash";
+  paymentMethod: "card" | "cash" | "bank" | "wallet";
   createdAt: string;
   customerId?: string;
   notes?: string;
