@@ -79,6 +79,14 @@ Phase 2: Architecture & Barrel Layer ✅ COMPLETE
 - ✅ Added generateStaticParams for 37 product pages (SSG)
 - ✅ Optimized useSearch with direct imports
 
+Phase 5: Marketing Tools ✅ COMPLETE (Week 20-22)
+- ✅ Coupon system with validation and types
+- ✅ Flash Sales with countdown timer
+- ✅ Bundle Deals component
+- ✅ Referral Program (ReferralContext)
+- ✅ Push Notifications (PushNotificationManager)
+- ✅ Cart Reminder notifications
+
 ## Performance Improvements
 - 37 product pages now prerendered as static HTML
 - TTFB significantly improved
@@ -128,6 +136,7 @@ src/
 │   ├── checkout/                 # 2 checkout forms
 │   ├── sell/                     # 3 seller components
 │   ├── account/                  # 3 account components
+│   ├── marketing/                 # 3 marketing components (BundleDeals, PushNotificationManager, CartReminder)
 │   ├── Header.tsx                # Main header
 │   ├── Footer.tsx                # Main footer
 │   ├── ProductCard.tsx           # Product card (Image optimized)
@@ -178,3 +187,9 @@ src/
 | 2026-04-16 | Created getAllProducts() in data/index.ts for unified product access |
 | 2026-04-16 | Service Worker updated for offline support and PWA icons |
 | 2026-04-16 | Phase 2 - Week 5-6: Reviews & Ratings - Enhanced ReviewList with sorting, filtering, rating distribution, review form |
+| 2026-04-18 | Phase 5 - Week 20: Coupon system with CouponInput component |
+| 2026-04-18 | Phase 5 - Week 21: Marketing Tools - Enhanced FlashSalesSection with functional countdown timer |
+| 2026-04-18 | Phase 5 - Week 21: Created BundleDeals component for product bundles |
+| 2026-04-18 | Phase 5 - Week 21: Created ReferralContext for referral program |
+| 2026-04-18 | Phase 5 - Week 22: Created PushNotificationManager for push notifications |
+| 2026-04-18 | Phase 5 - Week 22: Created CartReminder for abandoned cart notifications |

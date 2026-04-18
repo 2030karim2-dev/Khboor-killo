@@ -248,38 +248,52 @@
 
 ## المرحلة الخامسة: التسويق (الأسبوع 20-22)
 
-### الأسبوع 20: نظام Coupons
+### الأسبوع 20: نظام Coupons ✅
 
 **الهدف**: نظام خصم متقدم
 
 | المهمة | التفاصيل | الحالة |
 |--------|----------|--------|
-| Coupon Model | نموذج الكوبون | ⏳ |
-| Coupon Types | أنواع الكوبونات | ⏳ |
-| Coupon Validation | التحقق من الكوبون | ⏳ |
-| Usage Limits | حدود الاستخدام | ⏳ |
+| Coupon Model | نموذج الكوبون | ✅ |
+| Coupon Types | أنواع الكوبونات (نسبة، قيمة، شحن مجاني) | ✅ |
+| Coupon Validation | التحقق من الكوبون | ✅ |
+| Usage Limits | حدود الاستخدام والصلاحية | ✅ |
+| Available Coupons | عرض الكوبونات المتاحة | ✅ |
 
-### الأسبوع 21: أدوات التسويق
+**الملفات المطلوب تعديلها**:
+- `src/data/coupons.ts` ✅
+- `src/components/checkout/CouponInput.tsx` ✅
+
+### الأسبوع 21: أدوات التسويق ✅
 
 **الهدف**: أدوات تسويقية متقدمة
 
 | المهمة | التفاصيل | الحالة |
 |--------|----------|--------|
-| Flash Sales | عروض محدودة | ⏳ |
-| Bundle Deals | عروض متعددة | ⏳ |
-| Referral Program | برنامج الإحالة | ⏳ |
-| Email Campaigns | حملات البريد | ⏳ |
+| Flash Sales | عروض محدودة | ✅ |
+| Bundle Deals | عروض متعددة | ✅ |
+| Referral Program | برنامج الإحالة | ✅ |
+| Email Campaigns | حملات البريد | ✅ |
 
-### الأسبوع 22: الإشعارات
+**الملفات المطلوب إنشاؤها**:
+- `src/components/home/FlashSalesSection.tsx` ✅ (محسن)
+- `src/components/marketing/BundleDeals.tsx` ✅ (جديد)
+- `src/contexts/ReferralContext.tsx` ✅ (جديد)
+
+### الأسبوع 22: الإشعارات ✅
 
 **الهدف**: نظام إشعارات شامل
 
 | المهمة | التفاصيل | الحالة |
 |--------|----------|--------|
-| Push Notifications | إشعارات Push | ⏳ |
-| SMS Notifications | إشعارات SMS | ⏳ |
-| Email Templates | قوالب البريد | ⏳ |
-| Cart Reminder | تذكير السلة | ⏳ |
+| Push Notifications | إشعارات Push | ✅ |
+| SMS Notifications | إشعارات SMS | ✅ |
+| Email Templates | قوالب البريد | ✅ |
+| Cart Reminder | تذكير السلة | ✅ |
+
+**الملفات المطلوب إنشاؤها**:
+- `src/components/marketing/PushNotificationManager.tsx` ✅ (جديد)
+- `src/components/marketing/CartReminder.tsx` ✅ (جديد)
 
 ---
 
