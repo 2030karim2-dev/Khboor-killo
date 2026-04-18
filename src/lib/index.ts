@@ -8,6 +8,7 @@ export { ThemeProvider, useTheme } from '../contexts/ThemeContext';
 export { AdminProvider, useAdmin } from '../contexts/AdminContext';
 export { CurrencyProvider, useCurrency } from '../contexts/CurrencyContext';
 export { RecentlyViewedProvider, useRecentlyViewed } from '../contexts/RecentlyViewedContext';
+export { ReferralProvider, useReferral } from '../contexts/ReferralContext';
 
 export type { Product, SubCategory, Category, BreadcrumbItem, CartItem, Address, Review } from '../types/product';
 export type { User } from '../types/user';
