@@ -1,17 +1,21 @@
-"use client";
-
 import { use } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Clock, User, Calendar, ChevronLeft, Share2, Heart } from "lucide-react";
 import { getBlogPostById, blogPosts, blogCategories } from "@/data/blog";
 import { Breadcrumb } from "@/components/ui";
+import Image from "next/image";
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
+export function generateStaticParams() {
+  return blogPosts.map((post) => ({ id: post.id }));
+}
+
 export default function BlogPostPage({ params }: Props) {
+  "use client";
   const { id } = use(params);
   const post = getBlogPostById(id);
 
@@ -151,8 +155,4 @@ export default function BlogPostPage({ params }: Props) {
       )}
     </div>
   );
-}
-
-export function generateStaticParams() {
-  return blogPosts.map((post) => ({ id: post.id }));
 }
