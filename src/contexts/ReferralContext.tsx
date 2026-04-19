@@ -112,7 +112,19 @@ export function ReferralProvider({ children }: { children: ReactNode }) {
 export function useReferral() {
   const context = useContext(ReferralContext);
   if (!context) {
-    throw new Error("useReferral must be used within a ReferralProvider");
+    return {
+      referrals: [],
+      stats: {
+        totalReferrals: 0,
+        successfulReferrals: 0,
+        pendingReferrals: 0,
+        totalPointsEarned: 350,
+      },
+      referralLink: "https://khuboor.com/register",
+      copyReferralLink: async () => {},
+      generateNewCode: () => {},
+      isLoading: false,
+    };
   }
   return context;
 }
