@@ -12,7 +12,9 @@ const footerLinks = {
   ],
   sell: [
     { label: "ابدأ البيع", href: "/sell" },
-    { label: "كيف يعمل؟", href: "/sell#how" },
+    { label: "المبيعات بالجملة", href: "/wholesale" },
+    { label: "طلبات مخصصة", href: "/custom" },
+    { label: "طلبات مسبقة", href: "/preorder" },
     { label: "الأسئلة الشائعة", href: "/faq" },
   ],
   support: [

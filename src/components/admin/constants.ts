@@ -5,6 +5,7 @@ import {
   Users,
   Tags,
   Settings,
+  BarChart3,
   type LucideIcon,
 } from "lucide-react";
 
@@ -18,6 +19,7 @@ export interface AdminNavItem {
 
 export const adminNavItems: AdminNavItem[] = [
   { href: "/admin", icon: LayoutDashboard, label: "لوحة التحكم", exact: true },
+  { href: "/admin/reports", icon: BarChart3, label: "التقارير" },
   { href: "/admin/orders", icon: ShoppingCart, label: "الطلبات" },
   { href: "/admin/products", icon: Package, label: "المنتجات" },
   { href: "/admin/users", icon: Users, label: "المستخدمين" },
