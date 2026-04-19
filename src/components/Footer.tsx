@@ -18,6 +18,7 @@ const footerLinks = {
   support: [
     { label: "اتصل بنا", href: "/contact" },
     { label: "سياسة الخصوصية", href: "/privacy" },
+    { label: "الأمان", href: "/security" },
     { label: "الشروط والأحكام", href: "/terms" },
     { label: "سياسة الاستبدال", href: "/exchange-policy" },
   ],
