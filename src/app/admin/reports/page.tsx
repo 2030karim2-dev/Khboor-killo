@@ -12,13 +12,15 @@ import {
   ArrowUpRight,
   ArrowDownRight
 } from "lucide-react";
-import { useAdmin } from "@/contexts/AdminContext";
+import { useAdminOrders, useAdminProducts, useAdminUsers } from "@/contexts/AdminContext";
 import { orderStatusLabels, orderStatusColors, type OrderStatus } from "@/components/admin/constants";
 
 type ReportType = "sales" | "products" | "users";
 
 export default function ReportsPage() {
-  const { orders, products, users } = useAdmin();
+  const { orders } = useAdminOrders();
+  const { products } = useAdminProducts();
+  const { users } = useAdminUsers();
   const [reportType, setReportType] = useState<ReportType>("sales");
   const [dateRange, setDateRange] = useState<"week" | "month" | "year">("month");
 

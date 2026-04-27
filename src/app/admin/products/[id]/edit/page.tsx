@@ -5,13 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { useAdmin } from "@/contexts/AdminContext";
+import { useAdminProducts } from "@/contexts/AdminContext";
 import { useToast } from "@/contexts/ToastContext";
 import { ArrowRight, Save, Upload } from "lucide-react";
 
 export default function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { products, updateProduct, categories } = useAdmin();
+  const { products, updateProduct, categories } = useAdminProducts();
   const { success } = useToast();
   const router = useRouter();
   const product = products.find((p) => p.id === id);

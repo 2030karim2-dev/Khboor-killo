@@ -8,11 +8,7 @@ import { WishlistProvider } from "@/contexts/WishlistContext";
 import { OrderProvider } from "@/contexts/OrderContext";
 import { NotificationsProvider } from "@/contexts/NotificationsContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
-import { AdminProductProvider } from "@/contexts/AdminProductContext";
-import { AdminOrderProvider } from "@/contexts/AdminOrderContext";
-import { AdminUserProvider } from "@/contexts/AdminUserContext";
-import { AdminSettingsProvider } from "@/contexts/AdminSettingsContext";
-import { AdminActivityProvider } from "@/contexts/AdminActivityContext";
+import { AdminProvider } from "@/contexts/AdminContext";
 import { LanguageProvider } from "@/lib/language";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { RecentlyViewedProvider } from "@/contexts/RecentlyViewedContext";
@@ -67,31 +63,23 @@ export default function AppProviders({ children }: { children: ReactNode }) {
           <CurrencyProvider>
             <ToastProvider>
               <AuthProvider>
-                <AdminActivityProvider>
-                  <AdminProductProvider>
-                    <AdminOrderProvider>
-                      <AdminUserProvider>
-                        <AdminSettingsProvider>
-                          <NotificationsProvider>
-                            <WishlistProvider>
-                              <CartProvider>
-                                <OrderProvider>
-                                  <RecentlyViewedProvider>
-                                    <CompareProvider>
-                                      <ReferralProvider>
-                                        {children}
-                                      </ReferralProvider>
-                                    </CompareProvider>
-                                  </RecentlyViewedProvider>
-                                </OrderProvider>
-                              </CartProvider>
-                            </WishlistProvider>
-                          </NotificationsProvider>
-                        </AdminSettingsProvider>
-                      </AdminUserProvider>
-                    </AdminOrderProvider>
-                  </AdminProductProvider>
-                </AdminActivityProvider>
+                <AdminProvider>
+                  <NotificationsProvider>
+                    <WishlistProvider>
+                      <CartProvider>
+                        <OrderProvider>
+<RecentlyViewedProvider>
+                            <CompareProvider>
+                              <ReferralProvider>
+                                {children}
+                              </ReferralProvider>
+                            </CompareProvider>
+                          </RecentlyViewedProvider>
+                        </OrderProvider>
+                      </CartProvider>
+                    </WishlistProvider>
+                  </NotificationsProvider>
+                </AdminProvider>
               </AuthProvider>
             </ToastProvider>
           </CurrencyProvider>

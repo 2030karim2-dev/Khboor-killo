@@ -1,11 +1,11 @@
 "use client";
 
-import { useAdmin } from "@/contexts/AdminContext";
+import { useAdminSettings } from "@/contexts/AdminContext";
 import { Save, Bell, Shield, Globe, DollarSign } from "lucide-react";
 import { useToast } from "@/contexts/ToastContext";
 
 export default function AdminSettings() {
-  const { settings, updateSettings } = useAdmin();
+  const { settings, updateSettings } = useAdminSettings();
   const { success } = useToast();
 
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {

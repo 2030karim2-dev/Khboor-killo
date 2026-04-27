@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useAdmin } from "@/contexts/AdminContext";
+import { useAdminOrders } from "@/contexts/AdminContext";
 import { orderStatusLabels, orderStatusColors, validStatusTransitions, type OrderStatus } from "@/components/admin/constants";
 import { Eye, Truck, Package, CheckCircle, XCircle, Clock } from "lucide-react";
 import ExcelTable, { type Column } from "@/components/admin/ExcelTable";
@@ -13,7 +13,7 @@ const statusIcons: Record<OrderStatus, typeof CheckCircle> = {
 };
 
 export default function AdminOrders() {
-  const { orders, updateOrderStatus } = useAdmin();
+  const { orders, updateOrderStatus } = useAdminOrders();
   const { success, warning } = useToast();
 
   const handleStatusChange = (orderId: string, currentStatus: OrderStatus, newStatus: OrderStatus) => {

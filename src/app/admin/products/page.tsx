@@ -4,14 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useAdmin } from "@/contexts/AdminContext";
+import { useAdminProducts } from "@/contexts/AdminProductContext";
 import { Eye, Pencil, Trash2, Plus, X, Upload } from "lucide-react";
 import ExcelTable, { type Column } from "@/components/admin/ExcelTable";
 import { useToast } from "@/contexts/ToastContext";
 import type { Product } from "@/lib/types";
 
 export default function AdminProducts() {
-  const { products, addProduct, deleteProduct, categories } = useAdmin();
+  const { products, addProduct, deleteProduct, categories } = useAdminProducts();
   const { warning, success } = useToast();
   const router = useRouter();
   const [showAddForm, setShowAddForm] = useState(false);

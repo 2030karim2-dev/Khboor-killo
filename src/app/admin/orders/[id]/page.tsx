@@ -4,7 +4,7 @@ import { use } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { useAdmin } from "@/contexts/AdminContext";
+import { useAdminOrders } from "@/contexts/AdminContext";
 import { orderStatusLabels, orderStatusColors, validStatusTransitions, type OrderStatus } from "@/components/admin/constants";
 import { useToast } from "@/contexts/ToastContext";
 import { ArrowRight, CheckCircle, Clock, Package, Truck, XCircle, MapPin, Phone, User } from "lucide-react";
@@ -17,7 +17,7 @@ const steps: OrderStatus[] = ["confirmed", "processing", "shipped", "delivered"]
 
 export default function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { getOrder, updateOrderStatus } = useAdmin();
+  const { getOrder, updateOrderStatus } = useAdminOrders();
   const { success, warning } = useToast();
   const order = getOrder(id);
 
