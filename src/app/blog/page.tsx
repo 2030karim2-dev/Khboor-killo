@@ -6,6 +6,7 @@ import { Search, Clock, User, ChevronLeft } from "lucide-react";
 import { blogPosts, blogCategories, getFeaturedPosts } from "@/data/blog";
 import { Breadcrumb } from "@/components/ui";
 import { useFormatPrice } from "@/hooks/useFormatPrice";
+import Image from "next/image";
 
 export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -84,14 +85,16 @@ export default function BlogPage() {
                 href={`/blog/${post.id}`}
                 className="card overflow-hidden group"
               >
-                <div className="relative h-48 md:h-56">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute bottom-4 start-4 end-4">
+               <div className="relative h-48 md:h-56">
+                   <Image
+                     src={post.image}
+                     alt={post.title}
+                     fill
+                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                   />
+                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                   <div className="absolute bottom-4 start-4 end-4">
                     <span className="text-white font-medium text-sm bg-sky-500 px-2 py-1 rounded-full">
                       {blogCategories.find((c) => c.slug === post.category)?.icon}{" "}
                       {blogCategories.find((c) => c.slug === post.category)?.name}
@@ -136,12 +139,14 @@ export default function BlogPage() {
               href={`/blog/${post.id}`}
               className="card overflow-hidden group"
             >
-              <div className="relative h-40">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+                 <div className="relative h-40">
+                 <Image
+                   src={post.image}
+                   alt={post.title}
+                   fill
+                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                 />
                 <div className="absolute top-2 start-2 bg-white/90 dark:bg-slate-800/90 px-2 py-1 rounded-full text-xs font-medium">
                   {post.readTime} دقيقة
                 </div>

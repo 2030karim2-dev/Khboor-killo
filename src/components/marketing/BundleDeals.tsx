@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Package, ShoppingCart, ArrowRight, Percent } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/contexts/ToastContext";
@@ -118,12 +119,14 @@ export default function BundleDeals() {
             >
               <div className="p-4">
                 <div className="flex items-start gap-4">
-                  <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0">
-                    <img
-                      src={bundle.products[0].image}
-                      alt={bundle.name}
-                      className="w-full h-full object-cover"
-                    />
+                       <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0">
+                     <Image
+                       src={bundle.products[0].image}
+                       alt={bundle.name}
+                       fill
+                       sizes="100px"
+                       className="w-full h-full object-cover"
+                     />
                     <div className="absolute -top-1 -right-1 w-6 h-6 bg-purple-500 text-white text-xs font-bold flex items-center justify-center rounded-full">
                       {bundle.products.length}
                     </div>

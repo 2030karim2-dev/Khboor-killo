@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Clock, Check, Bell, Calendar, AlertCircle } from "lucide-react";
 import { Breadcrumb } from "@/components/ui";
+import Image from "next/image";
 
 interface PreOrderProduct {
   id: string;
@@ -106,11 +107,13 @@ export default function PreOrderPage() {
           {preOrderProducts.map((product) => (
             <div key={product.id} className="card overflow-hidden group">
               <div className="relative h-48">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+                 <Image
+                   src={product.image}
+                   alt={product.name}
+                   fill
+                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                 />
                 <div className="absolute top-3 end-3 bg-amber-500 text-white text-sm font-bold px-3 py-1 rounded-full">
                   -{product.discount}%
                 </div>

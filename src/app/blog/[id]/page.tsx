@@ -49,14 +49,16 @@ export default function BlogPostPage({ params }: Props) {
       {/* Article */}
       <article className="card overflow-hidden">
         {/* Header Image */}
-        <div className="relative h-64 md:h-80">
-          <img
-            src={post.image}
-            alt={post.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-          <div className="absolute bottom-6 start-6 end-6">
+           <div className="relative h-64 md:h-80">
+           <Image
+             src={post.image}
+             alt={post.title}
+             fill
+             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+             className="w-full h-full object-cover"
+           />
+           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+           <div className="absolute bottom-6 start-6 end-6">
             <span className="inline-block bg-sky-500 text-white text-sm px-3 py-1 rounded-full mb-3">
               {blogCategories.find((c) => c.slug === post.category)?.icon}{" "}
               {blogCategories.find((c) => c.slug === post.category)?.name}
@@ -136,13 +138,15 @@ export default function BlogPostPage({ params }: Props) {
                 href={`/blog/${related.id}`}
                 className="card overflow-hidden group"
               >
-                <div className="relative h-32">
-                  <img
-                    src={related.image}
-                    alt={related.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
+               <div className="relative h-32">
+                   <Image
+                     src={related.image}
+                     alt={related.title}
+                     fill
+                     sizes="(max-width: 768px) 100vw, 33vw"
+                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                   />
+                 </div>
                 <div className="p-3">
                   <h3 className="font-bold text-slate-800 text-sm line-clamp-2 group-hover:text-sky-600 transition-colors">
                     {related.title}

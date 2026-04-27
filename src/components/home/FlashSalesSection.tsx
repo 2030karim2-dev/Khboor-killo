@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Clock, Flame, Tag, Users, Gift, ArrowRight, Copy, Check } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
@@ -129,12 +130,14 @@ export default function FlashSalesSection() {
               key={deal.id}
               className="card p-0 overflow-hidden group hover:border-red-300 transition-colors dark:hover:border-red-700"
             >
-              <div className="relative aspect-video">
-                <img
-                  src={deal.image}
-                  alt={deal.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+                 <div className="relative aspect-video">
+                     <Image
+                       src={deal.image}
+                       alt={deal.name}
+                       fill
+                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                     />
                 <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                   -{deal.discount}%
                 </div>
