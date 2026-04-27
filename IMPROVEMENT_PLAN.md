@@ -1,61 +1,52 @@
-# خطة إصلاح وتحوير وتطوير منصة خبور
-
-> بناءً على المراجعة الشاملة — النتيجة الحالية: **63%** — الهدف: **90%+**
-
----
-
-## المرحلة الأولى: الإصلاحات الحرجة (الأسبوع 1)
-> رفع النتيجة من 63% → 75%
-
 ### 1.1 إزالة طبقة البرميل الضخمة `src/lib/`
 - **المشكلة**: 17 ملف shim + برميل `index.ts` يعيد تصدير 10+ وحدات — 144 استيراد يمر عبرها
 - **الحل**:
-  - [ ] حذف كل ملفات `src/lib/*.ts` ما عدا `validations.ts` (إن لزم)
-  - [ ] تحديث 144 استيراد لاستخدام المسارات المباشرة:
+  - [x] حذف كل ملفات `src/lib/*.ts` ما عدا `validations.ts` (إن لزم)
+  - [x] تحديث 144 استيراد لاستخدام المسارات المباشرة:
     - `import { useCart } from "@/contexts/CartContext"` بدلاً من `"@/lib"`
     - `import { formatPrice } from "@/utils/helpers"` بدلاً من `"@/lib"`
     - `import { products } from "@/data/products"` بدلاً من `"@/lib"`
-  - [ ] نقل `src/lib/validations.ts` → `src/utils/validations.ts` (المصدر الأصلي)
-  - [ ] حذف مجلد `src/lib/` بالكامل
+  - [x] نقل `src/lib/validations.ts` → `src/utils/validations.ts` (المصدر الأصلي)
+  - [x] حذف مجلد `src/lib/` بالكامل
 - **التأثير**: يزيل هشاشة server/client boundary، يسرّع البناء، يوضّح الاستيرادات
 
 ### 1.2 توحيد نظام الطلبات
 - **المشكلة**: `OrderContext` (مستخدم) و `AdminContext` (إدارة) بنوعين مختلفين بدون تزامن
 - **الحل**:
-  - [ ] توحيد `Order` و `AdminOrder` في نوع واحد في `src/types/order.ts`
-  - [ ] إنشاء `OrderStore` مشترك يُستخدم من كلا السياقين
-  - [ ] عند `addOrder()` في `OrderContext` → يُضاف تلقائياً في `AdminContext`
-  - [ ] تحديث صفحة تفاصيل الطلب في الإدارة لقراءة من المصدر الموحد
+  - [x] توحيد `Order` و `AdminOrder` في نوع واحد في `src/types/order.ts`
+  - [x] إنشاء `OrderStore` مشترك يُستخدم من كلا السياقين
+  - [x] عند `addOrder()` في `OrderContext` → يُضاف تلقائياً في `AdminContext`
+  - [x] تحديث صفحة تفاصيل الطلب في الإدارة لقراءة من المصدر الموحد
 - **التأثير**: طلبات المستخدم تظهر فوراً في لوحة الإدارة
 
 ### 1.3 إصلاح مخاطر Hydration
 - **المشكلة**: 10 contexts تقرأ من localStorage — server يُصيّر قيماً افتراضية، client يُصيّر قيماً مخزّنة
 - **الحل**:
-  - [ ] إضافة `suppressHydrationWarning` على `<html>` في `layout.tsx`
-  - [ ] إنشاء `src/components/ClientInitializer.tsx`:
+  - [x] إضافة `suppressHydrationWarning` على `<html>` في `layout.tsx`
+  - [x] إنشاء `src/components/ClientInitializer.tsx`:
     - يقرأ localStorage قبل تصيير التطبيق
     - يُظهر شاشة تحميل قصيرة حتى يكتمل التهيئة
     - يمنع وميض الثيم/العملة
-  - [ ] إضافة سكريبت مضمّن (inline script) في `<head>` للثيم:
+  - [x] إضافة سكريبت مضمّن (inline script) في `<head>` للثيم:
     ```html
     <script>document.documentElement.dataset.theme = localStorage.getItem('khuboor_theme') || 'light'</script>
     ```
-  - [ ] استخدام `data-theme` attribute في CSS بدلاً من class للثيم
+  - [x] استخدام `data-theme` attribute في CSS بدلاً من class للثيم
 - **التأثير**: يمنع وميض المحتوى واختلاف Hydration
 
 ### 1.4 توحيد تنسيق العملة
 - **المشكلة**: `formatPrice()` ثابت يتجاهل `CurrencyContext` — 52 استخدام
 - **الحل**:
-  - [ ] إنشاء `src/hooks/useFormatPrice.ts`:
+  - [x] إنشاء `src/hooks/useFormatPrice.ts`:
     ```ts
     export function useFormatPrice() {
       const { format } = useCurrency();
       return format;
     }
     ```
-  - [ ] استبدال كل `formatPrice(price)` بـ `useFormatPrice()(price)` في المكونات
-  - [ ] الاحتفاظ بـ `formatPrice()` للـ Server Components فقط
-  - [ ] إزالة `CURRENCY` و `CURRENCY_CODE` الثابتين من `constants.ts`
+  - [x] استبدال كل `formatPrice(price)` بـ `useFormatPrice()(price)` في المكونات
+  - [x] الاحتفاظ بـ `formatPrice()` للـ Server Components فقط
+  - [x] إزالة `CURRENCY` و `CURRENCY_CODE` الثابتين من `constants.ts`
 - **التأثير**: الأسعار تتغير فوراً عند تبديل العملة
 
 ### 1.5 إصلاح ثغرات الأمان
@@ -67,11 +58,6 @@
   - [ ] حماية `/admin` بالدور فقط (`role === "admin"`)
   - [ ] إضافة صفحة `/api/auth/verify` للتحقق من الجلسة
 - **التأثير**: حماية حقيقية بدل cookie فارغ
-
----
-
-## المرحلة الثانية: تحسين البنية (الأسبوع 2)
-> رفع النتيجة من 75% → 83%
 
 ### 2.1 تقسيم AdminContext
 - **المشكلة**: سياق أحادي يدير 6 كيانات — أي تحديث يعيد تصيير الكل
@@ -88,10 +74,10 @@
 ### 2.2 إزالة تكرار الثوابت
 - **المشكلة**: `FREE_SHIPPING_THRESHOLD` موجود في `constants.ts` و `adminData.ts`
 - **الحل**:
-  - [ ] جعل `AdminSettings` المصدر الوحيد للحقيقة
-  - [ ] `constants.ts` يقرأ من `AdminSettings` الافتراضية
+  - [x] جعل `AdminSettings` المصدر الوحيد للحقيقة
+  - [x] `constants.ts` يقرأ من `AdminSettings` الافتراضية
   - [ ] أو العكس: `constants.ts` هو المصدر و `adminData.ts` يستوردها
-  - [ ] توحيد `RETURN_DAYS`, `SHIPPING_COST`, `MIN_PASSWORD_LENGTH`
+  - [x] توحيد `RETURN_DAYS`, `SHIPPING_COST`, `MIN_PASSWORD_LENGTH`
 - **التأثير**: مصدر حقيقة واحد، لا تناقضات
 
 ### 2.3 تحسين بنية الملفات
@@ -110,29 +96,24 @@
 ### 2.4 إضافة `generateStaticParams` لصفحات المنتجات
 - **المشكلة**: 20 صفحة منتج ديناميكية بدون داعٍ
 - **الحل**:
-  - [ ] إضافة `generateStaticParams` في `src/app/product/[id]/page.tsx`:
+  - [x] إضافة `generateStaticParams` في `src/app/product/[id]/page.tsx`:
     ```ts
     export function generateStaticParams() {
       return products.map(p => ({ id: p.id }));
     }
     ```
-  - [ ] إضافة `generateMetadata` لكل صفحة منتج (title, description, OG image)
-  - [ ] إضافة metadata لصفحات: cart, wishlist, sell, search, about, contact, FAQ, privacy, terms
+  - [x] إضافة `generateMetadata` لكل صفحة منتج (title, description, OG image)
+  - [x] إضافة metadata لصفحات: cart, wishlist, sell, search, about, contact, FAQ, privacy, terms
 - **التأثير**: تحسين TTFB، SEO أفضل، 20 صفحة ساكنة بدل ديناميكية
 
 ### 2.5 تحسين أداء البحث
 - **المشكلة**: `useSearch` يُهيّئ بكل المنتجات ثم يفرّغها
 - **الحل**:
-  - [ ] تهيئة `results` بمصفوفة فارغة `useState<Product[]>([])`
-  - [ ] إنشاء فهرس بحث (Map) للاستعلام السريع
+  - [x] تهيئة `results` بمصفوفة فارغة `useState<Product[]>([])`
+  - [x] إنشاء فهرس بحث (Map) للاستعلام السريع
   - [ ] إضافة debounce للبحث (300ms)
   - [ ] إضافة بحث fuzzy أو بحث بالأحرف العربية بدون تشكيل
 - **التأثير**: لا وميض، أداء أفضل
-
----
-
-## المرحلة الثالثة: تطوير الأتمتة (الأسبوع 3)
-> رفع النتيجة من 83% → 88%
 
 ### 3.1 تفعيل نظام i18n
 - **المشكلة**: بنية i18n كاملة (3 لغات، 107+ مفتاح) لكنها غير مستخدمة
@@ -190,7 +171,7 @@
 ### 3.5 إضافة metadata لكل الصفحات
 - **المشكلة**: عدة صفحات بدون عنوان/وصف مخصص
 - **الحل**:
-  - [ ] إضافة `generateMetadata` أو `metadata` ثابت لكل صفحة:
+  - [x] إضافة `generateMetadata` أو `metadata` ثابت لكل صفحة:
     - `/cart` → "سلة التسوق | خبور"
     - `/wishlist` → "المفضلة | خبور"
     - `/sell` → "ابدأ البيع | خبور"
@@ -200,13 +181,8 @@
     - `/faq` → "الأسئلة الشائعة | خبور"
     - `/privacy` → "سياسة الخصوصية | خبور"
     - `/terms` → "الشروط والأحكام | خبور"
-  - [ ] إضافة OG images للصفحات الرئيسية
+  - [x] إضافة OG images للصفحات الرئيسية
 - **التأثير**: SEO أفضل، ظهور أفضل في المشاركات
-
----
-
-## المرحلة الرابعة: التطوير المتقدم (الأسبوع 4)
-> رفع النتيجة من 88% → 93%
 
 ### 4.1 نظام إشعارات حقيقي
 - **الحل**:
@@ -249,11 +225,6 @@
   - [ ] تحسين حجم الحزمة (tree-shaking audit)
   - [ ] إضافة Web Vitals monitoring
 
----
-
-## المرحلة الخامسة: الإطلاق (الأسبوع 5)
-> رفع النتيجة من 93% → 95%+
-
 ### 5.1 اختبار شامل
 - [ ] اختبار كل المسارات (routes) مع وبدون مصادقة
 - [ ] اختبار كل العمليات (CRUD) في الإدارة
@@ -261,7 +232,7 @@
 - [ ] اختبار التوافق: Chrome, Firefox, Safari, Mobile
 - [ ] اختبار PWA: تثبيت، أوفلاين، إشعارات
 - [ ] اختبار اللغات: العربية، الإنجليزية، الصينية
-- [ ] Lighthouse audit: Performance 90+, Accessibility 95+, SEO 95+
+- [ ] Lighthouse audit: Performance 90+, Accessibility 95+, SEO 95%
 
 ### 5.2 إعداد الإنتاج
 - [ ] مراجعة متغيرات البيئة
@@ -277,35 +248,3 @@
 - [ ] توثيق بنية السياقات (Contexts)
 - [ ] توثيق نظام i18n وإضافة لغات جديدة
 - [ ] دليل المساهمة (CONTRIBUTING.md)
-
----
-
-## مؤشرات النجاح
-
-| المؤشر | الحالي | المستهدف |
-|---|---|---|
-| جودة الكود | 68% | 90% |
-| جودة الملفات | 62% | 85% |
-| جودة البناء | 72% | 92% |
-| الهيكل المعماري | 65% | 88% |
-| الأتمتة | 58% | 85% |
-| الترابط | 55% | 85% |
-| **المتوسط** | **63%** | **88%** |
-| TypeScript errors | 0 | 0 |
-| ESLint errors | 0 | 0 |
-| ESLint warnings | 0 | 0 |
-| Lighthouse Performance | ~70 | 90+ |
-| Lighthouse SEO | ~80 | 95+ |
-| Lighthouse Accessibility | ~75 | 95+ |
-
----
-
-## الجدول الزمني
-
-| الأسبوع | المرحلة | الأولوية |
-|---|---|---|
-| 1 | الإصلاحات الحرجة | 🔴 عالية |
-| 2 | تحسين البنية | 🟠 متوسطة-عالية |
-| 3 | تطوير الأتمتة | 🟡 متوسطة |
-| 4 | التطوير المتقدم | 🟢 متوسطة-منخفضة |
-| 5 | الإطلاق | 🔵 نهائية |
