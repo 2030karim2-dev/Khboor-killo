@@ -3,34 +3,37 @@
 import { useId } from "react";
 import { Sun, Moon, Globe, DollarSign } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
-import { useLanguage, languages } from "@/lib/i18n";
-import { useCurrency, currencies } from "@/contexts/CurrencyContext";
+import { useLanguage, Locale } from "@/lib/language";
 import { CONTACT_PHONE } from "@/utils/constants";
+import { useCurrency, CurrencyCode } from "@/contexts/CurrencyContext";
 
 export default function TopBar() {
   const { theme, toggleTheme } = useTheme();
-  const { lang, setLang, config } = useLanguage();
+  const { locale, setLocale } = useLanguage();
   const { currency, setCurrency } = useCurrency();
   const id = useId();
 
+  const locales: Locale[] = ["ar", "en", "zh"];
+  const localeNames = { ar: "العربية", en: "English", zh: "中文" };
+
   const nextLang = () => {
-    const codes = languages.map((l) => l.code);
-    const idx = codes.indexOf(lang);
-    setLang(codes[(idx + 1) % codes.length]);
+    const idx = locales.indexOf(locale);
+    setLocale(locales[(idx + 1) % locales.length]);
   };
+
 
   const nextCurrency = () => {
-    const codes = currencies.map((c) => c.code);
-    const idx = codes.indexOf(currency.code);
-    setCurrency(codes[(idx + 1) % codes.length]);
+    const currencyCodes = ["YER", "USD", "SAR", "OMR", "CNY"] as CurrencyCode[];
+    const idx = currencyCodes.indexOf(currency.code);
+    const nextCode = currencyCodes[(idx + 1) % currencyCodes.length];
+    setCurrency(nextCode);
   };
-
   return (
     <div className="gradient-primary text-white text-[11px] py-1">
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
         <span className="hidden sm:inline">شحن مجاني للطلبات فوق 200 ر.ي</span>
 
-        <div className="flex items-center gap-1 sm:gap-3" key={id}>
+        <div className="flex items-center gap-1 sm:gap-3">
           <button
             onClick={toggleTheme}
             className="flex items-center gap-1 px-2 py-0.5 rounded-md hover:bg-white/15 transition-colors cursor-pointer"
@@ -48,7 +51,7 @@ export default function TopBar() {
             aria-label="تغيير اللغة"
           >
             <Globe size={14} />
-            <span className="font-medium">{config?.nativeName || "العربية"}</span>
+            <span className="font-medium">{localeNames[locale as keyof typeof localeNames]}</span>
           </button>
 
           <span className="text-white/30 hidden sm:inline">|</span>

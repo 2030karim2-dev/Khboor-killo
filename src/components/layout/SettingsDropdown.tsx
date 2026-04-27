@@ -1,16 +1,16 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Settings, Sun, Moon, Globe, DollarSign, Check } from "lucide-react";
+import { Settings, Sun, Moon, Check } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
-import { useLanguage, languages } from "@/lib/i18n";
+import { useLanguage, Locale } from "@/lib/language";
 import { useCurrency, currencies, type CurrencyCode } from "@/contexts/CurrencyContext";
 
 export default function SettingsDropdown() {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<"theme" | "lang" | "currency">("theme");
-  const { theme, setTheme } = useTheme();
-  const { lang, setLang, config } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
+  const { locale, setLocale } = useLanguage();
   const { currency, setCurrency } = useCurrency();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -23,10 +23,12 @@ export default function SettingsDropdown() {
   }, []);
 
   const getCurrencyName = (c: typeof currencies[0]) => {
-    if (lang === "ar") return c.nameAr;
-    if (lang === "zh") return c.nameZh;
+    if (locale === "ar") return c.nameAr;
+    if (locale === "zh") return c.nameZh;
     return c.name;
   };
+
+  const localeNames: Record<Locale, string> = { ar: "🇸🇦 (العربية)", en: "🇺🇸 (English)", zh: "🇨🇳 (中文)" };
 
   return (
     <div className="relative" ref={ref}>
@@ -45,8 +47,8 @@ export default function SettingsDropdown() {
           <div className="flex border-b border-slate-100 dark:border-slate-700">
             {[
               { key: "theme" as const, icon: theme === "dark" ? Moon : Sun, label: theme === "dark" ? "☀️" : "🌙" },
-              { key: "lang" as const, icon: Globe, label: config.dir === "rtl" ? "ع" : lang === "zh" ? "中" : "En" },
-              { key: "currency" as const, icon: DollarSign, label: currency.symbol },
+              { key: "lang" as const, icon: Check, label: locale === "ar" ? "ع" : locale === "zh" ? "中" : "En" },
+              { key: "currency" as const, icon: Check, label: currency.symbol },
             ].map((t) => (
               <button
                 key={t.key}
@@ -65,20 +67,20 @@ export default function SettingsDropdown() {
             {tab === "theme" && (
               <div className="space-y-1">
                 <button
-                  onClick={() => { setTheme("light"); setOpen(false); }}
+                  onClick={() => { toggleTheme(); setOpen(false); }}
                   className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-sm"
                 >
                   <Sun size={16} />
                   <span>فاتح / Light</span>
-                  {theme === "light" && <Check size={14} className="text-sky-600 mr-auto" />}
+                  {theme === "light" && <Check size={14} className="text-sky-600 ml-auto" />}
                 </button>
                 <button
-                  onClick={() => { setTheme("dark"); setOpen(false); }}
+                  onClick={() => { toggleTheme(); setOpen(false); }}
                   className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-sm"
                 >
                   <Moon size={16} />
                   <span>داكن / Dark</span>
-                  {theme === "dark" && <Check size={14} className="text-sky-600 mr-auto" />}
+                  {theme === "dark" && <Check size={14} className="text-sky-600 ml-auto" />}
                 </button>
               </div>
             )}
@@ -86,18 +88,17 @@ export default function SettingsDropdown() {
             {/* Language */}
             {tab === "lang" && (
               <div className="space-y-1">
-                {languages.map((l) => (
+                {(["ar", "en", "zh"] as Locale[]).map((l) => (
                   <button
-                    key={l.code}
-                    onClick={() => { setLang(l.code); setOpen(false); }}
+                    key={l}
+                    onClick={() => { setLocale(l); setOpen(false); }}
                     className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 text-sm"
                   >
                     <span className="text-base">
-                      {l.code === "ar" ? "🇸🇦" : l.code === "en" ? "🇺🇸" : "🇨🇳"}
+                      {l === "ar" ? "🇸🇦" : l === "en" ? "🇺🇸" : "🇨🇳"}
                     </span>
-                    <span>{l.nativeName}</span>
-                    <span className="text-slate-400 text-xs">({l.name})</span>
-                    {lang === l.code && <Check size={14} className="text-sky-600 mr-auto" />}
+                    <span>{localeNames[l]}</span>
+                    {locale === l && <Check size={14} className="text-sky-600 ml-auto" />}
                   </button>
                 ))}
               </div>
@@ -114,7 +115,7 @@ export default function SettingsDropdown() {
                   >
                     <span className="font-bold text-xs w-8 text-center">{c.symbol}</span>
                     <span>{getCurrencyName(c)}</span>
-                    {currency.code === c.code && <Check size={14} className="text-sky-600 mr-auto" />}
+                    {currency.code === c.code && <Check size={14} className="text-sky-600 ml-auto" />}
                   </button>
                 ))}
               </div>

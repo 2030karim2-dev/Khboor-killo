@@ -1,14 +1,8 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  useMemo,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useState, useCallback, useMemo, type ReactNode, useEffect } from "react";
 import { User } from "../types/user";
+import { createToken, validateSession } from "@/lib/security";
 export type { User } from "../types/user";
 
 interface RegisterData {
@@ -23,74 +17,104 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  register: (data: RegisterData) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<{ success: boolean; token?: string; user?: User }>;
+  register: (data: RegisterData) => Promise<{ success: boolean; token?: string; user?: User }>;
   logout: () => void;
   updateProfile: (data: Partial<User>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const STORAGE_KEY = "khuboor_auth";
+const USER_STORAGE_KEY = "khuboor_user";
+const TOKEN_STORAGE_KEY = "khuboor_auth_token";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
     if (typeof window === "undefined") return null;
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        const u = parsed?.user;
+    try {
+      const storedUser = localStorage.getItem(USER_STORAGE_KEY);
+      const storedToken = localStorage.getItem(TOKEN_STORAGE_KEY);
+      
+      if (storedUser && storedToken) {
+        const parsedUser = JSON.parse(storedUser);
         if (
-          u &&
-          typeof u === "object" &&
-          typeof u.id === "string" &&
-          typeof u.email === "string" &&
-          typeof u.firstName === "string"
+          parsedUser &&
+          typeof parsedUser === "object" &&
+          typeof parsedUser.id === "string" &&
+          typeof parsedUser.email === "string"
         ) {
-          return u as User;
+          return parsedUser as User;
         }
-        localStorage.removeItem(STORAGE_KEY);
-      } catch {
-        localStorage.removeItem(STORAGE_KEY);
       }
+      localStorage.removeItem(USER_STORAGE_KEY);
+      localStorage.removeItem(TOKEN_STORAGE_KEY);
+      return null;
+    } catch {
+      localStorage.removeItem(USER_STORAGE_KEY);
+      localStorage.removeItem(TOKEN_STORAGE_KEY);
+      return null;
     }
-    return null;
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const login = useCallback(async (email: string, password: string): Promise<boolean> => {
+  // التحقق من الجلسة عند التهيئة
+  useEffect(() => {
+    const checkSession = async () => {
+      const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+      if (token) {
+        const session = await validateSession(token);
+        if (!session) {
+          setUser(null);
+          localStorage.removeItem(USER_STORAGE_KEY);
+          localStorage.removeItem(TOKEN_STORAGE_KEY);
+          document.cookie = `khuboor_auth=; path=/; max-age=0`;
+        }
+      }
+    };
+    checkSession();
+  }, []);
+
+  const login = useCallback(async (email: string, password: string): Promise<{ success: boolean; token?: string; user?: User }> => {
     setIsLoading(true);
     await new Promise((r) => setTimeout(r, 800));
 
-    if (password.length < 8) {
+    if (password.length < 4) {
       setIsLoading(false);
-      return false;
+      return { success: false };
     }
 
     const mockUser: User = {
-      id: crypto.randomUUID().slice(0, 8),
+      id: "usr_" + crypto.randomUUID().slice(0, 8),
       firstName: "أحمد",
       lastName: "محمد",
       email,
       phone: "0501234567",
       city: "الرياض",
-      role: "admin",
+      role: email.includes("admin") ? "admin" : "buyer",
     };
 
+    const token = await createToken({
+      userId: mockUser.id,
+      role: mockUser.role || "buyer",
+      email: mockUser.email,
+    });
+
     setUser(mockUser);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user: mockUser }));
-    document.cookie = `${STORAGE_KEY}=1; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
+    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(mockUser));
+    localStorage.setItem(TOKEN_STORAGE_KEY, token);
+    
+    // تحديث الـ cookie للـ middleware
+    document.cookie = `khuboor_auth=${token}; path=/; max-age=604800; SameSite=Strict`;
     setIsLoading(false);
-    return true;
+    return { success: true, token, user: mockUser };
   }, []);
 
-  const register = useCallback(async (data: RegisterData): Promise<boolean> => {
+  const register = useCallback(async (data: RegisterData): Promise<{ success: boolean; token?: string; user?: User }> => {
     setIsLoading(true);
     await new Promise((r) => setTimeout(r, 1000));
 
     const newUser: User = {
-      id: crypto.randomUUID().slice(0, 8),
+      id: "usr_" + crypto.randomUUID().slice(0, 8),
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
@@ -99,26 +123,52 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       role: "buyer",
     };
 
+    const token = await createToken({
+      userId: newUser.id,
+      role: newUser.role || "buyer",
+      email: newUser.email,
+    });
+
     setUser(newUser);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user: newUser }));
-    document.cookie = `${STORAGE_KEY}=1; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
+    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newUser));
+    localStorage.setItem(TOKEN_STORAGE_KEY, token);
+    document.cookie = `khuboor_auth=${token}; path=/; max-age=604800; SameSite=Strict`;
     setIsLoading(false);
-    return true;
+    return { success: true, token, user: newUser };
   }, []);
 
   const logout = useCallback(() => {
     setUser(null);
-    localStorage.removeItem(STORAGE_KEY);
-    document.cookie = `${STORAGE_KEY}=; path=/; max-age=0`;
+    localStorage.removeItem(USER_STORAGE_KEY);
+    localStorage.removeItem(TOKEN_STORAGE_KEY);
+    document.cookie = `khuboor_auth=; path=/; max-age=0`;
+    document.cookie = `khuboor_auth=; path=/; max-age=0; domain=${window.location.hostname}`;
   }, []);
 
   const updateProfile = useCallback((data: Partial<User>) => {
     setUser((prev) => {
       if (!prev) return prev;
       const updated = { ...prev, ...data };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ user: updated }));
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updated));
       return updated;
     });
+  }, []);
+
+  // التحقق من الجلسة عند التهيئة
+  useEffect(() => {
+    const checkSession = async () => {
+      const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+      if (token) {
+        const session = await validateSession(token);
+        if (!session) {
+          setUser(null);
+          localStorage.removeItem(USER_STORAGE_KEY);
+          localStorage.removeItem(TOKEN_STORAGE_KEY);
+          document.cookie = `khuboor_auth=; path=/; max-age=0`;
+        }
+      }
+    };
+    checkSession();
   }, []);
 
   const isAuthenticated = !!user;

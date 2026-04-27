@@ -9,7 +9,7 @@ import { OrderProvider } from "@/contexts/OrderContext";
 import { NotificationsProvider } from "@/contexts/NotificationsContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AdminProvider } from "@/contexts/AdminContext";
-import { LanguageProvider } from "@/i18n";
+import { LanguageProvider } from "@/lib/language";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { RecentlyViewedProvider } from "@/contexts/RecentlyViewedContext";
 import { CompareProvider } from "@/contexts/CompareContext";
