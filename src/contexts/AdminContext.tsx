@@ -139,3 +139,23 @@ export function useAdmin() {
   if (!context) throw new Error("useAdmin must be used within an AdminProvider");
   return context;
 }
+
+export function useAdminOrders() {
+  const { orders, updateOrderStatus, getOrder } = useAdmin();
+  return { orders, updateOrderStatus, getOrder };
+}
+
+export function useAdminProducts() {
+  const { products, addProduct, updateProduct, deleteProduct, categories, addCategory, updateCategory, deleteCategory } = useAdmin();
+  return { products, addProduct, updateProduct, deleteProduct, categories, addCategory, updateCategory, deleteCategory };
+}
+
+export function useAdminUsers() {
+  const { users, addUser, updateUserRole, updateUserStatus } = useAdmin();
+  return { users, addUser, updateUserRole, updateUserStatus };
+}
+
+export function useAdminSettings() {
+  const { settings, updateSettings } = useAdmin();
+  return { settings, updateSettings };
+}

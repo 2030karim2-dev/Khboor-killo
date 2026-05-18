@@ -64,6 +64,7 @@ The codebase is professionally structured with zero lint warnings, zero TypeScri
 - [x] Added @custom-variant dark for Tailwind v4 data-theme compatibility
 - [x] Changed ThemeContext from class-based to data-attribute (data-theme) switching
 - [x] Currency formatting unification: created useFormatPrice hook, updated all 52 usages across components
+- [x] Fixed AdminContext exports: added useAdminOrders, useAdminProducts, useAdminUsers, useAdminSettings hooks and updated useAdminProducts to include categories
 
 ## Active Focus
 
