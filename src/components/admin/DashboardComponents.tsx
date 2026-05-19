@@ -12,24 +12,26 @@ export function DashboardStats() {
   const lowStock = products.filter((p) => !p.inStock).length;
 
   const stats = [
-    { title: "إجمالي المبيعات", value: `${totalSales.toLocaleString("en")} ر.ي`, icon: DollarSign, color: "bg-emerald-50 text-emerald-600", change: orders.filter((o) => o.status === "delivered").length },
-    { title: "الطلبات", value: orders.length.toString(), icon: ShoppingCart, color: "bg-sky-50 text-sky-600", change: pendingOrders },
-    { title: "المنتجات", value: products.length.toString(), icon: Package, color: "bg-purple-50 text-purple-600", change: lowStock },
-    { title: "المستخدمين", value: users.length.toString(), icon: Users, color: "bg-orange-50 text-orange-600", change: users.filter((u) => u.status === "pending").length },
+    { title: "إجمالي المبيعات", value: `${totalSales.toLocaleString("en")} ر.ي`, icon: DollarSign, color: "success" as const, change: orders.filter((o) => o.status === "delivered").length, changeLabel: "طلبات مكتملة" },
+    { title: "الطلبات", value: orders.length.toString(), icon: ShoppingCart, color: "info" as const, change: pendingOrders, changeLabel: "معلقة" },
+    { title: "المنتجات", value: products.length.toString(), icon: Package, color: "primary" as const, change: lowStock, changeLabel: "نفد المخزون" },
+    { title: "المستخدمين", value: users.length.toString(), icon: Users, color: "warning" as const, change: users.filter((u) => u.status === "pending").length, changeLabel: "معلقين" },
   ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
       {stats.map((stat) => (
-        <div key={stat.title} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
-          <div className="flex items-center justify-between mb-3">
-            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${stat.color}`}><stat.icon size={20} /></div>
+        <div key={stat.title} className="bg-white dark:bg-slate-800 rounded-xl p-3 md:p-4 border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between mb-2 md:mb-3">
+            <div className={`w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center ${stat.color === "success" ? "bg-emerald-50 text-emerald-600" : stat.color === "info" ? "bg-sky-50 text-sky-600" : stat.color === "primary" ? "gradient-primary text-white" : "bg-amber-50 text-amber-600"}`}>
+              <stat.icon size={18} className="md:size-20" />
+            </div>
             {stat.change > 0 && (
-              <div className="flex items-center gap-0.5 text-xs font-medium text-amber-600"><AlertTriangle size={12} /> {stat.change}</div>
+              <div className="flex items-center gap-0.5 text-[10px] md:text-xs font-medium text-amber-600"><AlertTriangle size={10} className="md:size-12" /> {stat.change}</div>
             )}
           </div>
-          <p className="text-2xl font-extrabold text-slate-800 dark:text-white">{stat.value}</p>
-          <p className="text-xs text-slate-500">{stat.title}</p>
+          <p className="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-white">{stat.value}</p>
+          <p className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400">{stat.title}</p>
         </div>
       ))}
     </div>

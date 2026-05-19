@@ -39,7 +39,7 @@ export default function AdminHeader() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setMobileOpen(true)}
-            className="lg:hidden p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700"
+            className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 touch-manipulation"
             aria-label="القائمة"
           >
             <Menu size={20} className="text-slate-600 dark:text-slate-300" />
@@ -51,7 +51,7 @@ export default function AdminHeader() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="بحث في المنتجات..."
-              className="w-64 py-1.5 pr-9 pl-3 rounded-lg bg-slate-100 dark:bg-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 text-right"
+              className="w-48 md:w-64 py-1.5 pr-9 pl-3 rounded-lg bg-slate-100 dark:bg-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 text-right transition-all"
             />
           </form>
         </div>
@@ -59,24 +59,28 @@ export default function AdminHeader() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => { markAllAsRead(); }}
-            className="relative p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700"
+            className="relative p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 touch-manipulation"
             aria-label={`الإشعارات (${unreadCount})`}
           >
             <Bell size={20} className="text-slate-600 dark:text-slate-300" />
-            {unreadCount > 0 && <span className="absolute top-0.5 right-0.5 w-2 h-2 rounded-full bg-red-500" />}
+            {unreadCount > 0 && (
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-800" />
+            )}
           </button>
 
           <div className="relative" ref={ref}>
             <button
               onClick={() => setUserMenuOpen(!userMenuOpen)}
-              className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700"
+              className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 touch-manipulation"
               aria-label="قائمة المستخدم"
               aria-expanded={userMenuOpen}
             >
-              <div className="w-7 h-7 rounded-full bg-sky-100 flex items-center justify-center">
-                <User size={14} className="text-sky-600" />
+              <div className="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center">
+                <User size={16} className="text-sky-600" />
               </div>
-              <span className="text-sm text-slate-700 dark:text-slate-300 hidden sm:inline">{user ? `${user.firstName} ${user.lastName}` : "المسؤول"}</span>
+              <span className="text-sm text-slate-700 dark:text-slate-300 hidden sm:inline-block max-w-32 truncate">
+                {user ? `${user.firstName} ${user.lastName}` : "المسؤول"}
+              </span>
               <ChevronDown size={14} className="text-slate-400" />
             </button>
             {userMenuOpen && (
@@ -87,7 +91,7 @@ export default function AdminHeader() {
                 <hr className="my-1 border-slate-100 dark:border-slate-700" />
                 <button
                   onClick={() => { logout(); setUserMenuOpen(false); router.push("/"); }}
-                  className="w-full text-right px-4 py-2 text-sm text-red-500 hover:bg-red-50"
+                  className="w-full text-right px-4 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
                 >
                   تسجيل الخروج
                 </button>

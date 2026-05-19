@@ -130,9 +130,10 @@ const rolePermissions = {
 - [x] تحسين AdminGuard مع دعم الأدوار المتعددة
 
 ### اليوم 5-7: تطوير UI Components
-- [x] إنشاء مكونات الواجهة المشتركة (Modal, Badge, EmptyState)
+- [x] إنشاء مكونات الواجهة المشتركة (Modal, Badge, EmptyState, ConfirmDialog, LoadingSpinner, StatCard)
+- [x] تحسين AdminHeader (responsive, touch targets)
 - [ ] تحسين AdminSidebar
-- [ ] تحسين AdminHeader
+- [ ] تحسين AdminGuard
 
 ### اليوم 8-10: ميزات متقدمة
 - [ ] نظام الإشعارات
