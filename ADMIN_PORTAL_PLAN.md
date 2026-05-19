@@ -125,12 +125,12 @@ const rolePermissions = {
 - [ ] إنشاء دليل المطور
 
 ### اليوم 3-4: تحسين البنية
-- [ ] فصل AdminContext إلى Contexts منفصلة
-- [ ] إنشاء نظام الصلاحيات
-- [ ] تحسين AdminGuard
+- [x] فصل AdminContext إلى Contexts منفصلة (AdminOrderContext, AdminProductContext, etc.)
+- [x] إنشاء نظام الصلاحيات (src/lib/permissions.ts)
+- [x] تحسين AdminGuard مع دعم الأدوار المتعددة
 
 ### اليوم 5-7: تطوير UI Components
-- [ ] إنشاء مكونات الواجهة المشتركة
+- [x] إنشاء مكونات الواجهة المشتركة (Modal, Badge, EmptyState)
 - [ ] تحسين AdminSidebar
 - [ ] تحسين AdminHeader
 

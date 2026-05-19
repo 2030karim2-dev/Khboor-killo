@@ -197,10 +197,12 @@ src/
 | 2026-04-21 | Critical Fix: Resolved all ESLint warnings (img → Image) in 5 files |
 | 2026-04-21 | Updated middleware matcher for Next.js 16 compatibility |
 | 2026-04-18 | Phase 5 - Week 22: Created CartReminder for abandoned cart notifications |
- | 2026-04-18 | Phase 5 - Week 22: Created CartReminder for abandoned cart notifications |
- | 2026-04-21 | Created comprehensive ROADMAP.md with phased improvement plan |
- | 2026-04-27 | Phase 1 Complete: JWT authentication system with middleware |
- | 2026-04-27 | Full i18n system with LanguageProvider (ar/en/zh) |
- | 2026-04-27 | Secure token storage in HttpOnly cookies + localStorage |
- | 2026-04-27 | Role-based access control for admin/routes |
- | 2026-04-27 | Current status: 0 TS errors, 0 ESLint errors, 2 warnings (lint immutability) |
+| 2026-04-27 | Phase 1 Complete: JWT authentication system with middleware |
+| 2026-04-27 | Full i18n system with LanguageProvider (ar/en/zh) |
+| 2026-04-27 | Secure token storage in HttpOnly cookies + localStorage |
+| 2026-04-27 | Role-based access control for admin/routes |
+| 2026-04-27 | Current status: 0 TS errors, 0 ESLint errors, 2 warnings (lint immutability) |
+| 2026-05-19 | Admin Portal Enhancement Phase 1: Created permissions system (lib/permissions.ts) |
+| 2026-05-19 | Admin Portal Enhancement Phase 1: Created AdminProvider context with role-based access |
+| 2026-05-19 | Admin Portal Enhancement Phase 1: Improved AdminGuard with better UX and role display |
+| 2026-05-19 | Admin Portal Enhancement Phase 1: Created common UI components (Modal, Badge, EmptyState) |
