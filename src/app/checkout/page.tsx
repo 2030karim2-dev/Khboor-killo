@@ -14,9 +14,8 @@ import ShippingForm from "@/components/checkout/ShippingForm";
 import PaymentForm from "@/components/checkout/PaymentForm";
 import ShippingCalculator from "@/components/checkout/ShippingCalculator";
 import CouponInput from "@/components/checkout/CouponInput";
-import { checkoutSchema } from "@/lib/validations";
-import type { Coupon } from "@/lib/coupons";
-import type { CheckoutInput } from "@/lib/validations";
+import { checkoutSchema, type CheckoutInput } from "@/utils/validations";
+import type { Coupon } from "@/data/coupons";
 
 export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCart();

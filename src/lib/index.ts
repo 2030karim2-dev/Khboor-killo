@@ -5,7 +5,7 @@ export { WishlistProvider, useWishlist } from '../contexts/WishlistContext';
 export { OrderProvider, useOrders } from '../contexts/OrderContext';
 export { NotificationsProvider, useNotifications } from '../contexts/NotificationsContext';
 export { ThemeProvider, useTheme } from '../contexts/ThemeContext';
-export { AdminProvider, useAdmin } from '../contexts/AdminContext';
+export { LanguageProvider, useLanguage, useCurrentLocale } from '../lib/language';
 export { CurrencyProvider, useCurrency } from '../contexts/CurrencyContext';
 export { RecentlyViewedProvider, useRecentlyViewed } from '../contexts/RecentlyViewedContext';
 export { ReferralProvider, useReferral } from '../contexts/ReferralContext';

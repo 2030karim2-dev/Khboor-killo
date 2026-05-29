@@ -1,1 +1,0 @@
-export { useWishlist } from '@/contexts/WishlistContext';

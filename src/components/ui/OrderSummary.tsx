@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { CartItem } from "@/lib/types";
-import { FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
+import { CartItem } from "@/types/product";
+import { FREE_SHIPPING_THRESHOLD } from "@/utils/constants";
 import { useFormatPrice } from "@/hooks/useFormatPrice";
 
 export default function OrderSummary({

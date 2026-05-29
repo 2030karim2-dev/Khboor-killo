@@ -2,7 +2,7 @@
 
 import { CreditCard, Banknote, Building2, Wallet, Smartphone } from "lucide-react";
 import { useController, type Control, type FieldErrors } from "react-hook-form";
-import type { CheckoutInput } from "@/lib/validations";
+import type { CheckoutInput } from "@/utils/validations";
 
 interface PaymentFormProps {
   control: Control<CheckoutInput>;
