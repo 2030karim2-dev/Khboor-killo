@@ -15,6 +15,7 @@ interface AdminOrderContextType {
 }
 
 const AdminOrderContext = createContext<AdminOrderContextType | undefined>(undefined);
+export { AdminOrderContext };
 
 export function AdminOrderProvider({ children }: { children: ReactNode }) {
   const [orders, setOrders] = useState<AdminOrder[]>(() => loadFromStorage(STORAGE_KEYS.orders, defaultOrders));

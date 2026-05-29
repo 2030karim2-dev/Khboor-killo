@@ -10,8 +10,9 @@ import {
   type ReactNode,
 } from "react";
 import { Order, OrderStatus } from "../types/order";
-import { addToSharedOrders, loadSharedOrders } from "../lib/sharedOrders";
 import type { AdminOrder } from "../types/admin";
+import { loadSharedOrders, addToSharedOrders } from "../lib/sharedOrders";
+import type { CartItem } from "../types/product";
 
 export type { Order, OrderStatus } from "../types/order";
 export { statusLabels } from "../types/order";
@@ -49,12 +50,12 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 
   const syncFromAdmin = useCallback(() => {
     const adminOrders = loadSharedOrders();
-    const userOrderIds = new Set(orders.map(o => o.id));
+    const userOrderIds = new Set(orders.map((o: Order) => o.id));
     const newFromAdmin = adminOrders
-      .filter(o => !userOrderIds.has(o.id))
-      .map((adminOrder): Order => ({
+      .filter((o: AdminOrder) => !userOrderIds.has(o.id))
+      .map((adminOrder: AdminOrder): Order => ({
         id: adminOrder.id,
-        items: adminOrder.items.map(item => ({
+        items: adminOrder.items.map((item: AdminOrder["items"][0]): CartItem => ({
           product: {
             id: item.productId,
             name: item.name,
@@ -83,7 +84,7 @@ export function OrderProvider({ children }: { children: ReactNode }) {
         createdAt: adminOrder.createdAt || adminOrder.date,
       }));
     if (newFromAdmin.length > 0) {
-      setOrders(prev => [...newFromAdmin, ...prev]);
+      setOrders((prev: Order[]) => [...newFromAdmin, ...prev]);
     }
   }, [orders]);
 

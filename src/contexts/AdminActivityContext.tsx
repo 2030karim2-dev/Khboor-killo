@@ -13,6 +13,7 @@ interface AdminActivityContextType {
 }
 
 const AdminActivityContext = createContext<AdminActivityContextType | undefined>(undefined);
+export { AdminActivityContext };
 
 export function AdminActivityProvider({ children }: { children: ReactNode }) {
   const [activityLog, setActivityLog] = useState<ActivityLogEntry[]>(() => loadFromStorage(STORAGE_KEYS.activity, []));

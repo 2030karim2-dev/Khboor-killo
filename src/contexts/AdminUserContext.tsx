@@ -17,6 +17,7 @@ interface AdminUserContextType {
 }
 
 const AdminUserContext = createContext<AdminUserContextType | undefined>(undefined);
+export { AdminUserContext };
 
 export function AdminUserProvider({ children }: { children: ReactNode }) {
   const [users, setUsers] = useState<AdminUser[]>(() => loadFromStorage(STORAGE_KEYS.users, defaultUsers));

@@ -20,6 +20,7 @@ interface AdminProductContextType {
 }
 
 const AdminProductContext = createContext<AdminProductContextType | undefined>(undefined);
+export { AdminProductContext };
 
 export function AdminProductProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<Product[]>(() => loadFromStorage(STORAGE_KEYS.products, getDefaultProducts()));

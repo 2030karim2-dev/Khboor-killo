@@ -11,6 +11,7 @@ interface AdminSettingsContextType {
 }
 
 const AdminSettingsContext = createContext<AdminSettingsContextType | undefined>(undefined);
+export { AdminSettingsContext };
 
 export function AdminSettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettingsState] = useState<AdminSettings>(() => loadFromStorage(STORAGE_KEYS.settings, defaultSettings));
