@@ -1,13 +1,4 @@
-import {
-  LayoutDashboard,
-  Package,
-  ShoppingCart,
-  Users,
-  Tags,
-  Settings,
-  BarChart3,
-  type LucideIcon,
-} from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, Users, Tags, Settings, BarChart3, type LucideIcon } from "lucide-react";
 
 export interface AdminNavItem {
   href: string;
@@ -27,7 +18,8 @@ export const adminNavItems: AdminNavItem[] = [
   { href: "/admin/settings", icon: Settings, label: "الإعدادات" },
 ];
 
-export type OrderStatus = "pending" | "confirmed" | "processing" | "shipped" | "delivered" | "cancelled";
+import type { OrderStatus } from "@/types/order";
+export { type OrderStatus } from "@/types/order";
 
 export const orderStatusColors: Record<OrderStatus, string> = {
   pending: "bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400",

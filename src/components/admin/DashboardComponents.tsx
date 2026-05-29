@@ -2,11 +2,16 @@
 
 import Link from "next/link";
 import { ShoppingCart, Package, Users, DollarSign, ArrowUpRight, ArrowDownRight, Clock, AlertTriangle, TrendingUp, Activity } from "lucide-react";
-import { useAdmin } from "@/contexts/AdminContext";
+import { useAdminOrders } from "@/contexts/AdminOrderContext";
+import { useAdminProducts } from "@/contexts/AdminProductContext";
+import { useAdminUsers } from "@/contexts/AdminUserContext";
+import { useAdminActivity } from "@/contexts/AdminActivityContext";
 import { orderStatusLabels, orderStatusColors, type OrderStatus } from "@/components/admin/constants";
 
 export function DashboardStats() {
-  const { orders, products, users } = useAdmin();
+  const { orders } = useAdminOrders();
+  const { products } = useAdminProducts();
+  const { users } = useAdminUsers();
   const totalSales = orders.filter((o) => o.status === "delivered").reduce((s, o) => s + o.total + o.shippingCost, 0);
   const pendingOrders = orders.filter((o) => o.status === "pending" || o.status === "confirmed").length;
   const lowStock = products.filter((p) => !p.inStock).length;
@@ -39,7 +44,8 @@ export function DashboardStats() {
 }
 
 export function DashboardAlerts() {
-  const { orders, products } = useAdmin();
+  const { orders } = useAdminOrders();
+  const { products } = useAdminProducts();
   const pendingOrders = orders.filter((o) => o.status === "pending" || o.status === "confirmed").length;
   const lowStock = products.filter((p) => !p.inStock).length;
   if (!pendingOrders && !lowStock) return null;
@@ -52,7 +58,7 @@ export function DashboardAlerts() {
 }
 
 export function DashboardRecentOrders() {
-  const { orders } = useAdmin();
+  const { orders } = useAdminOrders();
   return (
     <div className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
       <div className="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
@@ -84,7 +90,7 @@ export function DashboardRecentOrders() {
 }
 
 export function DashboardTopProducts() {
-  const { products } = useAdmin();
+  const { products } = useAdminProducts();
   const top = [...products].sort((a, b) => b.reviews - a.reviews).slice(0, 5).map((p) => ({
     name: p.name,
     reviews: p.reviews,
@@ -107,7 +113,7 @@ export function DashboardTopProducts() {
 }
 
 export function DashboardActivityLog() {
-  const { activityLog } = useAdmin();
+  const { activityLog } = useAdminActivity();
   const recent = activityLog.slice(0, 8);
   const typeColors: Record<string, string> = {
     order: "bg-sky-100 text-sky-600",

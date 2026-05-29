@@ -10,12 +10,14 @@ import {
   DollarSign,
   UserPlus,
 } from "lucide-react";
-import { useAdmin } from "@/contexts/AdminContext";
+import { useAdminOrders } from "@/contexts/AdminOrderContext";
+import { useAdminUsers } from "@/contexts/AdminUserContext";
 import { adminNavItems } from "./constants";
 
 export default function AdminMobileSidebar({ onClose }: { onClose: () => void }) {
   const pathname = usePathname();
-  const { orders, users } = useAdmin();
+  const { orders } = useAdminOrders();
+  const { users } = useAdminUsers();
   
   const pendingOrdersCount = orders.filter((o) => o.status === "pending" || o.status === "confirmed").length;
   const todayOrdersCount = orders.filter((o) => {

@@ -1,5 +1,5 @@
 import { useRouter, usePathname } from 'next/navigation';
-import { useState, createContext, useContext, ReactNode, createElement } from 'react';
+import { useState, createContext, useContext, ReactNode, useCallback } from 'react';
 
 export type Locale = 'ar' | 'en' | 'zh';
 
@@ -49,34 +49,36 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   const router = useRouter();
   const pathname = usePathname();
 
-  function setLocaleAndSave(newLocale: Locale) {
+  const setLocaleAndSave = useCallback((newLocale: Locale) => {
     localStorage.setItem('khuboor_locale', newLocale);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     document.documentElement.lang = newLocale;
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     document.documentElement.dir = newLocale === "ar" ? "rtl" : "ltr";
     const segments = pathname.split('/');
     segments[1] = newLocale;
     router.push(segments.join('/'));
-  }
+  }, [pathname, router]);
 
-  function t(key: string): string {
+  const t = useCallback((key: string): string => {
     const keys = key.split('.');
-    let value: any = (translations as any)[locale];
+    let value: unknown = (translations as Record<string, Record<string, unknown>>)[locale];
     for (const k of keys) {
       if (value && typeof value === 'object') {
-        value = value[k];
+        value = (value as Record<string, unknown>)[k];
       } else {
         value = undefined;
         break;
       }
     }
-    return value || key;
-  }
+    return (value as string) || key;
+  }, [locale]);
 
-  return createElement(LanguageContext.Provider, {
-    value: { locale, setLocale: setLocaleAndSave, t },
-  }, children);
+  const value = { locale, setLocale: setLocaleAndSave, t };
+
+  return (
+    <LanguageContext.Provider value={value}>
+      {children}
+    </LanguageContext.Provider>
+  );
 }
 
 export function useLanguage() {

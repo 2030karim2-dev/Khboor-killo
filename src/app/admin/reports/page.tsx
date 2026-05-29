@@ -12,7 +12,9 @@ import {
   ArrowUpRight,
   ArrowDownRight
 } from "lucide-react";
-import { useAdminOrders, useAdminProducts, useAdminUsers } from "@/contexts/AdminContext";
+import { useAdminOrders } from "@/contexts/AdminOrderContext";
+import { useAdminProducts } from "@/contexts/AdminProductContext";
+import { useAdminUsers } from "@/contexts/AdminUserContext";
 import { orderStatusLabels, orderStatusColors, type OrderStatus } from "@/components/admin/constants";
 
 type ReportType = "sales" | "products" | "users";

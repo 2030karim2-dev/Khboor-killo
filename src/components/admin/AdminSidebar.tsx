@@ -18,7 +18,9 @@ import {
   UserPlus,
   X,
 } from "lucide-react";
-import { useAdmin } from "@/contexts/AdminContext";
+import { useAdminOrders } from "@/contexts/AdminOrderContext";
+import { useAdminProducts } from "@/contexts/AdminProductContext";
+import { useAdminUsers } from "@/contexts/AdminUserContext";
 import { adminNavItems, type AdminNavItem } from "./constants";
 
 interface AdminSection {
@@ -60,7 +62,9 @@ const adminSections: AdminSection[] = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
-  const { orders, products, users } = useAdmin();
+  const { orders } = useAdminOrders();
+  const { products } = useAdminProducts();
+  const { users } = useAdminUsers();
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({});
 
   const pendingOrdersCount = orders.filter((o) => o.status === "pending" || o.status === "confirmed").length;

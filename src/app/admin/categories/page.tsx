@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useAdmin } from "@/contexts/AdminContext";
+import { useAdminProducts } from "@/contexts/AdminProductContext";
 import { Pencil, Trash2, Plus, Package, X } from "lucide-react";
 import { useToast } from "@/contexts/ToastContext";
 
 export default function AdminCategories() {
-  const { categories, addCategory, updateCategory, deleteCategory, products } = useAdmin();
+  const { categories, addCategory, updateCategory, deleteCategory, products } = useAdminProducts();
   const { success, warning } = useToast();
   const [showForm, setShowForm] = useState(false);
   const [editingSlug, setEditingSlug] = useState<string | null>(null);

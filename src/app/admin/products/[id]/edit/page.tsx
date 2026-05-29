@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { useAdminProducts } from "@/contexts/AdminContext";
+import { useAdminProducts } from "@/contexts/AdminProductContext";
 import { useToast } from "@/contexts/ToastContext";
 import { ArrowRight, Save, Upload } from "lucide-react";
 

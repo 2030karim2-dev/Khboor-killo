@@ -3,7 +3,9 @@
 import { use } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { useAdminUsers, useAdminOrders, type AdminUser } from "@/contexts/AdminContext";
+import { useAdminUsers } from "@/contexts/AdminUserContext";
+import { useAdminOrders } from "@/contexts/AdminOrderContext";
+import type { AdminUser } from "@/types/admin";
 import { useToast } from "@/contexts/ToastContext";
 import { userRoleLabels, userStatusLabels, userRoleColors, userStatusColors } from "@/components/admin/constants";
 import { ArrowRight, Mail, Phone, Calendar, ShoppingBag, DollarSign, Shield } from "lucide-react";

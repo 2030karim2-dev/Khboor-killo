@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useAdminUsers, type AdminUser } from "@/contexts/AdminContext";
+import { useAdminUsers } from "@/contexts/AdminUserContext";
+import type { AdminUser } from "@/types/admin";
 import { Eye, Pencil, UserPlus, X } from "lucide-react";
 import ExcelTable, { type Column } from "@/components/admin/ExcelTable";
 import { useToast } from "@/contexts/ToastContext";

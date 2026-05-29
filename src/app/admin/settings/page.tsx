@@ -1,6 +1,6 @@
 "use client";
 
-import { useAdminSettings } from "@/contexts/AdminContext";
+import { useAdminSettings } from "@/contexts/AdminSettingsContext";
 import { Save, Bell, Shield, Globe, DollarSign } from "lucide-react";
 import { useToast } from "@/contexts/ToastContext";
 

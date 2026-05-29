@@ -3,7 +3,6 @@
 import { createContext, useContext, useState, useCallback, useMemo, type ReactNode, useEffect } from "react";
 import { User } from "../types/user";
 import { createToken, validateSession } from "@/lib/security";
-export type { User } from "../types/user";
 
 interface RegisterData {
   firstName: string;
@@ -56,23 +55,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   });
   const [isLoading, setIsLoading] = useState(false);
-
-  // التحقق من الجلسة عند التهيئة
-  useEffect(() => {
-    const checkSession = async () => {
-      const token = localStorage.getItem(TOKEN_STORAGE_KEY);
-      if (token) {
-        const session = await validateSession(token);
-        if (!session) {
-          setUser(null);
-          localStorage.removeItem(USER_STORAGE_KEY);
-          localStorage.removeItem(TOKEN_STORAGE_KEY);
-          document.cookie = `khuboor_auth=; path=/; max-age=0`;
-        }
-      }
-    };
-    checkSession();
-  }, []);
 
   const login = useCallback(async (email: string, password: string): Promise<{ success: boolean; token?: string; user?: User }> => {
     setIsLoading(true);
@@ -154,7 +136,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  // التحقق من الجلسة عند التهيئة
   useEffect(() => {
     const checkSession = async () => {
       const token = localStorage.getItem(TOKEN_STORAGE_KEY);
