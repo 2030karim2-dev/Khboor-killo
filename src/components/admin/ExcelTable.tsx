@@ -2,6 +2,9 @@
 
 import { useState, useRef, useCallback, useMemo } from "react";
 import { ChevronDown, ChevronUp, ChevronsUpDown, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { SortIcon } from "./TableSortIcon";
+import TableSearchBar from "./TableSearchBar";
+import TablePagination from "./TablePagination";
 
 export interface Column<T> {
   key: string;
@@ -52,7 +55,6 @@ export default function ExcelTable<T>({
   });
   const resizingRef = useRef<{ key: string; startX: number; startWidth: number } | null>(null);
 
-  // Filter
   const filtered = useMemo(() => {
     if (!search.trim()) return data;
     const q = search.toLowerCase();
@@ -64,7 +66,6 @@ export default function ExcelTable<T>({
     );
   }, [data, search, columns]);
 
-  // Sort
   const sorted = useMemo(() => {
     if (!sortKey || !sortDir) return filtered;
     return [...filtered].sort((a, b) => {
@@ -78,7 +79,6 @@ export default function ExcelTable<T>({
     });
   }, [filtered, sortKey, sortDir]);
 
-  // Pagination
   const totalPages = Math.max(1, Math.ceil(sorted.length / pageSize));
   const safePage = Math.min(currentPage, totalPages);
   const paginated = sorted.slice((safePage - 1) * pageSize, safePage * pageSize);
@@ -94,13 +94,6 @@ export default function ExcelTable<T>({
     setCurrentPage(1);
   };
 
-  const SortIcon = ({ colKey }: { colKey: string }) => {
-    if (sortKey !== colKey) return <ChevronsUpDown size={12} className="text-slate-300" />;
-    if (sortDir === "asc") return <ChevronUp size={12} className="text-sky-600" />;
-    return <ChevronDown size={12} className="text-sky-600" />;
-  };
-
-  // Resize
   const handleResizeStart = useCallback((e: React.MouseEvent, key: string) => {
     e.preventDefault();
     resizingRef.current = { key, startX: e.clientX, startWidth: colWidths[key] };
@@ -122,28 +115,18 @@ export default function ExcelTable<T>({
 
   return (
     <div className={`bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden ${className}`}>
-      {/* Search */}
       {searchable && (
-        <div className="p-3 border-b border-slate-200 dark:border-slate-700">
-          <div className="relative max-w-xs">
-            <Search size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input
-              type="search"
-              value={search}
-              onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
-              placeholder={searchPlaceholder}
-              className="w-full py-2 pr-9 pl-3 rounded-lg border border-slate-200 dark:border-slate-600 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 bg-transparent"
-            />
-          </div>
-        </div>
+        <TableSearchBar
+          value={search}
+          onChange={(v) => { setSearch(v); setCurrentPage(1); }}
+          placeholder={searchPlaceholder}
+        />
       )}
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full border-collapse" style={{ minWidth: columns.reduce((s, c) => s + (colWidths[c.key] || 150), 0) }}>
           <thead>
             <tr className="bg-slate-50 dark:bg-slate-700/50">
-              {/* Row number column */}
               <th className="w-10 px-2 py-2.5 text-[10px] font-bold text-slate-400 text-center border-b border-slate-200 dark:border-slate-600 select-none bg-slate-100 dark:bg-slate-700">
                 #
               </th>
@@ -159,12 +142,11 @@ export default function ExcelTable<T>({
                       className="flex items-center gap-1 w-full justify-center hover:text-sky-600 transition-colors"
                     >
                       <span>{col.header}</span>
-                      <SortIcon colKey={col.key} />
+                      <SortIcon colKey={col.key} sortKey={sortKey} sortDir={sortDir} />
                     </button>
                   ) : (
                     <span>{col.header}</span>
                   )}
-                  {/* Resize handle */}
                   <div
                     className="absolute top-0 left-0 w-1 h-full cursor-col-resize hover:bg-sky-400/50 active:bg-sky-500 transition-colors"
                     onMouseDown={(e) => handleResizeStart(e, col.key)}
@@ -214,48 +196,13 @@ export default function ExcelTable<T>({
         </table>
       </div>
 
-      {/* Footer */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/30">
-        <p className="text-xs text-slate-500">
-          عرض {paginated.length} من {sorted.length} سجل
-        </p>
-        <div className="flex items-center gap-1">
-          <button
-            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-            className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            <ChevronRight size={16} />
-          </button>
-          {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-            let page: number;
-            if (totalPages <= 5) page = i + 1;
-            else if (currentPage <= 3) page = i + 1;
-            else if (currentPage >= totalPages - 2) page = totalPages - 4 + i;
-            else page = currentPage - 2 + i;
-            return (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`w-7 h-7 rounded-lg text-xs font-medium transition-colors ${
-                  currentPage === page
-                    ? "bg-sky-500 text-white"
-                    : "hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-400"
-                }`}
-              >
-                {page}
-              </button>
-            );
-          })}
-          <button
-            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-            disabled={currentPage === totalPages}
-            className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            <ChevronLeft size={16} />
-          </button>
-        </div>
-      </div>
+      <TablePagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={sorted.length}
+        pageSize={pageSize}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 }

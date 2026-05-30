@@ -1,21 +1,14 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { 
-  BarChart3, 
-  ShoppingCart, 
-  Package, 
-  Users, 
-  Download, 
-  TrendingUp, 
-  Calendar,
-  ArrowUpRight,
-  ArrowDownRight
-} from "lucide-react";
+import { Download } from "lucide-react";
 import { useAdminOrders } from "@/contexts/AdminOrderContext";
 import { useAdminProducts } from "@/contexts/AdminProductContext";
 import { useAdminUsers } from "@/contexts/AdminUserContext";
-import { orderStatusLabels, orderStatusColors, type OrderStatus } from "@/components/admin/constants";
+import ReportFilters from "@/components/admin/ReportFilters";
+import SalesReport from "@/components/admin/SalesReport";
+import ProductsReport from "@/components/admin/ProductsReport";
+import UsersReport from "@/components/admin/UsersReport";
 
 type ReportType = "sales" | "products" | "users";
 
@@ -52,7 +45,7 @@ export default function ReportsPage() {
     const outOfStock = products.filter((p) => !p.inStock).length;
     const featured = products.filter((p) => p.featured).length;
 
-const topProducts = [...products]
+    const topProducts = [...products]
       .sort((a, b) => b.price - a.price)
       .slice(0, 10);
 
@@ -121,180 +114,23 @@ const topProducts = [...products]
         </button>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-4">
-        <div className="flex gap-2">
-          {(["sales", "products", "users"] as ReportType[]).map((type) => (
-            <button
-              key={type}
-              onClick={() => setReportType(type)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
-                reportType === type
-                  ? "bg-sky-500 text-white"
-                  : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600"
-              }`}
-            >
-              {type === "sales" && <ShoppingCart size={16} className="inline ml-2" />}
-              {type === "products" && <Package size={16} className="inline ml-2" />}
-              {type === "users" && <Users size={16} className="inline ml-2" />}
-              {type === "sales" ? "المبيعات" : type === "products" ? "المنتجات" : "المستخدمين"}
-            </button>
-          ))}
-        </div>
-        <div className="flex gap-2">
-          {(["week", "month", "year"] as const).map((range) => (
-            <button
-              key={range}
-              onClick={() => setDateRange(range)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors flex items-center gap-2 ${
-                dateRange === range
-                  ? "bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-800"
-                  : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
-              }`}
-            >
-              <Calendar size={14} />
-              {range === "week" ? "أسبوع" : range === "month" ? "شهر" : "سنة"}
-            </button>
-          ))}
-        </div>
-      </div>
+      <ReportFilters
+        reportType={reportType}
+        dateRange={dateRange}
+        onReportTypeChange={setReportType}
+        onDateRangeChange={setDateRange}
+      />
 
-      {/* Sales Report */}
       {reportType === "sales" && (
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm text-slate-500">إجمالي المبيعات</span>
-                <ArrowUpRight size={18} className="text-emerald-500" />
-              </div>
-              <p className="text-2xl font-extrabold text-slate-800 dark:text-white">
-                {salesData.total.toLocaleString("en")}
-              </p>
-              <span className="text-xs text-slate-400">ريال يمني</span>
-            </div>
-
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm text-slate-500">الطلبات المكتملة</span>
-                <TrendingUp size={18} className="text-sky-500" />
-              </div>
-              <p className="text-2xl font-extrabold text-slate-800 dark:text-white">
-                {salesData.delivered}
-              </p>
-              <span className="text-xs text-slate-400">طلب</span>
-            </div>
-
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm text-slate-500">طلبات معلقة</span>
-                <Calendar size={18} className="text-amber-500" />
-              </div>
-              <p className="text-2xl font-extrabold text-slate-800 dark:text-white">
-                {salesData.pending}
-              </p>
-              <span className="text-xs text-slate-400">طلب</span>
-            </div>
-
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm text-slate-500">طلبات ملغاة</span>
-                <ArrowDownRight size={18} className="text-red-500" />
-              </div>
-              <p className="text-2xl font-extrabold text-slate-800 dark:text-white">
-                {salesData.cancelled}
-              </p>
-              <span className="text-xs text-slate-400">طلب</span>
-            </div>
-          </div>
-
-          {/* Sales Table */}
-          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
-            <div className="p-4 border-b border-slate-200 dark:border-slate-700">
-              <h2 className="font-bold text-slate-800 dark:text-white">تفاصيل المبيعات</h2>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="text-xs text-slate-500 text-right border-b border-slate-100 dark:border-slate-700">
-                    <th className="px-4 py-3 font-medium">#</th>
-                    <th className="px-4 py-3 font-medium">الطلب</th>
-                    <th className="px-4 py-3 font-medium">العميل</th>
-                    <th className="px-4 py-3 font-medium">المدينة</th>
-                    <th className="px-4 py-3 font-medium">المبلغ</th>
-                    <th className="px-4 py-3 font-medium">الحالة</th>
-                    <th className="px-4 py-3 font-medium">التاريخ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders.slice(0, 20).map((order, i) => (
-                    <tr key={order.id} className="border-b border-slate-50 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30">
-                      <td className="px-4 py-3 text-xs text-slate-400">{i + 1}</td>
-                      <td className="px-4 py-3 text-sm font-medium text-sky-600">{order.id}</td>
-                      <td className="px-4 py-3 text-sm text-slate-700 dark:text-slate-300">{order.customer}</td>
-                      <td className="px-4 py-3 text-sm text-slate-500">{order.city}</td>
-                      <td className="px-4 py-3 text-sm font-bold text-slate-800 dark:text-white">{order.total.toLocaleString("en")}</td>
-                      <td className="px-4 py-3">
-                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${orderStatusColors[order.status as OrderStatus]}`}>
-                          {orderStatusLabels[order.status as OrderStatus]}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-xs text-slate-400">{order.createdAt.split("T")[0]}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        <SalesReport orders={orders} salesData={salesData} />
       )}
 
-      {/* Products Report */}
       {reportType === "products" && (
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-              <p className="text-sm text-slate-500 mb-1">إجمالي المنتجات</p>
-              <p className="text-2xl font-extrabold text-slate-800 dark:text-white">{productData.total}</p>
-            </div>
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-              <p className="text-sm text-slate-500 mb-1">متوفرة</p>
-              <p className="text-2xl font-extrabold text-emerald-600">{productData.inStock}</p>
-            </div>
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-              <p className="text-sm text-slate-500 mb-1">نفد المخزون</p>
-              <p className="text-2xl font-extrabold text-red-600">{productData.outOfStock}</p>
-            </div>
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-              <p className="text-sm text-slate-500 mb-1">مميزة</p>
-              <p className="text-2xl font-extrabold text-sky-600">{productData.featured}</p>
-            </div>
-          </div>
-        </div>
+        <ProductsReport products={products} productData={productData} />
       )}
 
-      {/* Users Report */}
       {reportType === "users" && (
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-              <p className="text-sm text-slate-500 mb-1">إجمالي المستخدمين</p>
-              <p className="text-2xl font-extrabold text-slate-800 dark:text-white">{userData.total}</p>
-            </div>
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-              <p className="text-sm text-slate-500 mb-1">نشط</p>
-              <p className="text-2xl font-extrabold text-emerald-600">{userData.active}</p>
-            </div>
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-              <p className="text-sm text-slate-500 mb-1">مشترين</p>
-              <p className="text-2xl font-extrabold text-sky-600">{userData.buyers}</p>
-            </div>
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
-              <p className="text-sm text-slate-500 mb-1">بائعين</p>
-              <p className="text-2xl font-extrabold text-purple-600">{userData.sellers}</p>
-            </div>
-          </div>
-        </div>
+        <UsersReport userData={userData} />
       )}
     </div>
   );

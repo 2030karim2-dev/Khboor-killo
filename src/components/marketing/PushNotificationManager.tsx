@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Bell, BellOff, Smartphone, Mail, MessageSquare, Check, X, Loader2 } from "lucide-react";
+import { Bell, BellOff, Smartphone, Mail, Loader2, X } from "lucide-react";
 import { useToast } from "@/contexts/ToastContext";
+import NotificationChannel from "./NotificationChannel";
+import NotificationToggle from "./NotificationToggle";
 
 interface NotificationPreferences {
   push: boolean;
@@ -94,158 +96,101 @@ export default function PushNotificationManager() {
 
   return (
     <div className="space-y-6">
-      {/* Push Notification Toggle */}
-      <div className="card p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
-              {isEnabled ? <Bell size={24} className="text-white" /> : <BellOff size={24} className="text-white" />}
-            </div>
-            <div>
-              <h3 className="font-bold text-slate-800 dark:text-white">الإشعارات الفورية</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                احصل على إشعارات فورية في جهازك
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={isEnabled ? unsubscribeFromPush : subscribeToPush}
-            disabled={isSubscribing}
-            className={`relative px-6 py-2 rounded-lg font-medium transition-colors ${
-              isEnabled
-                ? "bg-red-500 text-white hover:bg-red-600"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-            } disabled:opacity-50`}
-          >
-            {isSubscribing ? (
-              <Loader2 size={18} className="animate-spin" />
-            ) : isEnabled ? (
-              <span className="flex items-center gap-2">
-                <X size={18} /> إلغاء
-              </span>
-            ) : (
-              <span className="flex items-center gap-2">
-                <Bell size={18} /> تفعيل
-              </span>
-            )}
-          </button>
-        </div>
-      </div>
+      <NotificationToggle
+        isEnabled={isEnabled}
+        isSubscribing={isSubscribing}
+        onToggle={isEnabled ? unsubscribeFromPush : subscribeToPush}
+      />
 
-      {/* Notification Channels */}
       <div className="grid md:grid-cols-3 gap-4">
-        <div className="card p-4">
-          <div className="flex items-center gap-3 mb-3">
-            <Smartphone size={20} className="text-blue-500" />
-            <h4 className="font-medium text-slate-800 dark:text-white">SMS</h4>
-          </div>
-          <label className="flex items-center justify-between">
-            <span className="text-sm text-slate-500">تفعيل إشعارات SMS</span>
-            <input
-              type="checkbox"
-              checked={preferences.sms}
-              onChange={(e) => updatePreference("sms", e.target.checked)}
-              className="w-5 h-5 rounded text-blue-500"
-            />
-          </label>
-        </div>
-
-        <div className="card p-4">
-          <div className="flex items-center gap-3 mb-3">
-            <Mail size={20} className="text-purple-500" />
-            <h4 className="font-medium text-slate-800 dark:text-white">البريد الإلكتروني</h4>
-          </div>
-          <label className="flex items-center justify-between">
-            <span className="text-sm text-slate-500">تفعيل الإيميل</span>
-            <input
-              type="checkbox"
-              checked={preferences.email}
-              onChange={(e) => updatePreference("email", e.target.checked)}
-              className="w-5 h-5 rounded text-purple-500"
-            />
-          </label>
-        </div>
-
-        <div className="card p-4">
-          <div className="flex items-center gap-3 mb-3">
-            <Bell size={20} className="text-green-500" />
-            <h4 className="font-medium text-slate-800 dark:text-white">Push</h4>
-          </div>
-          <label className="flex items-center justify-between">
-            <span className="text-sm text-slate-500">تفعيل الإشعارات</span>
-            <input
-              type="checkbox"
-              checked={preferences.push || isEnabled}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  subscribeToPush();
-                } else {
-                  unsubscribeFromPush();
-                }
-              }}
-              className="w-5 h-5 rounded text-green-500"
-            />
-          </label>
-        </div>
+        <NotificationChannel
+          icon={Smartphone}
+          iconColor="text-blue-500"
+          title="SMS"
+          description="تفعيل إشعارات SMS"
+          checked={preferences.sms}
+          onChange={(v) => updatePreference("sms", v)}
+        />
+        <NotificationChannel
+          icon={Mail}
+          iconColor="text-purple-500"
+          title="البريد الإلكتروني"
+          description="تفعيل الإيميل"
+          checked={preferences.email}
+          onChange={(v) => updatePreference("email", v)}
+        />
+        <NotificationChannel
+          icon={Bell}
+          iconColor="text-green-500"
+          title="Push"
+          description="تفعيل الإشعارات"
+          checked={preferences.push || isEnabled}
+          onChange={(v) => {
+            if (v) subscribeToPush();
+            else unsubscribeFromPush();
+          }}
+        />
       </div>
 
-      {/* Notification Categories */}
-      <div className="card p-6">
-        <h3 className="font-bold text-slate-800 dark:text-white mb-4">أنواع الإشعارات</h3>
-        <div className="space-y-4">
-          <label className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
-            <div>
-              <p className="font-medium text-slate-800 dark:text-white">تحديثات الطلبات</p>
-              <p className="text-sm text-slate-500">إشعارات بحالة طلبك</p>
-            </div>
-            <input
-              type="checkbox"
-              checked={preferences.orderUpdates}
-              onChange={(e) => updatePreference("orderUpdates", e.target.checked)}
-              className="w-5 h-5 rounded text-blue-500"
-            />
-          </label>
+      <NotificationCategories
+        preferences={preferences}
+        onUpdate={updatePreference}
+      />
+    </div>
+  );
+}
 
-          <label className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
-            <div>
-              <p className="font-medium text-slate-800 dark:text-white">عروض ورخص</p>
-              <p className="text-sm text-slate-500">خصومات حصرية ومنتجات مخفضة</p>
-            </div>
-            <input
-              type="checkbox"
-              checked={preferences.marketing}
-              onChange={(e) => updatePreference("marketing", e.target.checked)}
-              className="w-5 h-5 rounded text-blue-500"
-            />
-          </label>
+interface NotificationCategoriesProps {
+  preferences: NotificationPreferences;
+  onUpdate: (key: keyof NotificationPreferences, value: boolean) => void;
+}
 
-          <label className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
-            <div>
-              <p className="font-medium text-slate-800 dark:text-white">انخفاض الأسعار</p>
-              <p className="text-sm text-slate-500">تنبيه عند انخفاض سعر منتج تتابعه</p>
-            </div>
-            <input
-              type="checkbox"
-              checked={preferences.priceDrops}
-              onChange={(e) => updatePreference("priceDrops", e.target.checked)}
-              className="w-5 h-5 rounded text-blue-500"
-            />
-          </label>
+function NotificationCategories({ preferences, onUpdate }: NotificationCategoriesProps) {
+  const categories = [
+    { key: "orderUpdates" as const, title: "تحديثات الطلبات", desc: "إشعارات بحالة طلبك" },
+    { key: "marketing" as const, title: "عروض ورخص", desc: "خصومات حصرية ومنتجات مخفضة" },
+    { key: "priceDrops" as const, title: "انخفاض الأسعار", desc: "تنبيه عند انخفاض سعر منتج تتابعه" },
+    { key: "newArrivals" as const, title: "منتجات جديدة", desc: "إشعار عند وصول منتجات جديدة" },
+  ];
 
-          <label className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
-            <div>
-              <p className="font-medium text-slate-800 dark:text-white">منتجات جديدة</p>
-              <p className="text-sm text-slate-500">إشعار عند وصول منتجات جديدة</p>
-            </div>
-            <input
-              type="checkbox"
-              checked={preferences.newArrivals}
-              onChange={(e) => updatePreference("newArrivals", e.target.checked)}
-              className="w-5 h-5 rounded text-blue-500"
-            />
-          </label>
-        </div>
+  return (
+    <div className="card p-6">
+      <h3 className="font-bold text-slate-800 dark:text-white mb-4">أنواع الإشعارات</h3>
+      <div className="space-y-4">
+        {categories.map((cat) => (
+          <CategoryItem
+            key={cat.key}
+            title={cat.title}
+            description={cat.desc}
+            checked={preferences[cat.key]}
+            onChange={(v) => onUpdate(cat.key, v)}
+          />
+        ))}
       </div>
     </div>
+  );
+}
+
+interface CategoryItemProps {
+  title: string;
+  description: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}
+
+function CategoryItem({ title, description, checked, onChange }: CategoryItemProps) {
+  return (
+    <label className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
+      <div>
+        <p className="font-medium text-slate-800 dark:text-white">{title}</p>
+        <p className="text-sm text-slate-500">{description}</p>
+      </div>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="w-5 h-5 rounded text-blue-500"
+      />
+    </label>
   );
 }

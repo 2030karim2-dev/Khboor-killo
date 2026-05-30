@@ -1,6 +1,6 @@
 "use client";
 
-import { CreditCard, Banknote, Building2, Wallet, Smartphone } from "lucide-react";
+import { CreditCard, Banknote, Building2, Wallet } from "lucide-react";
 import { useController, type Control, type FieldErrors } from "react-hook-form";
 import type { CheckoutInput } from "@/utils/validations";
 
@@ -11,10 +11,10 @@ interface PaymentFormProps {
 }
 
 const paymentMethods = [
-  { value: "cash", icon: Banknote, label: "الدفع عند الاستلام", desc: "ادفع نقداً عند وصول طلبك" },
-  { value: "card", icon: CreditCard, label: "بطاقة ائتمانية", desc: "فيزا / ماستركارد" },
-  { value: "bank", icon: Building2, label: "تحويل بنكي", desc: "تحويل على الحساب البنكي" },
-  { value: "wallet", icon: Wallet, label: "محفظة إلكترونية", desc: "Sadad / Mada / Apple Pay" },
+  { value: "cash" as const, icon: Banknote, label: "الدفع عند الاستلام", desc: "ادفع نقداً عند وصول طلبك" },
+  { value: "card" as const, icon: CreditCard, label: "بطاقة ائتمانية", desc: "فيزا / ماستركارd" },
+  { value: "bank" as const, icon: Building2, label: "تحويل بنكي", desc: "تحويل على الحساب البنكي" },
+  { value: "wallet" as const, icon: Wallet, label: "محفظة إلكترونية", desc: "Sadad / Mada / Apple Pay" },
 ];
 
 export default function PaymentForm({ control, paymentMethod, errors }: PaymentFormProps) {
@@ -83,10 +83,11 @@ export default function PaymentForm({ control, paymentMethod, errors }: PaymentF
             <input
               id="card-number"
               type="text"
-              {...cardNumberField}
               placeholder="0000 0000 0000 0000"
               dir="ltr"
               maxLength={19}
+              value={cardNumberField.value || ""}
+              onChange={(e) => cardNumberField.onChange(e.target.value)}
               aria-invalid={!!errors.cardNumber}
               className={`w-full px-4 py-2.5 rounded-xl border transition-colors focus:outline-none bg-white dark:bg-slate-800 ${
                 errors.cardNumber ? "border-red-300 bg-red-50/50" : "border-slate-200 dark:border-slate-700 focus:border-sky-500"
@@ -101,10 +102,11 @@ export default function PaymentForm({ control, paymentMethod, errors }: PaymentF
             <input
               id="card-expiry"
               type="text"
-              {...cardExpiryField}
               placeholder="MM/YY"
               dir="ltr"
               maxLength={5}
+              value={cardExpiryField.value || ""}
+              onChange={(e) => cardExpiryField.onChange(e.target.value)}
               aria-invalid={!!errors.cardExpiry}
               className={`w-full px-4 py-2.5 rounded-xl border transition-colors focus:outline-none bg-white dark:bg-slate-800 ${
                 errors.cardExpiry ? "border-red-300 bg-red-50/50" : "border-slate-200 dark:border-slate-700 focus:border-sky-500"
@@ -119,10 +121,11 @@ export default function PaymentForm({ control, paymentMethod, errors }: PaymentF
             <input
               id="card-cvv"
               type="text"
-              {...cardCvvField}
               placeholder="***"
               dir="ltr"
               maxLength={4}
+              value={cardCvvField.value || ""}
+              onChange={(e) => cardCvvField.onChange(e.target.value)}
               aria-invalid={!!errors.cardCvv}
               className={`w-full px-4 py-2.5 rounded-xl border transition-colors focus:outline-none bg-white dark:bg-slate-800 ${
                 errors.cardCvv ? "border-red-300 bg-red-50/50" : "border-slate-200 dark:border-slate-700 focus:border-sky-500"
@@ -137,18 +140,9 @@ export default function PaymentForm({ control, paymentMethod, errors }: PaymentF
         <div className="mt-6 p-4 bg-slate-50 dark:bg-slate-900 rounded-xl space-y-3">
           <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">معلومات الحساب البنكي:</p>
           <div className="grid md:grid-cols-2 gap-3 text-sm">
-            <div className="p-3 bg-white dark:bg-slate-800 rounded-lg">
-              <p className="text-slate-500 dark:text-slate-400">اسم البنك</p>
-              <p className="font-medium text-slate-800 dark:text-white">البنك الأهلي التجاري</p>
-            </div>
-            <div className="p-3 bg-white dark:bg-slate-800 rounded-lg">
-              <p className="text-slate-500 dark:text-slate-400">رقم الحساب</p>
-              <p className="font-medium text-slate-800 dark:text-white">SA1234567890123456789012</p>
-            </div>
-            <div className="p-3 bg-white dark:bg-slate-800 rounded-lg md:col-span-2">
-              <p className="text-slate-500 dark:text-slate-400">اسم المستفيد</p>
-              <p className="font-medium text-slate-800 dark:text-white">متجر خبور للتجارة</p>
-            </div>
+            <InfoItem label="اسم البنك" value="البنك الأهلي التجاري" />
+            <InfoItem label="رقم الحساب" value="SA1234567890123456789012" />
+            <InfoItem label="اسم المستفيد" value="متجر خبور للتجارة" fullWidth />
           </div>
           <p className="text-xs text-amber-600 dark:text-amber-400">
             ⚠️ يرجى إرسال إشعار الدفع عبر الواتساب بعد التحويل
@@ -175,6 +169,15 @@ export default function PaymentForm({ control, paymentMethod, errors }: PaymentF
           </p>
         </div>
       )}
+    </div>
+  );
+}
+
+function InfoItem({ label, value, fullWidth }: { label: string; value: string; fullWidth?: boolean }) {
+  return (
+    <div className={`p-3 bg-white dark:bg-slate-800 rounded-lg ${fullWidth ? "md:col-span-2" : ""}`}>
+      <p className="text-slate-500 dark:text-slate-400">{label}</p>
+      <p className="font-medium text-slate-800 dark:text-white">{value}</p>
     </div>
   );
 }

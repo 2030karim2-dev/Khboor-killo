@@ -1,96 +1,113 @@
 "use client";
 
 import { useState } from "react";
-import { Star, Loader2 } from "lucide-react";
-import { useToast } from "@/contexts/ToastContext";
+import { Star } from "lucide-react";
 
-export default function ReviewForm({ productId }: { productId: string }) {
+interface ReviewFormProps {
+  productId: string;
+  onClose?: () => void;
+}
+
+const ratingLabels: Record<number, string> = {
+  5: "ممتاز",
+  4: "جيد جداً",
+  3: "جيد",
+  2: "مقبول",
+  1: "ضعيف",
+};
+
+export default function ReviewForm({ productId, onClose }: ReviewFormProps) {
   const [rating, setRating] = useState(0);
-  const [hoveredRating, setHoveredRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { success, error } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (rating === 0) {
-      error("يرجى اختيار التقييم");
-      return;
-    }
-    const form = new FormData(e.currentTarget);
-    const comment = form.get("comment") as string;
-    if (!comment || comment.length < 10) {
-      error("يرجى كتابة مراجعة لا تقل عن 10 أحرف");
-      return;
-    }
+    if (rating === 0 || comment.trim() === "") return;
 
     setIsSubmitting(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setIsSubmitting(false);
-    success("تم إضافة تقييمك بنجاح!");
-    setRating(0);
-    (e.target as HTMLFormElement).reset();
+
+    console.log("Submitting review:", { productId, rating, comment });
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+      onClose?.();
+    }, 1000);
   };
 
   return (
-    <div className="card p-6">
-      <h3 className="font-bold text-slate-800 mb-4">أضف تقييمك</h3>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <p className="text-sm font-medium text-slate-700 mb-2">التقييم</p>
-          <div className="flex items-center gap-1">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                key={star}
-                type="button"
-                onClick={() => setRating(star)}
-                onMouseEnter={() => setHoveredRating(star)}
-                onMouseLeave={() => setHoveredRating(0)}
-                className="p-1 transition-transform hover:scale-110"
-                aria-label={`${star} نجوم`}
-              >
-                <Star
-                  size={24}
-                  className={
-                    star <= (hoveredRating || rating)
-                      ? "fill-amber-400 text-amber-400"
-                      : "fill-slate-200 text-slate-200"
-                  }
-                />
-              </button>
-            ))}
-            {rating > 0 && (
-              <span className="text-sm text-slate-500 mr-2">
-                {rating === 5 ? "ممتاز" : rating === 4 ? "جيد جداً" : rating === 3 ? "جيد" : rating === 2 ? "مقبول" : "سيء"}
-              </span>
-            )}
-          </div>
+    <form onSubmit={handleSubmit} className="card p-5 dark:bg-slate-800">
+      <h3 className="font-bold text-slate-800 dark:text-white mb-4">
+        إضافة تقييم جديد
+      </h3>
+
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+          التقييم
+        </label>
+        <div className="flex gap-1">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              key={star}
+              type="button"
+              onClick={() => setRating(star)}
+              onMouseEnter={() => setHoverRating(star)}
+              onMouseLeave={() => setHoverRating(0)}
+              className="p-1 transition-transform hover:scale-110"
+            >
+              <Star
+                size={24}
+                className={
+                  star <= (hoverRating || rating)
+                    ? "fill-amber-400 text-amber-400"
+                    : "fill-slate-200 text-slate-200"
+                }
+              />
+            </button>
+          ))}
         </div>
-        <div>
-          <label htmlFor="review-comment" className="block text-sm font-medium text-slate-700 mb-1.5">
-            مراجعتك <span className="text-red-500">*</span>
-          </label>
-          <textarea
-            id="review-comment"
-            name="comment"
-            rows={4}
-            required
-            minLength={10}
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sky-500 focus:outline-none text-right resize-none"
-            placeholder="شاركنا تجربتك مع هذا المنتج..."
-          />
-        </div>
+        {rating > 0 && (
+          <p className="text-sm text-slate-500 mt-1">
+            {ratingLabels[rating]}
+          </p>
+        )}
+      </div>
+
+      <div className="mb-4">
+        <label
+          htmlFor="review-comment"
+          className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+        >
+          تعليقك
+        </label>
+        <textarea
+          id="review-comment"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="اكتب تجربتك مع هذا المنتج..."
+          rows={4}
+          className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus:border-sky-500 dark:focus:border-sky-400 focus:outline-none transition-colors resize-none"
+          required
+        />
+      </div>
+
+      <div className="flex gap-3">
         <button
           type="submit"
-          disabled={isSubmitting}
-          className="btn-primary disabled:opacity-60"
+          disabled={rating === 0 || comment.trim() === "" || isSubmitting}
+          className="flex-1 py-2.5 bg-sky-500 text-white rounded-xl font-medium hover:bg-sky-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? (
-            <><Loader2 size={16} className="animate-spin" /> جاري الإرسال...</>
-          ) : (
-            "إرسال التقييم"
-          )}
+          {isSubmitting ? "جاري الإرسال..." : "إرسال التقييم"}
         </button>
-      </form>
-    </div>
+        <button
+          type="button"
+          onClick={onClose}
+          className="px-4 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-xl font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+        >
+          إلغاء
+        </button>
+      </div>
+    </form>
   );
 }
