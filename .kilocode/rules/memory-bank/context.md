@@ -70,6 +70,7 @@ The codebase is professionally structured with zero lint warnings, zero TypeScri
 - [x] Admin Portal Enhancement Phase 1: Improved AdminGuard with role display and better UX
 - [x] Admin Portal Enhancement Phase 1: Created common UI components (Modal, Badge, EmptyState, ConfirmDialog, LoadingSpinner, StatCard)
 - [x] Admin Portal Enhancement Phase 1: Improved responsive design for admin layout and header
+- [x] Updated Next.js version from ^16.1.3 to ^16.2.6 to satisfy OpenNext requirements and fix deploy error
 
 ## Active Focus
 
