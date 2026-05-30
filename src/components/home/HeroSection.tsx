@@ -2,148 +2,139 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Store, Shield, Truck, Sparkles, TrendingUp, Heart } from "lucide-react";
 
-const heroImages = [
-  { src: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&h=600&fit=crop&q=80", alt: "سيارات فاخرة", className: "aspect-square" },
-  { src: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=450&fit=crop&q=80", alt: "ملابس عصرية", className: "aspect-[4/3]" },
-  { src: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=450&fit=crop&q=80", alt: "قطع غيار", className: "aspect-[4/3]" },
-  { src: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=600&fit=crop&q=80", alt: "إكسسوارات", className: "aspect-square" },
-];
-
-const features = [
-  { icon: Shield, label: "موثوق ومضمون", variant: "primary" },
-  { icon: Store, label: "+10,000 منتج", variant: "secondary" },
-  { icon: Truck, label: "توصيل سريع", variant: "accent" },
-  { icon: Sparkles, label: "عروض يومية", variant: "primary" },
-  { icon: TrendingUp, label: "أسعار تنافسية", variant: "secondary" },
-  { icon: Heart, label: "دعم 24/7", variant: "accent" },
-];
-
 export default function HeroSection() {
   return (
-    <section className="gradient-hero-enhanced relative overflow-hidden">
-      {/* Animated mesh gradient background */}
-      <div className="absolute inset-0 gradient-mesh-enhanced opacity-70" />
-      
-      {/* Floating orbs with enhanced effects */}
-      <div className="absolute top-16 right-12 w-80 h-80 bg-sky-500/25 rounded-full blur-[120px] animate-float-slow" />
-      <div className="absolute bottom-16 left-12 w-104 h-104 bg-orange-500/20 rounded-full blur-[140px] animate-float-slow animation-delay-500" />
-      <div className="absolute top-1/3 left-1/3 -translate-x-1/3 -translate-y-1/3 w-[700px] h-[700px] bg-sky-400/12 rounded-full blur-[180px]" />
-      <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/8 rounded-full blur-[200px] animate-pulse-slow" />
-      
-      {/* Subtle animated particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-4 h-4 bg-sky-400/50 rounded-full animate-pulse-slow animation-delay-100" />
-        <div className="absolute bottom-30 right-20 w-3 h-3 bg-orange-400/50 rounded-full animate-pulse-slow animation-delay-300" />
-        <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-emerald-400/50 rounded-full animate-pulse-slow animation-delay-500" />
+    <section className="relative bg-gradient-to-b from-slate-50 dark:from-slate-900 to-slate-100 dark:to-slate-900 overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-0 left-0 w-full h-[300px] bg-gradient-to-r from-slate-100 dark:from-slate-900 to-slate-50 dark:to-slate-600 opacity-50" />
+        <div className="absolute bottom-0 left-0 w-full h-[200px] bg-gradient-to-t from-slate-100 dark:from-slate-900 to-slate-50 dark:to-slate-600 opacity-30" />
       </div>
       
-      <div className="max-w-5xl mx-auto px-4 py-12 md:py-16 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Text Content */}
-          <div className="text-center lg:text-right animate-fade-in-up">
-            {/* Enhanced Badge */}
-            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full mb-6">
-              <span className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-slate-200 text-base font-medium">
-                أكثر من 10,000 عميل سعيد
-              </span>
-            </div>
-            
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-5">
-              كل ما تحتاجه
-              <br />
-              <span className="text-gradient-enhanced bg-gradient-to-r from-sky-400 via-white to-orange-400 bg-clip-text text-transparent">
-                في مكان واحد
-              </span>
-            </h1>
-            
-            <p className="text-slate-300 text-sm md:text-base mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              خبور يوفر لك تجربة تسوق استثنائية مع آلاف المنتجات المُختارة بعناية، من سيارات وقطع غيار إلى ملابس ومواد بناء وإكسسوارات - كل ما تحتاجه في مكان واحد موثوق وآمن.
-            </p>
-            
-            {/* Enhanced Feature pills with variants */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
-              {features.map((feature, i) => (
-                <div 
-                  key={feature.label}
-                  className={`flex items-center gap-3 bg-white/8 backdrop-blur-sm border border-white/12 px-4 py-2.5 rounded-xl hover:bg-white/12 transition-all duration-300 feature-item-${feature.variant}`}
-                  style={{ animationDelay: `${i * 120}ms` }}
-                >
-                  <feature.icon size={18} className={`text-sky-400 feature-${feature.variant}`} />
-                  <span className="text-slate-200 text-base font-medium">{feature.label}</span>
+      {/* Subtle pattern overlay */}
+      <div className="absolute inset-0 -z-10 bg-[url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><path d="M30 0 L0 30 L30 60 L60 30 Z" fill="%23e2e8f0" fill-opacity="0.05" /></svg>')] />
+      
+      <div className="relative z-10">
+        <div className="max-w-6xl mx-auto px-6 py-16 lg:py-24">
+          <div className="grid lg:grid-cols-2 gap-12 items-start lg:items-center">
+            {/* Text Content */}
+            <div className="space-y-8">
+              {/* Subtle badge/badge-like element */}
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 bg-slate-500 dark:bg-slate-400 rounded-full animate-pulse" />
+                <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                  منصة التسوق الرائدة في اليمن
+                </span>
+              </div>
+              
+              {/* Main headline */}
+              <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-slate-50 leading-tight tracking-tighter">
+                كل ما تحتاجه<br />
+                <span className="block bg-gradient-to-r from-slate-900 dark:from-slate-50 via-slate-500 dark:via-slate-400 to-slate-900 dark:to-slate-50 bg-clip-text text-transparent">
+                  في مكان واحد
+                </span>
+              </h1>
+              
+              {/* Description */}
+              <p className="text-lg lg:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
+                اكتشف تجربة تسوق لا مثيل لها مع آلاف المنتجات المختارة بعناية - من السيارات وقطع الغيار إلى الملابس والإكسسوارات، كل ما تحتاجه بجودة مضمونة وأسعار تنافسية.
+              </p>
+              
+              {/* Features highlight */}
+              <div className="mt-10 space-y-6">
+                <div className="flex items-center gap-4">
+                  <Shield className="w-5 h-5 text-slate-500 dark:text-slate-400 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-medium text-slate-800 dark:text-slate-100">تسوق آمن ومضمون</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                      حماية كاملة للمشتري والبائع مع ضمان جودة جميع المنتجات
+                    </p>
+                  </div>
                 </div>
-              ))}
+                <div className="flex items-center gap-4">
+                  <Truck className="w-5 h-5 text-slate-500 dark:text-slate-400 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-medium text-slate-800 dark:text-slate-100">توصيل سريع وموثوق</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                      شحن سريع إلى جميع المحافظات مع تتبع دقيق للطلبية
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <Heart className="w-5 h-5 text-slate-500 dark:text-slate-400 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-medium text-slate-800 dark:text-slate-100">دعم عملاء استثنائي</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                      فريق دعم متخصص جاهز للمساعدة على مدار الساعة
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Call to action buttons */}
+              <div className="mt-12 flex flex-wrap gap-6 justify-start">
+                <Link
+                  href="/search"
+                  className="inline-flex items-center px-8 py-4 bg-slate-900 dark:bg-slate-50 text-slate-50 dark:text-slate-900 font-medium rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl"
+                >
+                  استكشف الفئات
+                  <ArrowLeft className="ml-3 h-4 w-4" />
+                </Link>
+                <Link
+                  href="/sell"
+                  className="inline-flex items-center px-8 py-4 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-all duration-300 transform hover:-translate-y-1"
+                >
+                  ابدأ البيع الآن
+                </Link>
+              </div>
             </div>
             
-            {/* Enhanced CTA Buttons */}
-            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-              <Link
-                href="/search"
-                className="btn-primary-enhanced text-sm px-6 py-3 shadow-lg hover:shadow-xl transform transition-all duration-300"
-              >
-                تصفح المنتجات
-                <ArrowLeft size={20} />
-              </Link>
-              <Link
-                href="/sell"
-                className="btn-outline-enhanced border-white/20 text-white hover:bg-white/12 hover:text-slate-900 text-sm px-6 py-3"
-              >
-                ابدأ البيع الآن
-              </Link>
-            </div>
-          </div>
-          
-          {/* Enhanced Image Grid with parallax effect */}
-          <div className="hidden lg:grid grid-cols-2 gap-5 animate-fade-in-right">
-            <div className="space-y-4">
-              {[heroImages[0], heroImages[1]].map((img, i) => (
-                <div 
-                  key={img.alt} 
-                  className={`relative rounded-3xl overflow-hidden shadow-2xl hover:scale-[1.03] transition-all duration-500 parallax-item ${img.className}`}
-                >
+            {/* Image Content */}
+            <div className="relative lg:flex lg:items-center lg:justify-center">
+              <div className="relative h-[400px] lg:h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl ring-1 ring-slate-200 dark:ring-slate-700/50">
+                {/* Image carousel simulation */}
+                <div className="absolute inset-0">
                   <Image
-                    src={img.src}
-                    alt={img.alt}
+                    src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1200&h=800&fit=crop&q=80"
+                    alt="سيارات فاخرة ومعروضات متنوعة"
                     fill
-                    sizes="(max-width: 1024px) 50vw, 400px"
-                    className="object-cover hover:scale-105 transition-transform duration-800"
-                    loading={i === 0 ? "eager" : "lazy"}
-                    priority={i === 0}
+                    className="object-cover object-center"
+                    priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-400" />
-                  <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,_transparent_0%,_rgba(255,255,255,0.03)_50%,_transparent_100%)] opacity-0 hover:opacity-100 transition-opacity duration-500" />
+                  {/* Gradient overlay for depth */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-transparent to-slate-50 dark:from-transparent dark:to-slate-900/50" />
+                  {/* Subtle vignette */}
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-via-transparent to-slate-900/10 dark:from-via-transparent dark:to-slate-50/20" />
                 </div>
-              ))}
-            </div>
-            <div className="space-y-4 pt-8">
-              {[heroImages[2], heroImages[3]].map((img, i) => (
-                <div 
-                  key={img.alt} 
-                  className={`relative rounded-3xl overflow-hidden shadow-2xl hover:scale-[1.03] transition-all duration-500 parallax-item ${img.className}`}
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    sizes="(max-width: 1024px) 50vw, 400px"
-                    className="object-cover hover:scale-105 transition-transform duration-800"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-400" />
-                  <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,_transparent_0%,_rgba(255,255,255,0.03)_50%,_transparent_100%)] opacity-0 hover:opacity-100 transition-opacity duration-500" />
+                
+                {/* Interactive product tags */}
+                <div className="absolute bottom-6 left-6 flex space-x-3">
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800/80 backdrop-blur rounded-xl text-sm font-medium text-slate-800 dark:text-slate-100 ring-1 ring-slate-200 dark:ring-slate-600/30">
+                    <Store className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+                    <span>سيارات فاخرة</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800/80 backdrop-blur rounded-xl text-sm font-medium text-slate-800 dark:text-slate-100 ring-1 ring-slate-200 dark:ring-slate-600/30">
+                    <Sparkles className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+                    <span>عروض خاصة</span>
+                  </div>
                 </div>
-              ))}
+                
+                {/* Quality badge */}
+                <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 bg-slate-900 dark:bg-slate-50 text-slate-50 dark:text-slate-900 text-sm font-medium rounded-xl ring-1 ring-slate-200 dark:ring-slate-700/20">
+                  <Shield className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+                  <span>جودة مضمونة</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
       
-      {/* Enhanced Bottom wave decoration */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white dark:from-slate-900/90 to-transparent" />
-      
-      {/* Decorative floating elements */}
-      <div className="absolute top-1/4 right-1/10 w-16 h-16 bg-sky-500/20 rounded-full rotate-45 animate-float-slow" />
-      <div className="absolute bottom-1/4 left-1/10 w-20 h-20 bg-orange-500/15 rounded-full rotate-30 animate-float-slow animation-delay-300" />
+      {/* Bottom decorative element */}
+      <div className="absolute bottom-0 left-0 right-0 h-[80px] pointer-events-none">
+        <div className="absolute inset-x-0 bottom-0 h-[40px] bg-gradient-to-t from-slate-50 dark:from-slate-900 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-[20px] bg-gradient-to-t from-slate-100 dark:from-slate-900 to-transparent/50" />
+      </div>
     </section>
   );
 }
