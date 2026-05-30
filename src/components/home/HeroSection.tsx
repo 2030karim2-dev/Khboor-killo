@@ -11,9 +11,6 @@ export default function HeroSection() {
         <div className="absolute bottom-0 left-0 w-full h-[200px] bg-gradient-to-t from-slate-100 dark:from-slate-900 to-slate-50 dark:to-slate-600 opacity-30" />
       </div>
       
-      {/* Subtle pattern overlay */}
-      <div className="absolute inset-0 -z-10 bg-[url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><path d="M30 0 L0 30 L30 60 L60 30 Z" fill="%23e2e8f0" fill-opacity="0.05" /></svg>')] />
-      
       <div className="relative z-10">
         <div className="max-w-6xl mx-auto px-6 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-12 items-start lg:items-center">
