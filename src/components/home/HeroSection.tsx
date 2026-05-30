@@ -37,19 +37,19 @@ export default function HeroSection() {
         <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-emerald-400/50 rounded-full animate-pulse-slow animation-delay-500" />
       </div>
       
-      <div className="max-w-7xl mx-auto px-4 py-20 md:py-24 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div className="max-w-5xl mx-auto px-4 py-12 md:py-16 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Text Content */}
           <div className="text-center lg:text-right animate-fade-in-up">
             {/* Enhanced Badge */}
-            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 px-5 py-2.5 rounded-full mb-8">
+            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full mb-6">
               <span className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse" />
               <span className="text-slate-200 text-base font-medium">
                 أكثر من 10,000 عميل سعيد
               </span>
             </div>
             
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-5">
               كل ما تحتاجه
               <br />
               <span className="text-gradient-enhanced bg-gradient-to-r from-sky-400 via-white to-orange-400 bg-clip-text text-transparent">
@@ -57,36 +57,36 @@ export default function HeroSection() {
               </span>
             </h1>
             
-            <p className="text-slate-300 text-lg md:text-xl mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+            <p className="text-slate-300 text-sm md:text-base mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
               خبور يوفر لك تجربة تسوق استثنائية مع آلاف المنتجات المُختارة بعناية، من سيارات وقطع غيار إلى ملابس ومواد بناء وإكسسوارات - كل ما تحتاجه في مكان واحد موثوق وآمن.
             </p>
             
             {/* Enhanced Feature pills with variants */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-10">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
               {features.map((feature, i) => (
                 <div 
                   key={feature.label}
-                  className={`flex items-center gap-3 bg-white/8 backdrop-blur-sm border border-white/12 px-5 py-3 rounded-xl hover:bg-white/12 transition-all duration-300 feature-item-${feature.variant}`}
-                  style={{ animationDelay: `${i * 150}ms` }}
+                  className={`flex items-center gap-3 bg-white/8 backdrop-blur-sm border border-white/12 px-4 py-2.5 rounded-xl hover:bg-white/12 transition-all duration-300 feature-item-${feature.variant}`}
+                  style={{ animationDelay: `${i * 120}ms` }}
                 >
-                  <feature.icon size={20} className={`text-sky-400 feature-${feature.variant}`} />
+                  <feature.icon size={18} className={`text-sky-400 feature-${feature.variant}`} />
                   <span className="text-slate-200 text-base font-medium">{feature.label}</span>
                 </div>
               ))}
             </div>
             
             {/* Enhanced CTA Buttons */}
-            <div className="flex flex-wrap gap-5 justify-center lg:justify-start">
+            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
               <Link
                 href="/search"
-                className="btn-primary-enhanced text-base px-9 py-4 shadow-xl hover:shadow-2xl transform transition-all duration-300"
+                className="btn-primary-enhanced text-sm px-6 py-3 shadow-lg hover:shadow-xl transform transition-all duration-300"
               >
                 تصفح المنتجات
-                <ArrowLeft size={22} />
+                <ArrowLeft size={20} />
               </Link>
               <Link
                 href="/sell"
-                className="btn-outline-enhanced border-white/25 text-white hover:bg-white/15 hover:text-slate-900 text-base px-9 py-4"
+                className="btn-outline-enhanced border-white/20 text-white hover:bg-white/12 hover:text-slate-900 text-sm px-6 py-3"
               >
                 ابدأ البيع الآن
               </Link>
@@ -94,8 +94,8 @@ export default function HeroSection() {
           </div>
           
           {/* Enhanced Image Grid with parallax effect */}
-          <div className="hidden lg:grid grid-cols-2 gap-6 animate-fade-in-right">
-            <div className="space-y-5">
+          <div className="hidden lg:grid grid-cols-2 gap-5 animate-fade-in-right">
+            <div className="space-y-4">
               {[heroImages[0], heroImages[1]].map((img, i) => (
                 <div 
                   key={img.alt} 
@@ -115,7 +115,7 @@ export default function HeroSection() {
                 </div>
               ))}
             </div>
-            <div className="space-y-5 pt-10">
+            <div className="space-y-4 pt-8">
               {[heroImages[2], heroImages[3]].map((img, i) => (
                 <div 
                   key={img.alt} 
@@ -139,7 +139,7 @@ export default function HeroSection() {
       </div>
       
       {/* Enhanced Bottom wave decoration */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white dark:from-slate-900/90 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white dark:from-slate-900/90 to-transparent" />
       
       {/* Decorative floating elements */}
       <div className="absolute top-1/4 right-1/10 w-16 h-16 bg-sky-500/20 rounded-full rotate-45 animate-float-slow" />
