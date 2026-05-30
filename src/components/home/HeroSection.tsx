@@ -1,123 +1,136 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, Store, Shield, Truck } from "lucide-react";
+import { ArrowLeft, Store, Shield, Truck, Sparkles, TrendingUp, Heart } from "lucide-react";
 
 const heroImages = [
-  { src: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=600&fit=crop", alt: "سيارات فاخرة", className: "aspect-square" },
-  { src: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=450&fit=crop", alt: "ملابس عصرية", className: "aspect-[4/3]" },
-  { src: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=450&fit=crop", alt: "قطع غيار", className: "aspect-[4/3]" },
-  { src: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop", alt: "إكسسوارات", className: "aspect-square" },
+  { src: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&h=600&fit=crop&q=80", alt: "سيارات فاخرة", className: "aspect-square" },
+  { src: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=450&fit=crop&q=80", alt: "ملابس عصرية", className: "aspect-[4/3]" },
+  { src: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=450&fit=crop&q=80", alt: "قطع غيار", className: "aspect-[4/3]" },
+  { src: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=600&fit=crop&q=80", alt: "إكسسوارات", className: "aspect-square" },
 ];
 
 const features = [
-  { icon: Shield, label: "موثوق ومضمون" },
-  { icon: Store, label: "+10,000 منتج" },
-  { icon: Truck, label: "توصيل سريع" },
+  { icon: Shield, label: "موثوق ومضمون", variant: "primary" },
+  { icon: Store, label: "+10,000 منتج", variant: "secondary" },
+  { icon: Truck, label: "توصيل سريع", variant: "accent" },
+  { icon: Sparkles, label: "عروض يومية", variant: "primary" },
+  { icon: TrendingUp, label: "أسعار تنافسية", variant: "secondary" },
+  { icon: Heart, label: "دعم 24/7", variant: "accent" },
 ];
 
 export default function HeroSection() {
   return (
-    <section className="gradient-hero relative overflow-hidden">
+    <section className="gradient-hero-enhanced relative overflow-hidden">
       {/* Animated mesh gradient background */}
-      <div className="absolute inset-0 gradient-mesh opacity-60" />
+      <div className="absolute inset-0 gradient-mesh-enhanced opacity-70" />
       
-      {/* Floating orbs */}
-      <div className="absolute top-20 right-10 w-72 h-72 bg-sky-500/20 rounded-full blur-[100px] animate-float" />
-      <div className="absolute bottom-20 left-10 w-96 h-96 bg-orange-500/15 rounded-full blur-[120px] animate-float animation-delay-200" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-sky-400/10 rounded-full blur-[150px]" />
+      {/* Floating orbs with enhanced effects */}
+      <div className="absolute top-16 right-12 w-80 h-80 bg-sky-500/25 rounded-full blur-[120px] animate-float-slow" />
+      <div className="absolute bottom-16 left-12 w-104 h-104 bg-orange-500/20 rounded-full blur-[140px] animate-float-slow animation-delay-500" />
+      <div className="absolute top-1/3 left-1/3 -translate-x-1/3 -translate-y-1/3 w-[700px] h-[700px] bg-sky-400/12 rounded-full blur-[180px]" />
+      <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/8 rounded-full blur-[200px] animate-pulse-slow" />
       
-      <div className="max-w-7xl mx-auto px-4 py-16 md:py-20 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      {/* Subtle animated particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-4 h-4 bg-sky-400/50 rounded-full animate-pulse-slow animation-delay-100" />
+        <div className="absolute bottom-30 right-20 w-3 h-3 bg-orange-400/50 rounded-full animate-pulse-slow animation-delay-300" />
+        <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-emerald-400/50 rounded-full animate-pulse-slow animation-delay-500" />
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 py-20 md:py-24 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Text Content */}
-          <div className="text-center lg:text-right animate-slide-up">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full mb-6">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-slate-200 text-sm font-medium">
+          <div className="text-center lg:text-right animate-fade-in-up">
+            {/* Enhanced Badge */}
+            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 px-5 py-2.5 rounded-full mb-8">
+              <span className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse" />
+              <span className="text-slate-200 text-base font-medium">
                 أكثر من 10,000 عميل سعيد
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
               كل ما تحتاجه
               <br />
-              <span className="text-gradient bg-gradient-to-r from-sky-400 via-white to-orange-400 bg-clip-text text-transparent">
+              <span className="text-gradient-enhanced bg-gradient-to-r from-sky-400 via-white to-orange-400 bg-clip-text text-transparent">
                 في مكان واحد
               </span>
             </h1>
             
-            <p className="text-slate-300 text-lg md:text-xl mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-              خبور يوفر لك تجربة تسوق استثنائية مع آلاف المنتجات，各类汽车配件、服装、建材和配饰一站式购物。
+            <p className="text-slate-300 text-lg md:text-xl mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              خبور يوفر لك تجربة تسوق استثنائية مع آلاف المنتجات المُختارة بعناية، من سيارات وقطع غيار إلى ملابس ومواد بناء وإكسسوارات - كل ما تحتاجه في مكان واحد موثوق وآمن.
             </p>
             
-            {/* Feature pills */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
+            {/* Enhanced Feature pills with variants */}
+            <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-10">
               {features.map((feature, i) => (
                 <div 
                   key={feature.label}
-                  className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/10 px-4 py-2 rounded-full"
-                  style={{ animationDelay: `${i * 100}ms` }}
+                  className={`flex items-center gap-3 bg-white/8 backdrop-blur-sm border border-white/12 px-5 py-3 rounded-xl hover:bg-white/12 transition-all duration-300 feature-item-${feature.variant}`}
+                  style={{ animationDelay: `${i * 150}ms` }}
                 >
-                  <feature.icon size={18} className="text-sky-400" />
-                  <span className="text-slate-200 text-sm font-medium">{feature.label}</span>
+                  <feature.icon size={20} className={`text-sky-400 feature-${feature.variant}`} />
+                  <span className="text-slate-200 text-base font-medium">{feature.label}</span>
                 </div>
               ))}
             </div>
             
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+            {/* Enhanced CTA Buttons */}
+            <div className="flex flex-wrap gap-5 justify-center lg:justify-start">
               <Link
                 href="/search"
-                className="btn-secondary text-base px-8 py-3.5 shadow-lg hover:shadow-xl"
+                className="btn-primary-enhanced text-base px-9 py-4 shadow-xl hover:shadow-2xl transform transition-all duration-300"
               >
                 تصفح المنتجات
-                <ArrowLeft size={20} />
+                <ArrowLeft size={22} />
               </Link>
               <Link
                 href="/sell"
-                className="btn-outline border-white/30 text-white hover:bg-white hover:text-slate-900 text-base px-8 py-3.5"
+                className="btn-outline-enhanced border-white/25 text-white hover:bg-white/15 hover:text-slate-900 text-base px-9 py-4"
               >
                 ابدأ البيع الآن
               </Link>
             </div>
           </div>
           
-          {/* Image Grid */}
-          <div className="hidden lg:grid grid-cols-2 gap-4 animate-slide-in-right">
-            <div className="space-y-4">
+          {/* Enhanced Image Grid with parallax effect */}
+          <div className="hidden lg:grid grid-cols-2 gap-6 animate-fade-in-right">
+            <div className="space-y-5">
               {[heroImages[0], heroImages[1]].map((img, i) => (
                 <div 
                   key={img.alt} 
-                  className={`relative rounded-2xl overflow-hidden shadow-2xl hover:scale-[1.02] transition-transform duration-500 ${img.className}`}
+                  className={`relative rounded-3xl overflow-hidden shadow-2xl hover:scale-[1.03] transition-all duration-500 parallax-item ${img.className}`}
                 >
                   <Image
                     src={img.src}
                     alt={img.alt}
                     fill
                     sizes="(max-width: 1024px) 50vw, 400px"
-                    className="object-cover hover:scale-110 transition-transform duration-700"
+                    className="object-cover hover:scale-105 transition-transform duration-800"
                     loading={i === 0 ? "eager" : "lazy"}
                     priority={i === 0}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-400" />
+                  <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,_transparent_0%,_rgba(255,255,255,0.03)_50%,_transparent_100%)] opacity-0 hover:opacity-100 transition-opacity duration-500" />
                 </div>
               ))}
             </div>
-            <div className="space-y-4 pt-8">
+            <div className="space-y-5 pt-10">
               {[heroImages[2], heroImages[3]].map((img, i) => (
                 <div 
                   key={img.alt} 
-                  className={`relative rounded-2xl overflow-hidden shadow-2xl hover:scale-[1.02] transition-transform duration-500 ${img.className}`}
+                  className={`relative rounded-3xl overflow-hidden shadow-2xl hover:scale-[1.03] transition-all duration-500 parallax-item ${img.className}`}
                 >
                   <Image
                     src={img.src}
                     alt={img.alt}
                     fill
                     sizes="(max-width: 1024px) 50vw, 400px"
-                    className="object-cover hover:scale-110 transition-transform duration-700"
+                    className="object-cover hover:scale-105 transition-transform duration-800"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-400" />
+                  <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,_transparent_0%,_rgba(255,255,255,0.03)_50%,_transparent_100%)] opacity-0 hover:opacity-100 transition-opacity duration-500" />
                 </div>
               ))}
             </div>
@@ -125,8 +138,12 @@ export default function HeroSection() {
         </div>
       </div>
       
-      {/* Bottom wave decoration */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white dark:from-slate-900 to-transparent" />
+      {/* Enhanced Bottom wave decoration */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white dark:from-slate-900/90 to-transparent" />
+      
+      {/* Decorative floating elements */}
+      <div className="absolute top-1/4 right-1/10 w-16 h-16 bg-sky-500/20 rounded-full rotate-45 animate-float-slow" />
+      <div className="absolute bottom-1/4 left-1/10 w-20 h-20 bg-orange-500/15 rounded-full rotate-30 animate-float-slow animation-delay-300" />
     </section>
   );
 }
