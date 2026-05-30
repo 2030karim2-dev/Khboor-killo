@@ -103,7 +103,7 @@ Phase 5: Marketing Tools ✅ COMPLETE (Week 20-22)
 
 | Technology | Purpose |
 |------------|---------|
-| Next.js 16 | App Router, SSR, API routes |
+| Next.js 16.2.6 | App Router, SSR, API routes |
 | React 19 | UI components |
 | TypeScript 5.9 | Type safety |
 | Tailwind CSS 4 | Styling |
@@ -212,3 +212,4 @@ src/
 | 2026-05-19 | Admin Portal Enhancement Phase 1: Created AdminProvider context with role-based access |
 | 2026-05-19 | Admin Portal Enhancement Phase 1: Improved AdminGuard with better UX and role display |
 | 2026-05-19 | Admin Portal Enhancement Phase 1: Created common UI components (Modal, Badge, EmptyState) |
+| 2026-05-30 | Fixed Next.js version deploy error by updating to 16.2.6 to satisfy OpenNext requirements |
